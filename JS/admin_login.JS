@@ -1,4 +1,3 @@
-//--------
 function onKeyDownHandler(event) { //1. DETECTAR ENTRE LOS INPUTS
     var codigo = event.which || event.keyCode;
     if(codigo === 13){

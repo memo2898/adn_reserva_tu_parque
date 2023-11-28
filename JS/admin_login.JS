@@ -4,7 +4,7 @@ function onKeyDownHandler(event) { //1. DETECTAR ENTRE LOS INPUTS
         Acceso()
     }
 }
-
+//------------
 /*
 async function Acceso(){ // 2. CONFIRMACION DE USUARIO
     input_user=document.querySelector("#usuario").value;

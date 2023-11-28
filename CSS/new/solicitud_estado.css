@@ -1,0 +1,349 @@
+/*Estos son los estilos generales de toda la pagina*/
+@import url('https://fonts.cdnfonts.com/css/montserrat');
+
+:root{
+    /*Variables Colores del ADN*/
+    --azul-oscuro-ADN: #004F8D;
+    --azul-oscuro-alternativo-ADN: #113250;
+    --azul-claro-ADN: #82BDE0;
+    --rosa-ADN: #D56599;
+    --verde-ADN: #00893E;
+    --naranja-ADN: #DD710F;
+    --rojo-ADN: #C41220;
+
+    /*Fuentes de los textos*/
+    --titulos-ADN:10px;
+    --fuente-media-ADN:calc(1px + 1vw);
+}
+
+:root {
+    --Azul: #00569C;
+    --AzulB: #82BDE0;
+    --Verde: #00893E;
+    --amarillo: #F7E300;
+    
+    --Gris: #EFEFEF;
+    --GrisB: #D8D9DB;
+    --GrisC: #bdbdbd;
+    height: -webkit-fill-available;
+}
+
+.Home {
+    font-family: 'Montserrat', sans-serif;
+    color: var(--Azul);
+    background-color: #F7F7F7;
+}
+
+html body{
+    margin: 0;
+    padding: 0;
+}
+
+h1,h2,h3,h4,span,label,p{
+    font-family: 'montserrat';
+    margin: 0;
+}
+
+
+/*
+    ||=====================================
+    || ESTRUCTURA HEADER
+    ||=====================================
+*/
+
+.logo_adn{
+    margin: 5px;
+    /* height: 56px; */
+    display: flex;
+    justify-content: center;
+}
+.logo_adn img{
+    width: calc(95px + 40vw);
+}
+
+
+
+/*
+    ||=====================================
+    || ESTRUCTURA BASE
+    ||=====================================
+*/
+
+
+.estructura_principal{
+    text-align: -webkit-center;
+    margin-top: 3rem;
+    margin-bottom: 3rem;
+}
+.contenedor_central{
+    border: 1px solid;
+    width: calc(95px + 60%);
+    border-radius: 0.4rem;
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+}
+
+/*
+    ||=====================================
+    || BOX HEADER
+    ||=====================================
+*/
+
+.input_buscador{
+    width: 15rem;
+    height: 2rem;
+    color: var(--Azul);
+    overflow: hidden;
+    border: 1px solid;
+    border-radius: 0.4rem;
+    /*width: fit-content;*/
+    /*height: -webkit-fill-available;*/
+    /* display: flex; */
+    display: grid;
+    grid-template-columns: 80% auto;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    margin-bottom: 2rem;
+}
+.input_buscador svg{
+    width: -webkit-fill-available;
+    height: -webkit-fill-available;
+    padding: 3px;
+    cursor: pointer;
+    /*place-self: center;*/
+    place-self: center;
+    fill: var(--azul-oscuro-alternativo-ADN);
+}
+.input_buscador svg:active path{
+    transform: scale(.8);
+    transform-origin: center;
+}
+/*
+.input_buscador:hover{
+    background-color: var();
+}
+*/
+
+
+
+.input_buscador input{
+    height: -webkit-fill-available;
+    width: -webkit-fill-available;
+    padding: 0.3rem;
+    font-size: initial;
+    border: 1px transparent;
+    text-align: -webkit-center;
+}
+
+.input_objeto:focus-visible{
+    outline: transparent;
+}
+
+.input_buscador:focus-within {
+    /*transition: outline 0.15s ease-in;*/
+    outline: 2px solid var(--Azul);
+    border: 1px solid transparent;
+}
+
+
+
+
+
+/*
+    ||=====================================
+    || BOX MIDDLE
+    ||=====================================
+*/
+
+/*
+.info_header{
+    border: 1px solid;
+}
+*/
+
+
+
+
+.info_section{
+    border: 1px solid red;
+    margin-bottom: .5rem;
+    padding: 0.4rem;
+}
+
+
+
+
+/*
+.info_section{
+    margin-bottom: 0.5rem;
+    padding: 0.4rem;
+    width: 20rem;
+    border-radius: 1rem;
+}
+*/
+
+/*
+.box_middle{
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+}
+*/
+
+.box_header p{
+    margin-bottom: 0.2rem;
+}
+
+.middle_contenido{
+    width: 60%;
+    border: 1px solid;
+    border-radius: 0.4rem;
+}
+
+.info_header p{
+    font-size: large;
+    /*width: fit-content;*/
+    width: 14rem;
+    height: 3rem;
+    border-bottom: 1px solid;
+    margin-top: 0.5rem;
+    padding-bottom: 0.5rem;
+    padding-left: 1rem;
+    padding-right: 1rem;
+}
+
+
+.data_info{
+    width: fit-content;
+    width: 15rem;
+    margin-top: 1rem;
+    margin-bottom: 0.6rem;
+}
+
+
+/*
+.data_info p{
+    text-align: justify;
+}
+*/
+
+
+
+
+
+
+/*
+    ||=====================================
+    || PRUEBAS ESTILOS
+    ||=====================================
+*/
+.prueba_svg {
+    width: 1.8rem;
+    height: 2rem;
+    background-color: white;
+    padding: 0.4rem;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    padding-bottom: 1.4rem;
+    border-bottom-left-radius: 2rem;
+    border-bottom-right-radius: 2rem;
+}
+
+.prueba_svg path{
+    fill: var(--Azul);
+}
+
+
+.info_section{
+    width: 18rem;
+}
+
+.info_section {
+    border: none;
+    margin-bottom: 0.5rem;
+    padding: 0rem;
+    background-color: var(--Azul);
+    color: white;
+    border-radius: 1rem;
+    padding-bottom: 0.6rem;
+    margin-bottom: 2rem;
+}
+
+.info_section{
+    background: var(--Azul); 
+    background: -webkit-linear-gradient(to bottom, var(--Azul), var(--azul-oscuro-alternativo-ADN));
+    background: linear-gradient(to bottom, var(--Azul), var(--azul-oscuro-alternativo-ADN));
+    color: white;
+}
+
+
+.middle_contenido {
+    border: 1px solid transparent;
+}
+
+
+
+.reservacion_informe{
+    display: grid;
+    /* grid-template-rows: 30% 30% 30%; */
+    grid-template-columns: repeat(auto-fit, minmax(20rem, 0fr));
+    /* gap: 5rem; */
+    justify-items: center;
+    justify-content: center;
+}
+
+.reservacion_informe_descripcion{
+    max-height: 8rem;
+    overflow: auto;
+    overflow-wrap: anywhere;
+}
+
+.middle_contenido{
+    width: initial;
+}
+
+.box_middle{
+    display: none;
+}
+
+.contenedor_central {
+    border: none;
+}
+
+/*
+.Carga_icon{
+    display: none;
+}
+*/
+
+.Carga_icon{
+    visibility: hidden;
+    margin-top: 1rem;
+}
+
+
+.info_middle p{
+    font-weight: 600;
+}
+.info_middle h4{
+    font-weight: 300;
+}
+
+/*
+    ||=====================================
+    || PRUEBAS ESTILOS
+    ||=====================================
+*/
+
+
+
+
+
+
+
+
+
+

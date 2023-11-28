@@ -1,0 +1,252 @@
+
+/*
+    ||======================================
+    || BODY ESTRUCTURA
+    ||======================================
+*/
+
+.contenido{
+    display: block;
+    padding: 0.4rem;
+}
+.cuerpo_secundario{
+    display: none;
+}
+
+
+
+
+
+
+/*
+    ||======================================
+    || CARD ESTRUCTURA
+    ||======================================
+*/
+
+.card_section{
+    display: flex;
+    gap: calc(10px + 2vw);
+    flex-wrap: wrap;
+    justify-content: center;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+.card_section svg{
+    width: 2rem;
+}
+/*
+.card_info{
+    width: 10rem;
+    height: 4rem;
+    text-align: center;
+    overflow: auto;
+}
+*/
+
+
+
+.card_info{
+    width: 10rem;
+    height: 3rem;
+    text-align: center;
+    font-size: large;
+    overflow: auto;
+    margin-top: 0.6rem;
+}
+
+
+
+.card_options{
+    background-color: var(--Azul);
+    color: white;
+    /*padding: 1rem;*/
+    padding: calc(-2px + 1vw);
+    border-radius: 1rem;
+    text-align: center;
+    transition: transform 0.115s linear, background-color 0.15s ease-in;
+    cursor: pointer;
+}
+
+
+.card_options:hover{
+    transform: scale(1.1);
+    /*background-color: var(--Verde);*/
+    background-color: var(--AzulB);
+}
+
+
+.card_options:active{
+    transform: scale(1.06);
+}
+
+
+
+/*
+    ||====================================
+    || CUERPO SEGUNDARIO
+    ||====================================
+*/
+
+
+.top_filter_box{
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+.input_buscador_icon{
+    width: 15rem;
+    height: 2rem;
+    color: var(--Azul);
+    overflow: hidden;
+    border: 1px solid;
+    border-radius: 0.4rem;
+    /* width: fit-content; */
+    /* height: -webkit-fill-available; */
+    /* display: flex; */
+    display: grid;
+    grid-template-columns: 80% auto;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    /*margin-bottom: 2rem;*/
+}
+
+.input_buscador_icon input{
+    height: -webkit-fill-available;
+    width: -webkit-fill-available;
+    padding: 0.3rem;
+    font-size: initial;
+    border: 1px transparent;
+    /*text-align: -webkit-center;*/
+}
+
+.input_buscador_icon svg{
+    width: -webkit-fill-available;
+    height: -webkit-fill-available;
+    padding: 3px;
+    cursor: pointer;
+    place-self: center;
+    fill: var(--azul-oscuro-alternativo-ADN);
+}
+
+/*
+.datatable{
+    width: 100% !important;
+}
+*/
+/*
+    ||--------------------------------
+*/
+.input_select{
+    /*width: 15rem;*/
+    width: -webkit-fill-available;
+    font-size: large;
+}
+
+
+
+.input_box{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.top_filter_box{
+    display: block;
+}
+
+.date_top_section{
+    display: flex;
+}
+
+
+
+/*
+    ||====================================
+    || BOTONES Y SECCIONAMIENTOS
+    ||====================================
+*/
+
+
+.middle_filter_box{
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 1rem;
+}
+
+.btn_style {
+    width: fit-content;
+    padding: 1rem;
+    border-radius: 1rem;
+    cursor: pointer;
+    font-size: medium;
+    transition: box-shadow 0.15s ease-in;
+    transition: box-shadow 0.15s ease-in;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+
+.btn_reporte{
+    color: white;
+    background-color: var(--Azul);
+}
+
+
+.title_variant{
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 2rem;
+}
+
+/*
+    ||=========================
+    || RESPONSIVE
+    ||=========================
+*/
+
+
+@media (max-width: 900px){ 
+    .cuerpo-pagina{
+    margin-left: calc(24px + 26vw);
+    }
+}
+
+@media (max-width: 600px){ 
+    .title_variant{
+        place-content: center;
+    }
+    .TV_2{
+        flex-direction: column;
+        gap: 0;
+    }
+    .text_hidden{
+        display: none;
+    }
+    .input_box{
+        flex-direction: column;
+    }
+}
+/*
+    ||====================================
+    || ANIMACION - CAMPO DE PRUEBAS
+    ||====================================
+*/
+
+
+

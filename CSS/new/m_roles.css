@@ -1,0 +1,290 @@
+.page_main{
+    display: block;
+}
+
+.page_extra{
+    display: none;
+}
+
+.contenido_box{
+    border: 1px solid;
+    width: 75%;
+}
+
+.division_permisos{
+    padding: 0.5rem;
+}
+
+/*
+    ||=================================
+    || CARD PERMISOS
+    ||=================================
+*/
+
+
+.section_botones{
+    display: flex;
+    gap: 8px;
+    margin-left: auto;
+}
+
+.btn_guardar{
+    width: 4rem;
+    background-color: var(--Azul);
+    color: white;
+}
+
+.btn_guardar:hover{
+    box-shadow: 0px 0px 0px 4px #00569c9e;
+}
+
+.btn_eliminar{
+    width: 4rem;
+    background-color: var(--rojo-ADN);
+    color: white;
+}
+.btn_eliminar:hover{
+    box-shadow: 0px 0px 0px 4px #c412209e;
+}
+/*
+    ||=================================
+    || ESTILOS DE BOTONES
+    ||=================================
+*/
+
+
+.btn_style{
+    width: fit-content;
+    padding: 0.8rem;
+    border-radius: 1rem;
+    cursor: pointer;
+    transition: box-shadow 0.15s ease-in;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+.btn_style:active{
+    transform: scale(.9);
+}
+.btn_header{
+    display: flex;
+    margin-bottom: 1rem;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 1rem;
+}
+.btn_agregar{
+    /*background-color: var(--Azul);*/
+    background-color: var(--verde-ADN);
+    color: white;
+    padding: 1rem;
+}
+.btn_agregar:hover{
+    box-shadow: 0px 0px 0px 4px #00893ea6;
+}
+
+
+
+
+
+
+/*
+    ||=========================
+    ||MODAL
+    ||=========================
+*/
+
+.ventana_modal{
+    display: none;
+    position: fixed;
+    z-index: 3;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.4);
+}
+
+.ventana_modal_contenido{
+    background-color: #fefefe;
+    margin: auto;
+    padding: 1rem;
+    border: 1px solid #888;
+    width: 50%;
+    max-width: 600px;
+    position: relative;
+    top: 3rem;
+    margin-bottom: 3rem;
+    min-width: 260px;
+}
+
+
+.seccion_modal{
+    display: block;
+}
+.section_confirmar_delete{
+    display: none;
+}
+
+.modal_top{
+    font-size: x-large;
+    border-bottom: 1px solid;
+    padding-bottom: 0.6rem;
+    font-weight: 600;
+}
+
+.modal_mid{
+    font-size: large;
+    margin-top: 1rem;
+    margin-bottom: 2rem;
+}
+
+.modal_bottom{
+    margin-top: 1rem;
+}
+.modal_bottom .seccion_botones{
+    display: flex;
+    gap: 0.5rem;
+    margin-top: 0.4rem;
+    justify-content: flex-end;
+}
+
+
+.btn_rechazar_modal{
+    background-color: var(--rojo-ADN);
+    color: white;
+}
+.btn_rechazar_modal:hover{
+    box-shadow: 0px 0px 0px 4px #c412209e;
+}
+
+.btn_confirmar_modal{
+    background-color: var(--Azul);
+    color: white;
+}
+.btn_confirmar_modal:hover{
+    box-shadow: 0px 0px 0px 4px #00569c8a;
+}
+
+
+
+/*
+    ||=========================
+    ||MODAL - CUSTOM
+    ||=========================
+*/
+
+
+
+.event_data{
+    width: 70%;
+    font-size: inherit;
+    height: calc(1.5em + 0.75rem + 2px);
+    padding: 0.375rem 0.75rem;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #495057;
+    background-color: #fff;
+    background-clip: padding-box;
+    border: 1px solid #ced4da;
+    border-radius: 0.25rem;
+    transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+}
+
+/*
+.permisos{
+    border: 1px solid;
+}
+*/
+
+
+.event_card_permisos{
+    margin-top: 1.4rem;
+}
+
+.permisos_titulo{
+    display: flex;
+    align-items: center;
+    margin-top: 0.4rem;
+}
+
+
+.select_permisos{
+    font-size: larger;
+    color: var(--Azul);
+    font-weight: 600;
+    width: fit-content;
+    text-align: center;
+    /*padding-right: 2rem;*/
+    /*padding-left: 2rem;*/
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+    margin-bottom: 0.4rem;
+}
+
+.permisos_info{
+    padding: 0.6rem;
+    max-height: 8rem;
+    overflow: auto;
+    border: 1px solid;
+    border-radius: .4rem;
+}
+
+
+
+
+/*
+    || ============================================
+    || CUSTOM INPUTS
+    || ============================================
+*/
+
+
+.input_custom{
+    font-size: initial;
+    color: var(--Azul);
+    border: 1px solid;
+    /*height: 1.5rem;*/
+    border-radius: 0.4rem;
+    padding: 0.3rem;
+    text-transform: capitalize;
+}
+
+.btn_section{
+    display: flex;
+    gap: 0.4rem;
+}
+
+
+/*
+    ||=========================
+    || RESPONSIVE
+    ||=========================
+*/
+
+
+@media (max-width: 900px){ /**/
+    .cuerpo-pagina{
+    margin-left: calc(24px + 26vw);
+    }
+}
+
+@media (max-width: 700px){
+    .btn_header{
+        justify-content: center;
+    }
+    .title{
+        flex-direction: column;
+        gap: 0;
+    }
+}
+
+@media (max-width: 590px){
+    .btn_header{
+        justify-content: center;
+    }
+}

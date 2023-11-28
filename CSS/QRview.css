@@ -1,0 +1,156 @@
+:root {
+    --Azul: #00569C;
+    --AzulB: #82BDE0;
+    --Verde: #00893E;
+    --Amarillo: #F7E300;
+    --Gris: #EFEFEF;
+    --GrisB: #D8D9DB;
+    --GrisC: #bdbdbd;
+}
+#Home{
+    font-family: 'Montserrat', sans-serif !important;
+    color: var(--Azul);
+    margin: 0;
+}
+.Content_logo{
+    text-align: -webkit-center;
+}
+.logo{
+    width: calc(40rem);
+}
+.Center_page{
+    /*border: 1px solid;*/
+    text-align: -webkit-center;
+    margin-bottom: 2cm;
+}
+.Main_page{
+    /*border: 1px solid red;*/
+    width: 50%;
+    /*padding: 1rem;*/
+    margin-top: 1rem;
+    box-shadow: 0px 0px 10px 0px black;
+    max-width: 45rem;
+}
+.code_header{
+    background-color: var(--Azul);
+}
+.code_header p{
+    margin: 0;
+    color: white;
+}
+#code_reservacion{
+    margin: 0;
+    /*background-color: var(--Azul);*/
+    color: white;
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+}
+
+.Main_content{
+    /*border: 1px solid green;*/
+    margin-bottom: 1cm;
+}
+
+.header_icon{
+    border-top: 1px solid;
+    /*border-bottom: 1px solid;*/
+    display: flex;
+    margin-bottom: 0.5rem;
+    align-items: center;
+}
+.header_icon p{
+    margin: 0;
+    /*margin-left: 1rem;*/
+    font-size: large;
+}
+
+.info_capsules{
+    display: flex;
+    justify-content: space-evenly;
+}
+.info p{
+    margin: 0;
+    display: flex;
+    border-bottom: 1px solid;
+    font-weight: 700;
+}
+.info h4{
+    width: 5cm;
+    margin: 0;
+    font-weight: normal;
+}
+
+.info_capsules_2{
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 0.6rem;
+}
+.info_2 p{
+    margin: 0;
+    display: flex;
+    border-bottom: 1px solid;
+    font-weight: 700;
+}
+.info_2 h4{
+    width: 5cm;
+    margin: 0;
+    font-weight: normal;
+}
+
+#descripcion{
+    margin-left: 3rem;
+    margin-right: 3rem;
+}
+#descripcion h4{
+    width: -webkit-fill-available;
+    height: 7rem;
+    overflow: auto;
+    margin-bottom: 1cm;
+}
+
+.addcontent{
+    display: grid;
+    grid-template-columns: 50% 50%;
+    margin-bottom: 1cm;
+}
+.addcontent div{
+    border: 1px solid red;
+}
+/*
+.IMG{
+    width: 1cm;
+}
+.MAPS{
+    width: 1cm;
+}
+*/
+
+.M_img{
+    width: -webkit-fill-available;
+    height: -webkit-fill-available;
+}
+.google_maps{
+    width: -webkit-fill-available;
+    height: -webkit-fill-available;
+    border-radius: 1cm;
+}
+
+.svg_user{
+    width: calc(3rem);
+    height: calc(2rem);
+    fill: var(--Azul);
+}
+
+.svg_maps{
+    width: calc(3rem);
+    height: calc(2rem);
+    fill: var(--Azul);
+}
+
+.svg_info{
+    width: calc(3rem);
+    height: calc(2rem);
+    fill: var(--Azul);
+}
+
+

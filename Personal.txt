@@ -1,0 +1,42 @@
+Laravel 10 - Comandos e informacion
+
+// ============================== INICIALIZACION DEL SERVIDOR ============================== //0.0
+
+
+php artisan serve
+
+
+// ============================== CREACION DE TABLAS ============================== //1.0
+
+
+
+php artisan make:migration create_pruebas_table --create=pruebas
+
+    1.1 - Crea un archivo php para una tabla sql
+    ruta: database/migrations/
+
+php artisan migrate
+
+    1.2 - Migra la tabla sql hacia la base de datos
+
+
+
+// ============================== ENRUTAMIENTO ============================== //2.0
+
+php artisan make: model pruebas
+
+    ruta: app/models/
+
+
+
+
+// ============================== COMANDOS ============================== //
+
+VINCULAR HTML A JS
+
+    <script src="{{ asset('JS/main.js') }}"></script>
+
+
+VINCULAR HTML A CSS
+
+    <link rel="stylesheet" href="{{ asset('CSS/pruebas.css') }}" >

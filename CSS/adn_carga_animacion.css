@@ -1,0 +1,54 @@
+#Capa_3{ /* ANIMACION DEL LOGO */
+    width: 200px;
+    height: 200px;    
+    fill:none;
+    stroke: #00569C;
+    animation: P-animacion 5s infinite;    
+}
+#MCarga{ /* MENSAJE DE CARGA */
+    font-size: 130%;
+    animation: Carga-animacion 5s infinite;    
+}
+
+
+
+
+.Carga-Display{
+    display: block;
+    text-align: -webkit-center;
+    z-index: 1;
+}
+
+@keyframes P-animacion{
+    0%{
+        stroke-opacity: 1; 
+        fill-opacity: 0.4; 
+        stroke-width: 0; 
+        stroke-dasharray: 1000;
+        stroke-dashoffset: 3000;
+    }
+    25%{stroke-width: 7;}
+    50%{
+        stroke-opacity: 1; 
+        fill-opacity: 1; 
+        stroke-width: 0; 
+        stroke-dasharray: 1500;
+        stroke-dashoffset: 2000;
+    }
+    75%{stroke-width: 7;}
+    100%{
+        stroke-opacity: 1; 
+        fill-opacity: 0.4; 
+        stroke-width: 0; 
+        stroke-dasharray: 1000;
+        stroke-dashoffset: 3000;
+    }
+}
+
+@keyframes Carga-animacion{
+    0%{opacity: 0.3;}
+    25%{opacity: 0.6;}
+    50%{opacity: 2;}
+    75%{opacity: 0.6;}
+    100%{opacity: 0.3;}
+}

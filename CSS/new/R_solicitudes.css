@@ -1,0 +1,405 @@
+:root {
+    --Azul: #00569C;
+    --AzulB: #82BDE0;
+    --Verde: #00893E;
+    --amarillo: #F7E300;
+    
+    --Gris: #EFEFEF;
+    --GrisB: #D8D9DB;
+    height: -webkit-fill-available;
+}
+
+/*
+.datatable{
+    width: 80%;
+    margin: 0 auto;
+    clear: both;
+    border-collapse: separate;
+    border-spacing: 0;
+    margin-top: 2rem;
+}
+.datatable thead{
+    background-color: var(--Azul);
+    color: white;
+    font-size: 105%;
+    font-weight: 600;
+}
+.datatable img{
+    width: 2rem;
+    cursor: pointer;
+}
+*/
+/*
+.Accion_botones{
+    fill: white;
+}
+*/
+.btn_aceptar{ /*Accion_botones btn_aceptar */
+    width: 0.7cm;
+    height: 0.7cm;
+    border-radius: 0.3cm;
+    cursor: pointer;
+    fill: white;
+    /*background-color: green;*/
+    background-color: var(--Azul);
+    padding: 0.1cm;
+    padding-right: 7px;
+    padding-left: 7px;
+}
+
+.btn_rechazar{ /*Accion_botones btn_aceptar */
+    width: 0.7cm;
+    height: 0.7cm;
+    border-radius: 0.3cm;
+    cursor: pointer;
+    fill: white;
+    background-color: red;
+    padding: 0.1cm;
+    padding-right: 7px;
+    padding-left: 7px;
+}
+
+/*
+    //================================
+    PANTALLA ADICIONAL
+    //================================
+*/
+
+
+.cuerpo-extra{
+    display: none;
+    flex: 1;
+    padding-right: calc(5px + 2vw);
+    padding-left: calc(5px + 2vw);
+    margin-left: calc(24px + 22vw);
+}
+
+.details_body{
+    display: flex;
+    justify-content: center;
+    /*gap: 8rem;*/
+}
+
+.img_box {
+    width: 14rem;
+    height: 12rem;
+    border-radius: 1rem;
+    overflow: hidden;
+    /*margin-bottom: 2rem;*/
+}
+.box_content{
+    margin-bottom: 2rem;
+}
+
+.parque_img {
+    width: -webkit-fill-available;
+    height: -webkit-fill-available;
+}
+
+
+.info_text{
+    display: flex;
+    gap: 2rem;
+    margin-bottom: 1rem;
+    justify-content: center;
+}
+.input_header{
+    font-size: small;
+    font-weight: initial;
+}
+.input_reservacion{
+    font-size: 130%;
+    font-weight: 700;
+    font-family: 'montserrat';
+}
+
+#input_long{
+    font-size: large;
+    font-weight: initial;
+}
+
+.img_text{
+    width: 16rem;
+}
+
+/* ----------------------- */
+
+.section_botones{
+    display: flex;
+    gap: 8px;
+    margin-top: 0.6rem;
+    /*margin-left: auto;*/
+}
+
+
+.btn_style {
+    width: fit-content;
+    text-align: center;
+    /*padding: 1rem;*/
+    padding: 0.8rem;
+    border-radius: 1rem;
+    cursor: pointer;
+    border: none;
+    transition: box-shadow 0.15s ease-in;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+.boton_aceptar{
+    /*background-color: var(--Verde);*/
+    background-color: var(--Azul);
+    color: white;
+    width: 5rem;
+}
+.boton_aceptar:hover {
+    /*box-shadow: 0px 0px 0px 4px #00893e85;*/
+    box-shadow: 0px 0px 0px 4px #00569c8a;
+}
+.boton_aceptar:active{
+    transform: scale(.9);
+}
+
+.boton_rechazar{
+    background-color: var(--rojo-ADN);    
+    color: white;
+    width: 5rem;
+}
+.boton_rechazar:hover {
+    box-shadow: 0px 0px 0px 4px #c412209e;
+}
+.boton_rechazar:active{
+    transform: scale(.9);
+}
+
+
+
+/*
+    //================================
+    MODAL CONFIRMACION
+    //================================
+*/
+
+.modal_confirmacion{
+    display: none;
+    position: fixed;
+    z-index: 2;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.4);
+}
+
+.modal_confirmacion_contenido{
+    background-color: #fefefe;
+    margin: auto;
+    padding: 1rem;
+    border: 1px solid #888;
+    width: 35%;
+    max-width: 600px;
+    position: relative;
+    /*top: 8rem;*/
+    top: 2rem;
+    margin-bottom: 3rem;
+    border-radius: 0.4rem;
+    min-width: 240px;
+}
+
+.modal_top{
+    font-size: x-large;
+    border-bottom: 1px solid;
+    padding-bottom: 0.6rem;
+    font-weight: 600;
+}
+
+.modal_mid{
+    margin-top: 1rem;
+    font-size: large;
+    /*font-style: italic;*/
+}
+
+.modal_bottom{
+    margin-top: 1rem;
+    /*border-top: 1px solid;*/
+}
+.modal_bottom .btn_section_confirmacion{
+    display: flex;
+    gap: 0.5rem;
+    margin-top: 0.4rem;
+    justify-content: flex-end;
+}
+
+.btn_rechazar_modal{
+    background-color: var(--rojo-ADN);
+    color: white;
+}
+.btn_rechazar_modal:hover{
+    box-shadow: 0px 0px 0px 4px #c412209e;
+}
+.btn_rechazar_modal:active{
+    transform: scale(.9);
+}
+
+.btn_confirmar_modal{
+    background-color: var(--Azul);
+    color: white;
+}
+.btn_confirmar_modal:hover{
+    box-shadow: 0px 0px 0px 4px #00569c8a;
+}
+.btn_confirmar_modal:active{
+    transform: scale(.9);
+}
+
+
+/*
+    //================================
+    MODAL CONFIRMACION - ADICIONALES
+    //================================
+*/
+
+.modal_mid_bottom{
+    height: 10rem;
+    overflow: auto;
+    border: 1px solid;
+    margin-top: 0.4rem;
+    padding-left: 0.2rem;
+    padding-right: 0.2rem;
+    padding-bottom: 0.4rem;
+    border-radius: 0.4rem;
+}
+
+.solicitud_card{
+    font-size: larger;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: -webkit-center;
+    margin-top: 0.3rem;
+    padding-top: 0.4rem;
+    padding-bottom: 0.4rem;
+    gap: 4px;
+}
+.solicitud_card svg{
+    fill: var(--Azul);
+    height: 2rem;
+}
+.solicitud_card:hover{
+    background-color: var(--GrisB);
+    border-radius: 0.4rem;
+}
+
+.modal_info_desc{
+    margin-bottom: .4rem;
+}
+.modal_info_quest{
+    font-style:italic
+}
+
+
+/*
+@media (max-width: 768px) {
+    #myTable th:nth-child(1),
+    #myTable td:nth-child(1) {
+        display: none;
+    }
+}
+*/
+
+/*
+@media (max-width: 768px) {
+    #myTable th:nth-child(1),
+    #myTable td:nth-child(1) {
+        display: none;
+    }
+}
+*/
+
+/*
+@media (max-width: 690px) {
+    #myTable th:nth-child(1),
+    #myTable td:nth-child(1) {
+        display: none;
+    }
+}
+
+@media (max-width: 690px) {
+    #myTable th:nth-child(2),
+    #myTable td:nth-child(2) {
+        display: none;
+    }
+}
+
+@media (max-width: 690px) {
+    #myTable th:nth-child(3),
+    #myTable td:nth-child(3) {
+        display: none;
+    }
+}
+*/
+
+/*
+#myTable tbody tr:nth-child(6) {
+    color: red;
+}
+*/
+
+/*
+#myTable td:nth-child(6),
+#myTable th:nth-child(6) {
+    display: none;
+}
+*/
+
+/*
+    ||======================================
+    || MEDIA QUERY
+    ||======================================
+*/
+.title{
+    display: flex !important;
+}
+@media (max-width: 1030px) {
+    /*
+    .title_2{
+        display: block;
+    }
+    */
+    .title{
+        flex-direction: column;
+    }
+    .text_flex{
+        justify-content: center;
+    }
+}
+
+@media (max-width: 890px) {
+    .menu-side-bar{
+        width: calc(0px + 22vw);
+    }
+}
+
+
+@media (max-width: 770px){
+    .details_body{
+        display: block !important;
+        text-align: -webkit-center;
+    }
+}
+
+@media (max-width: 700px){
+    .text_responsive{
+        display: none;
+    }
+}
+
+@media (max-width: 500px){
+    .cuerpo-extra {
+        margin-left: auto !important;
+    }
+}

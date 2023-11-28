@@ -1,0 +1,123 @@
+:root{
+    --Azul: #00569C;
+    --AzulB: #82BDE0;
+    --Verde: #00893E;
+    --amarillo: #F7E300;
+    --Gris: #EFEFEF;
+    --GrisB: #D8D9DB;
+    --GrisC: #bdbdbd;
+    height: -webkit-fill-available;
+}
+
+
+/*
+    ||=====================================
+    || 1ERA PROPUESTA
+    ||=====================================
+*/
+.box{
+    text-align: -webkit-center;
+    margin-top: 2rem;
+    display: none;
+}
+.box_2{
+    text-align: -webkit-center;
+    margin-top: 2rem;
+    /*display: none;*/
+}
+
+body{
+    font-family: 'Montserrat', sans-serif;
+    color: var(--Azul);
+}
+
+.cont-logo-principal{
+    display: flex;
+    justify-content: center;
+}
+.logo-principal {
+    /*width: calc(95px + 20vw);*/
+    /*width: calc(60px + 40vw);*/
+    width: calc(100px + 40vw);
+}
+.box_content{
+    /*border: 1px solid var(--Azul);*/
+    /*width: fit-content;*/
+    /*width: 40rem;*/
+    width: 30rem;
+    padding: 10px;
+    /*box-shadow: 0px 0px 20px 0px black;*/
+    box-shadow: 0px 1px 15px 0px black;
+    border-radius: 1rem;
+}
+
+h1{
+    margin: 0;
+}
+p{
+    margin: 0;
+}
+
+.up_content{
+    /*border-bottom: 1px solid var(--Azul);*/
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.mid_content{
+    margin-top: 0.6rem;
+    font-size: large;
+}
+
+
+.svg_box{
+    height: 3rem;
+}
+.svg_box path{
+    fill: var(--Azul);
+}
+.svg_style{
+    width: -webkit-fill-available;
+    height: -webkit-fill-available;
+}
+
+
+/*
+    ||=====================================
+    || 2DA PROPUESTA
+    ||=====================================
+*/
+
+
+.foot_content{
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    text-align: center;
+}
+.svg_footer{
+    display: flex;
+}
+.svg_footer img{
+    width: -webkit-fill-available;
+}
+
+.section_inferior{
+    background-color: var(--Azul);
+    color: white;
+    height: 6rem;
+}
+
+.contenedor_superior{
+    font-size: x-large;
+}
+.contenedor_intermedio{
+    width: 60%;
+    /*border: 1px solid;*/
+    margin-top: 1rem;
+}
+
+
+
+

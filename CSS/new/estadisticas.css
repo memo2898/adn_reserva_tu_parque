@@ -1,0 +1,75 @@
+/*
+    ||================================================
+    || GRAFICOS
+    ||================================================
+*/
+
+/*
+#grafico_main{
+    width: 12rem;
+    height: 8rem;
+}
+*/
+
+
+.canvas_bar{
+    /*width: 12rem;*/
+    /*height: 8rem;*/
+    /*width: 70%;*/
+    text-align: -webkit-center;
+    min-height: 26rem;
+}
+
+/*
+#grafico_main{
+    width: 90% !important;
+    height: 8rem;
+}
+*/
+
+/*
+.circle_section{
+    display: flex;
+}
+*/
+.circle_section{
+    display: grid;
+    grid-template-columns: 40% 40%;
+    justify-content: space-around;
+    transition: box-shadow 0.15s ease-in;
+    transition: box-shadow 0.15s ease-in;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    min-height: 16rem;
+}
+
+.canvas_circle{
+    width: 70%;
+    /*height: 20rem;*/
+}
+
+#meses{
+    margin-left: 4rem;
+    font-size: large;
+    font-family: 'montserrat';
+}
+
+
+
+
+/*
+    ||=========================
+    || RESPONSIVE
+    ||=========================
+*/
+
+
+@media (max-width: 900px){ 
+    .cuerpo-pagina{
+    margin-left: calc(24px + 26vw);
+    }
+}

@@ -1,0 +1,85 @@
+.saludo-usuario {
+    font-weight: 500;
+    color: var(--azul-oscuro-ADN);
+    margin-bottom: 10px;
+    /*font-size: 16px;*/
+    font-size: larger;
+}
+
+
+/*Cards del dashboard start*/
+.cont-card-unique-dash {
+    background-color: var(--azul-oscuro-ADN);
+}
+.cont-ico-card-dash {
+    width: 40px;
+}
+
+.cont-card-unique-dash {
+    background-color: var(--azul-oscuro-ADN);
+    width: calc(5px + 10vw);
+    max-width: 110px;
+    min-width: 100px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: calc(3px + 1vw);
+    border-radius: 10px;
+    text-align: center;
+    color: white;
+    gap: 5px;
+}
+.card-alert{
+    background-color: var(--naranja-ADN) !important;
+}
+.cont-texts-card-dash {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+.descripcion-card-dash {
+    font-weight: 700;
+}
+.cont-cards-dash {
+    display: flex;
+    gap: calc(10px + 2vw);
+    flex-wrap: wrap;
+    justify-content: center;
+}
+/*Cards del dashboard end*/
+
+
+/*Dashboard*/
+.area-charts {
+    display: flex;
+    justify-content: center;
+    margin-top: 4rem;
+}
+.chart-avance {
+    display: flex;
+    justify-content: center;
+    width: 85%;
+    height: 400px; /* Puedes ajustar la altura según tus necesidades */
+}
+
+
+
+
+/*
+    ||===================================
+    || RESPONSIVE
+    ||===================================
+*/
+
+@media (max-width: 800px){
+    .cont-cards-dash {
+        padding-left: 2rem;
+    }
+}
+
+@media (max-width: 500px){
+    .cont-cards-dash {
+        padding-left: 0;
+    }
+}

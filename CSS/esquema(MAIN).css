@@ -1,0 +1,383 @@
+/*Estos son los estilos generales de toda la pagina*/
+@import url('https://fonts.cdnfonts.com/css/montserrat');
+
+:root{
+    /*Variables Colores del ADN*/
+    --azul-oscuro-ADN: #004F8D;
+    --azul-oscuro-alternativo-ADN: #113250;
+    --azul-claro-ADN: #82BDE0;
+    --rosa-ADN: #D56599;
+    --verde-ADN: #00893E;
+    --naranja-ADN: #DD710F;
+    --rojo-ADN: #C41220;
+
+    /*Fuentes de los textos*/
+    --titulos-ADN:10px;
+    --fuente-media-ADN:calc(1px + 1vw);
+}
+
+:root {
+    --Azul: #00569C;
+    --AzulB: #82BDE0;
+    --Verde: #00893E;
+    --amarillo: #F7E300;
+    
+    --Gris: #EFEFEF;
+    --GrisB: #D8D9DB;
+    --GrisC: #bdbdbd;
+    height: -webkit-fill-available;
+}
+
+.Home {
+    font-family: 'Montserrat', sans-serif;
+    color: var(--Azul);
+    background-color: #F7F7F7;
+}
+
+html body{
+    margin: 0;
+    padding: 0;
+}
+
+h1,h2,h3,h4,span,label,p{
+    font-family: 'montserrat';
+    margin: 0;
+}
+
+.title{
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 2rem;
+}
+/*-------- Estilos del menu start ---------*/
+.categorias-menu {
+    user-select: none;
+}
+
+.cont-h-img-user {
+    width: 60px;
+    height: 60px;
+    border-radius: 45px;
+    background-color: gray;
+}
+.menu-side-bar {
+    position: fixed;
+    /*flex: 0 0 auto;*/
+    padding: calc(5px + 1vw);
+    /*padding-right: calc(0px + 1vw);*/
+    background-color: var(--azul-oscuro-ADN);
+    width: calc(24px + 22vw);
+    max-width: 190px;
+    min-width: 40px;
+    /*min-height: 100vh;*/
+    border-bottom-right-radius: 15px;
+    border-top-right-radius: 15px;
+    overflow: auto;
+    /*height: 95vh;*/
+    top: 0;
+    bottom: 0;
+}
+
+
+.menu-side-bar_modal{
+    width: 100% !important;
+    z-index: 20;
+    max-width: none;
+    position: absolute;
+    display: block !important;
+    min-height: auto;
+    /*overflow: auto;*/
+    /*height: 98vh;*/
+}
+
+.menu-side-bar_off{
+    display: none;
+}
+.bar_icon_off{
+    display: block !important;
+}
+
+
+
+.cont-h-img-user {
+    width: calc(15px + 2vw);
+    height: calc(15px + 2vw);
+    max-width: 90px;
+    max-height: 90px;
+    border-radius: 45px;
+    background-color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.cont-im-user {
+    width: calc(9px + 2vw);
+    height: calc(9px + 2vw);
+    max-width: 90px;
+    max-height: 90px;
+    border-radius: 45px;
+    /*background-color: #643232;*/
+    overflow: hidden;
+    display: flex;
+}
+.img-user {
+    width: 100%;
+    object-fit: cover;
+}
+.info-user-principal {
+    margin: 0;
+    display: flex;
+    padding: 0;
+    gap: 0.5rem;
+    align-items: center;
+}
+.user-data-header {
+    display: flex;
+    flex-direction: column;
+}
+.user-name-header {
+    font-weight: 400;
+    color: white;
+    font-size: 15px;
+    margin-bottom: 5px;
+    
+}
+.other-details-user-header {
+    font-weight: 200;
+    color: white;
+    font-size: 14px;
+}
+
+.nombre-categoria-superior {
+    color: white;
+    font-weight: 300;
+    color: white;
+    font-size: 14px;
+    margin-bottom: 10px;
+}
+.nombre-categoria {
+    color: white;
+    font-weight: 300;
+    color: white;
+    font-size: 14px;
+}
+.cont-items-categorias {
+    display: flex;
+    padding: 10px;
+    height: 24px;
+    align-items: center;
+    border-radius: 12px;
+    gap: 10px;
+    background-color: var(--azul-oscuro-ADN);
+    margin-top: 5px;
+}
+.cont-items-categorias:hover{
+    background-color: var(--azul-claro-ADN);
+    cursor: pointer;
+}
+.categoria-active{
+    background-color: var(--azul-claro-ADN);
+}
+.categoria-active-alternative{
+    background-color: var(--azul-oscuro-alternativo-ADN);
+}
+
+.ico-categoria {
+    width: 20px;
+    height: 20px;
+}
+.categoria-menu {
+    display: flex;
+    flex-direction: column;
+    margin-top: 10px;
+    border-bottom: 0.5px solid gray;
+}
+.categoria-menu-log {
+    display: flex;
+    flex-direction: column;
+    margin-top: 10px;
+    
+}
+
+
+/*-------- Estilos del menu end   ---------*/
+
+/*----Estilos basicos del cuerpo de la pagina start---*/
+.contenedor-full-page {
+    /*
+    flex: 1;
+    display: flex;
+    */
+    display: block;
+}
+.cuerpo-pagina {
+    flex: 1;
+    /*padding-right: calc(5px + 2vw);*/
+    /*padding-left: calc(5px + 2vw);*/
+    padding-bottom: 4rem;
+    margin-left: calc(24px + 22vw);
+}
+.cont-logo-principal {
+    margin: 16px;
+    height: 56px;
+    display: flex;
+    justify-content: center;
+}
+
+.logo-principal {
+    width: calc(95px + 20vw);
+}
+a {
+    text-decoration: none;
+    background-color: transparent;
+}
+/*----Estilos basicos del cuerpo de la pagina end---*/
+
+
+
+
+/*
+    ||=================================
+    || FIXED LEFT BAR
+    ||=================================
+*/
+.text_flex{
+    display: flex;
+    gap: .5rem;
+}
+
+.bar_icon{
+    position: absolute;
+    /*position: fixed;*/
+    z-index: 2;
+}
+.bar_icon svg{
+    display: none;
+    fill: var(--Azul);
+    height: 2rem;
+    padding: 0.6rem;
+}
+
+.cont-saludo-usuario {
+    padding-left: 2rem;
+}
+.cont-titulo-principal-pagina {
+    padding-left: 2rem;
+}
+
+
+/*
+    ||=========================
+    || RESPONSIVE
+    ||=========================
+*/
+
+
+@media (max-width: 630px){
+    .nombre-categoria{
+        font-size: 2vw;
+    }
+}
+
+
+@media (max-width: 590px){
+    .menu-side-bar{
+        padding-left: 2px;
+        padding-right: 1.4rem;
+    }
+    .title{
+        display: block;
+        text-align: -webkit-center;
+    }
+}
+
+
+@media (max-width: 500px){
+    
+    .menu-side-bar{
+        display: none;
+        z-index: 5 !important;
+    }
+    .bar_icon svg{
+        display: block;
+    }
+    .categorias-menu{
+        width: 90vw;
+    }
+    .cuerpo-pagina{
+        margin-left: auto !important;
+    }
+    .cont-im-user{
+        width: calc(9px + 8vw);
+        height: calc(9px + 8vw);
+    }
+    .info-user-principal{
+        justify-content: center;
+        align-items: center;
+    }
+    .cont-h-img-user{
+        width: calc(15px + 8vw);
+        height: calc(15px + 8vw);
+    }
+    .cont-items-categorias{
+        width: 90vw;
+    }
+    .cont-cards-dash{
+        padding-left: initial;
+    }
+    .cont-titulo-principal-pagina{
+        padding-left: initial;
+    }
+    .cont-saludo-usuario {
+        padding-left: initial;
+    }
+    .modal_exit{
+        display: block !important;
+    }
+    .nombre-categoria{
+        font-size: 14px;
+    }
+}
+
+.contenedor-full-page{
+    display: block;
+}
+.menu-side-bar{
+    position: fixed;
+    z-index: 2;
+}
+
+/*
+.cuerpo-pagina{
+    margin-left: calc(24px + 22vw);
+}
+*/
+
+
+.modal_exit{
+    height: 1.4rem;
+    fill: white;
+    display: none;
+}
+
+.modal_exit_content{
+    width: fit-content;
+    position: absolute;
+    top: 10px;
+    right: 30px;
+}
+
+
+/*
+    ||=========================
+    || RESPONSIVE
+    ||=========================
+*/
+
+
+@media (max-width: 570px){
+    .toast{
+        right: 0 !important;
+    }
+}

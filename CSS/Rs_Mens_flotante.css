@@ -1,0 +1,133 @@
+.toast {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    /*top: 5cm;*/
+    bottom: 2cm;
+    right: 1cm;
+}
+
+.toast {
+    /*display: block;*/
+    width: 350px;
+    max-width: 100%;
+    font-size: .875rem;
+    pointer-events: auto;
+    background-color: rgba(255,255,255,.85);
+    background-clip: padding-box;
+    border: 1px solid rgb(0 0 0 / 40%);    
+    box-shadow: 0 0.5rem 1rem rgba(0,0,0,.15);
+    border-radius: 0.25rem;
+    animation-name: desplazamiento_lateral;
+    animation-duration: 0.5s;
+}
+
+@keyframes desplazamiento_lateral {
+    from {right: -10cm;; opacity:0}
+    to {right: 1cm;; opacity:1}
+}
+
+@keyframes retroceder {
+    from {right: 1cm;; opacity:1}
+    to {right: -10cm;; opacity:0}
+}
+
+
+.toast-header {
+    display: flex;
+    align-items: center;
+    padding: 0.5rem 0.75rem;
+    color: #6c757d;
+    background-color: rgba(255,255,255,.85);
+    background-clip: padding-box;
+    border-bottom: 1px solid rgba(0,0,0,.05);
+    border-top-left-radius: calc(0.25rem - 1px);
+    border-top-right-radius: calc(0.25rem - 1px);
+}
+
+.rounded {
+    border-radius: 0.25rem!important;
+}
+
+.me-2 {
+    margin-right: 0.5rem!important;
+}
+/*
+.me-2 {
+    background-color: var(--Azul);
+    padding: 0.8rem;
+}
+*/
+.toast_svg{
+    /*width: 1cm;*/
+    width: calc(2rem);
+}
+.me-auto {
+    margin-right: auto!important;
+    /*color: var(--Azul);*/
+}
+
+.toast-body {
+    /*color: red;*/
+    font-size: 140%;
+    font-weight: 600;
+    padding: 0.75rem;
+    word-wrap: break-word;
+}
+
+.small, small {
+    font-size: .875em;
+}
+
+.toast-header .btn-close {
+    margin-right: -0.375rem;
+    margin-left: 0.75rem;
+}
+
+[type=button]:not(:disabled), [type=reset]:not(:disabled), [type=submit]:not(:disabled), button:not(:disabled) {
+    cursor: pointer;
+}
+
+.btn-close {
+    box-sizing: content-box;
+    width: 1em;
+    height: 1em;
+    padding: 0.25em 0.25em;
+    color: #000;
+    border: 0;
+    border-radius: 0.25rem;
+    opacity: .5;
+    background: transparent url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%23000'%3e%3cpath d='M.293.293a1 1 0 011.414 0L8 6.586 14.293.293a1 1 0 111.414 1.414L9.414 8l6.293 6.293a1 1 0 01-1.414 1.414L8 9.414l-6.293 6.293a1 1 0 01-1.414-1.414L6.586 8 .293 1.707a1 1 0 010-1.414z'/%3e%3c/svg%3e") center/1em auto no-repeat;
+}
+
+.btn-close:hover {
+    color: #000;
+    text-decoration: none;
+    opacity: .75;
+}
+
+.btn-close:focus {
+    outline: 0;
+    box-shadow: 0 0 0 0.25rem rgba(13,110,253,.25);
+    opacity: 1;
+}
+
+[type=button], [type=reset], [type=submit], button {
+    -webkit-appearance: button;
+}
+/*
+button, select {
+    text-transform: none;
+}
+
+button, input, optgroup, select, textarea {
+    margin: 0;
+    font-family: inherit;
+    font-size: inherit;
+    line-height: inherit;
+}
+*/
+
+
+
+

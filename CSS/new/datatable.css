@@ -1,0 +1,54 @@
+.datatable{
+    text-transform:capitalize;
+    /*width: 80%;*/
+    margin: 0 auto;
+    clear: both;
+    border-collapse: separate;
+    border-spacing: 0;
+    /*margin-top: 1rem;*/
+}
+.datatable thead{
+    background-color: var(--Azul);
+    color: white;
+    font-size: 105%;
+    font-weight: 600;
+}
+.datatable img{
+    width: 2rem;
+    cursor: pointer;
+}
+.datatable tbody tr:hover{
+    background-color: var(--AzulB);
+    color: white;
+}
+.datatable tbody td{
+    transition: padding .15s ease-in-out;
+}
+.datatable tbody tr:hover td{
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+}
+
+/*
+.datatable img:hover{
+    background-color: var(--azul-claro-ADN);
+    padding: 0.4rem;
+    border-radius: 4rem;
+    overflow: inherit;
+}
+*/
+
+
+td:nth-child(5) {
+    text-align: center;
+}
+
+#myTable{
+    overflow: hidden;
+}
+
+
+.table_next{
+    transition: transform .30s ease-in-out;
+    transform: translateX(100%);
+}

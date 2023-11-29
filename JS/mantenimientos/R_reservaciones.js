@@ -1,30 +1,81 @@
-async function btn_actions(id,accion){
-    let ruta = '/Reservacion_parques_solicitudes'
-    data = {
-        'id':id,
-        'accion':accion
-    }
-    if (accion == 'confirmada') {
-        //console.log("Aceptar solicitud")
-        let respuesta = await Patch(ruta,data)
-        //console.log(respuesta)
-        if (respuesta['message'] == 'Actualizado') {
-            console.log("Actualizacion exitosa")
-        }else{
-            console.log("Error inesperado")
-        }
-    }
-    else if(accion == 'rechazada'){
-        //console.log("rechazar solicitud")
-        let respuesta = await Patch(ruta,data)
-        //console.log(respuesta)
-        if (respuesta['message'] == 'Actualizado') {
-            console.log("Actualizacion exitosa")
-        }else{
-            console.log("Error inesperado")
-        }
+
+async function btn_actions(id,accion,origen){
+    console.log(id)
+    console.log(accion)
+    //return
+    let token = await visualizar()
+    if (token['permisos'] == 'administrador' || token['permisos'] == 'gestionar' || token['permisos'] == 'autorizar') {
+        console.log('Permitir')
+        ready()
     }else{
-        console.log('¿...?')
+        console.log('No permitir')
+        //Throw_alert('Accion denegada','Su usuario no cuenta con los permisos necesarios')
+    }
+    async function ready(){
+        let btn_verde = document.querySelector('.verde_'+id)
+        let btn_rojo = document.querySelector('.rojo_'+id)
+        let ruta = '/Reservacion_parques_solicitudes'
+        var tabla = $('#myTable').DataTable();
+        //-------------------------------------
+        btn_verde.removeAttribute('onclick')
+        btn_rojo.removeAttribute('onclick')
+        //check = false
+        //if(origen == 'interno'){
+        //    retroceder()
+        //}
+        data = {
+            'id':id,
+            'accion':accion,
+            'responsable':local_sesion['usuario'],
+        }
+        try {
+            if (accion == 'realizada') {
+                let respuesta = await Patch(ruta,data)
+                if (respuesta['message'] == 'Actualizado') {
+                    console.log("Actualizacion exitosa - REALIZADA")
+                    //trigger_email(id) // ENVIAR CORREO ELECTRONICO
+                    //---------------------------
+                    await new Promise((resolve) => setTimeout(resolve, 500));
+                    //---------------------------
+                    //Throw_alert(accion,'Se ha confirmado la solicitud')
+                    //tabla.row($((document.querySelector(".solicitud_"+id)))).remove().draw();
+                    //Actualizar_tabla()
+                }else{
+                    //console.log("Error inesperado")
+                    //---------------------------
+                    btn_verde.setAttribute('onclick', 'pantalla_confirmacion("' + id + '","' + accion + '","' + origen + '")');
+                    btn_rojo.setAttribute('onclick', 'pantalla_confirmacion("' + id + '","' + accion + '","' + origen + '")');
+                    //Throw_alert('Error','Se ha producido un error inesperado durante la actualizacion')
+                }
+            }
+            else if(accion == 'rechazada'){
+                let respuesta = await Patch(ruta,data)
+                if (respuesta['message'] == 'Actualizado') {
+                    console.log("Actualizacion exitosa - CANCELADA")
+                    //trigger_email(id)
+                    //---------------------------
+                    //document.querySelector(".solicitud_"+id).classList.add("table_next") //--  ANIMACION DE DESPLAZAMIENTO
+                    //await new Promise((resolve) => setTimeout(resolve, 5));
+                    //---------------------------
+                    
+                    //Throw_alert(accion,'Se ha rechazado la solicitud')
+                    //tabla.row($((document.querySelector(".solicitud_"+id)))).remove().draw();
+                    //Actualizar_tabla()
+                }else{
+                    console.log("Error inesperado")
+                    //---------------------------
+                    btn_verde.setAttribute('onclick', 'pantalla_confirmacion("' + id + '","' + accion + '","' + origen + '")');
+                    btn_rojo.setAttribute('onclick', 'pantalla_confirmacion("' + id + '","' + accion + '","' + origen + '")');
+                    //Throw_alert('Error','Se ha producido un error inesperado durante la actualizacion')
+                }
+            }else{
+                console.log('¿...?')
+            }
+        } catch (error) {
+            console.log('Error inesperado')
+            btn_verde.setAttribute('onclick', 'pantalla_confirmacion("' + id + '","' + accion + '","' + origen + '")');
+            btn_rojo.setAttribute('onclick', 'pantalla_confirmacion("' + id + '","' + accion + '","' + origen + '")');
+        }
     }
 }
 
@@ -85,3 +136,72 @@ async function limpiar_parques(){
         element.src = '/IMG/parque_default.avif'
     });
 }
+
+
+
+
+async function pantalla_confirmacion(id,accion,origen){
+    let token = await visualizar()
+    if (token['permisos'] == 'administrador' || token['permisos'] == 'gestionar' || token['permisos'] == 'autorizar') {
+        console.log('Permitir')
+        ready()
+    }else{
+        console.log('No permitir')
+        //Throw_alert('Accion denegada','Su usuario no cuenta con los permisos necesarios')
+    }
+    async function ready(){
+        let btn_confirmacion = document.querySelector('.btn_confirmar_modal')
+        btn_confirmacion.setAttribute('onclick', 'pantalla_confirmacion_acciones("' + id + '","' + accion + '","' + origen + '")');
+        pantalla_confirmacion_display('block')
+    }
+}
+
+async function pantalla_confirmacion_acciones(id,accion,origen){
+    let token = await visualizar()
+    if (token['permisos'] == 'administrador' || token['permisos'] == 'gestionar' || token['permisos'] == 'autorizar') {
+        console.log('Permitir')
+        ready()
+    }else{
+        console.log('No permitir')
+        //Throw_alert('Accion denegada','Su usuario no cuenta con los permisos necesarios')
+    }
+    async function ready(){
+        //console.log("ID - "+id)
+        //console.log("Accion - "+accion)
+        //console.log("Origen - "+origen)
+        if (origen == 'interno') {
+            console.log("Nada")
+        }else{
+            console.log("Cerrar view more")
+        }
+        btn_actions(id,accion,origen)
+    }
+}
+
+function pantalla_confirmacion_display(accion){
+    document.querySelector('.modal_confirmacion').style.display = accion
+    //pantalla_confirmacion_reset_btn()
+    if (accion == 'none') {
+        pantalla_confirmacion_reset_btn()
+        //limpiar_tarjeta()
+        //card_mens('none')
+    }
+}
+
+function pantalla_confirmacion_reset_btn(){
+    let btn_confirmacion = document.querySelector('.btn_confirmar_modal')
+    btn_confirmacion.removeAttribute('onclick')
+}
+
+window.addEventListener("click",function(event) { //CERRAR DE VENTANA MODAL POR CLICK FUERA
+    var modal = document.querySelector(".modal_confirmacion");
+    if (event.target == modal) {
+        pantalla_confirmacion_display('none')
+    }
+});
+
+
+
+
+
+

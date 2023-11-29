@@ -58,7 +58,10 @@
                                     <th>Zona</th>
                                     <th>Fecha del evento</th>
                                     <th>Fecha de emision</th>
+                                    <!-- 
                                     <th>Estado</th>
+                                    -->
+                                    <th>Acciones</th>
                                     <th>Mas detalles</th>
                                 </tr>
                             </thead>
@@ -70,7 +73,15 @@
                                     <td>{{ $tbl_reservacione['nombre_zona'] }}</td>
                                     <td>{{ $tbl_reservacione['fecha_evento'] }}</td>
                                     <td>{{ $tbl_reservacione['agregado_en'] }}</td>
+                                    <!-- 
                                     <td>{{ $tbl_reservacione['estado'] }}</td>
+                                    -->
+                                    <td>
+                                        <div style="display: flex; gap: 0.2rem;">
+                                            <img src="{{ asset('IMG/xmark-solid.svg') }}" class="btn_rechazar rojo_{{ $tbl_reservacione['id'] }}"  onclick="pantalla_confirmacion({{ $tbl_reservacione['id'] }},'rechazada','interno')">
+                                            <img src="{{ asset('IMG/check-solid.svg') }}" class="btn_aceptar verde_{{ $tbl_reservacione['id'] }}" onclick="pantalla_confirmacion({{ $tbl_reservacione['id'] }},'realizada','interno')">    
+                                        </div>
+                                    </td>
                                     <td style="text-align: -webkit-center;"><img src="/IMG/pen-solid.svg" onclick="view_more({{ $tbl_reservacione['id'] }})"></td>
                                 </tr>
                                 @endforeach
@@ -199,7 +210,34 @@
             </div>
         </section>
     </section>
-    
+
+        <div class="modal_confirmacion">
+        <div class="modal_confirmacion_contenido">
+            <div class="modal_top">
+                <p>Confirmacion</p>
+            </div>
+            <div class="modal_mid">
+                <p class="modal_info_desc">Las siguientes solicitudes comparten un horario similar y por lo tanto seran descartadas</p>
+                <p class="modal_info_quest">¿Esta seguro de que desea continuar?</p>
+            </div>
+            <div class="modal_mid_bottom">
+                <div class="solicitud_card">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M215.4 96H144 107.8 96v8.8V144v40.4 89L.2 202.5c1.6-18.1 10.9-34.9 25.7-45.8L48 140.3V96c0-26.5 21.5-48 48-48h76.6l49.9-36.9C232.2 3.9 243.9 0 256 0s23.8 3.9 33.5 11L339.4 48H416c26.5 0 48 21.5 48 48v44.3l22.1 16.4c14.8 10.9 24.1 27.7 25.7 45.8L416 273.4v-89V144 104.8 96H404.2 368 296.6 215.4zM0 448V242.1L217.6 403.3c11.1 8.2 24.6 12.7 38.4 12.7s27.3-4.4 38.4-12.7L512 242.1V448v0c0 35.3-28.7 64-64 64H64c-35.3 0-64-28.7-64-64v0zM176 160H336c8.8 0 16 7.2 16 16s-7.2 16-16 16H176c-8.8 0-16-7.2-16-16s7.2-16 16-16zm0 64H336c8.8 0 16 7.2 16 16s-7.2 16-16 16H176c-8.8 0-16-7.2-16-16s7.2-16 16-16z"/></svg>
+                    <p>---</p>
+                </div>
+            </div>
+            <div class="modal_bottom">
+                <div class="btn_section_confirmacion">
+                    <div class="btn_style btn_rechazar_modal" onclick="pantalla_confirmacion_display('none')">
+                        Cancelar
+                    </div>
+                    <div class="btn_style btn_confirmar_modal" onclick="pantalla_confirmacion_acciones()">
+                        Confirmar
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </body>
 
 <script>

@@ -5,13 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Mantenimiento - Parques</title>
+    <link rel="icon" href="{{ asset('IMG/Escudo.svg') }}" type="image/x-icon">
 
     <link rel="stylesheet" href="{{ asset('CSS/esquema(HOME).css') }}" >
     <link rel="stylesheet" href="{{ asset('CSS/esquema(MAIN).css') }}" >
     <link rel="stylesheet" href="{{ asset('CSS/new/datatable.css') }}" >
     <link rel="stylesheet" href="{{ asset('CSS/new/m_parques.css') }}" >
     <link rel="stylesheet" href="{{ asset('CSS/modal_estructura.css') }}" >
-
 
     <script src="{{ asset('JS/peticiones.js') }}"></script>
 
@@ -363,7 +363,7 @@
                     <div class="title title_3">
                         <div class="title_2">
                             <img onclick="retroceder_2()" class="flecha_atras atras" src="/IMG/new/iconos/SVG/flecha_izq.svg" alt="" srcset="">
-                            <h2>Mantenimientos **</h2>
+                            <h2>Mantenimientos </h2>
                             <h2 class="title_blank">-</h2>
                             <h2 class="title_blank" style="font-style: oblique; font-weight: 500;">Parques</h2>
                             <h2 class="title_blank">-</h2>

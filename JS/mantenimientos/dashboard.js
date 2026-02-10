@@ -1,34 +1,22 @@
 async function cantidades(){
-    return new Promise((resolve, reject) => {
-        axios.get('/Dashboard')
-        .then(response =>{
-            //console.log(response)
-            resolve (response.data)
-        })
-        .catch(error =>{
-            //console.log(error)
-            reject (error)
-        });
-    })
+  return new Promise((resolve, reject) => {
+      axios.get('/Dashboard')
+      .then(response =>{
+          //console.log(response)
+          resolve (response.data)
+      })
+      .catch(error =>{
+          //console.log(error)
+          reject (error)
+      });
+  })
 }
 
 async function presentarAvance() {
     let card = document.querySelectorAll('.contador-card-dash')
     let respuesta = await cantidades();
-    console.log(respuesta)
+    //console.log(respuesta)
 
-    /*
-    let datosChart =[{
-        espera:10,
-        pendientes:2,
-        confirmadas:8,
-        rechazadas:39,
-        realizadas:12,
-        vencidas:3,
-        
-    }];
-    */
-    
     let datosChart =[{
         espera:respuesta['espera'],
         pendientes:respuesta['pendientes'],

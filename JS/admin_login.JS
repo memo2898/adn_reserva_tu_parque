@@ -6,40 +6,6 @@ function onKeyDownHandler(event) { //1. DETECTAR ENTRE LOS INPUTS
 }
 
 
-/*
-async function Acceso(){ // 2. CONFIRMACION DE USUARIO
-    input_user=document.querySelector("#usuario").value;
-    input_pass=document.querySelector("#password").value;
-    let mensaje_error = document.querySelector("#mensaje-error")
-    mensaje_error.innerText = ''
-    //+++++++++++++++++++++++++++
-    //console.log('password - '+ input_pass)
-    //input_pass = await encrypt(input_pass)
-    //console.log(scrypt)
-    //+++++++++++++++++++++++++++
-    if (validar_campos() == true) {
-        let url = "/Reservaciones_cuenta"
-        body = {
-            'usuario': input_user,
-            'password': input_pass,
-        }
-        let respuesta = await post(url,body) //2.1 BUSQUEDA DE USUARIO
-        console.log(respuesta)
-        if (respuesta == true) {
-            window.location.href = "/inicio";
-        }else{
-            add_red()
-            mensaje_error.innerText = 'Algun dato erroneo'    
-        }
-    }else{
-        add_red()
-        mensaje_error.innerText = 'Algun dato erroneo'
-    }
-}
-*/
-
-
-
 async function Acceso(){ // 2. CONFIRMACION DE USUARIO
     input_user=document.querySelector("#usuario").value;
     input_pass=document.querySelector("#password").value;

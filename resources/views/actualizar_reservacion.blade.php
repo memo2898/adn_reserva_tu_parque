@@ -6,8 +6,8 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Reservacion de parques</title>
 
+    <link rel="icon" href="{{ asset('IMG/Escudo.svg') }}" type="image/x-icon">
     <link rel="stylesheet" href="{{ asset('CSS/actualizar.css') }}" >
-
     <script src="{{ asset('JS/mantenimientos/actualizacion_reserva.js') }}"></script>
     <script src="{{ asset('JS/peticiones.js') }}"></script>
 

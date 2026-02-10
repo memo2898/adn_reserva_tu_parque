@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Reservaciones - espera</title>
-
+    <link rel="icon" href="{{ asset('IMG/Escudo.svg') }}" type="image/x-icon">
     <script src="{{ asset('JS/peticiones.js') }}"></script>
     <script src="{{ asset('JS/mantenimientos/R_espera.js') }}"></script>
 

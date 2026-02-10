@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Seccion de reportes</title>
-
+    <link rel="icon" href="{{ asset('IMG/Escudo.svg') }}" type="image/x-icon">
     <link rel="stylesheet" href="{{ asset('CSS/esquema(HOME).css') }}" >
     <link rel="stylesheet" href="{{ asset('CSS/esquema(MAIN).css') }}" >
     <link rel="stylesheet" href="{{ asset('CSS/new/reportes.css') }}">

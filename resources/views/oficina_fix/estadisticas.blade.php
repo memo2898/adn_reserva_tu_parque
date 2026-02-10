@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="{{ asset('CSS/esquema(HOME).css') }}" >
     <link rel="stylesheet" href="{{ asset('CSS/esquema(MAIN).css') }}" >
     <link rel="stylesheet" href="{{ asset('CSS/new/estadisticas.css') }}" >
-
+    <link rel="icon" href="{{ asset('IMG/Escudo.svg') }}" type="image/x-icon">
     <script>
         let local_sesion = @json(session('usuario'));
     </script>

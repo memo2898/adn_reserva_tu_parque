@@ -50,9 +50,9 @@ Route::get('/QRview', function () { //BORRADOR
 
 Route::get('/login', function () { //IMPORTANTE
     if (Session::has('usuario')) {
-        return redirect('/inicio'); 
+        return redirect('/inicio');
     } else {
-        return view('login'); 
+        return view('login');
     }
 })->name('login');
 
@@ -549,6 +549,7 @@ Route::post('/Reservaciones_cuenta', function (Request $request) {
 
 
 Route::post('/Reservaciones_cuenta', function (Request $request) { // 
+echo('...SS');
     try{
         $usuario = \App\Models\tbl_usuario::where('usuario', $request->input('usuario'))->first();
         if ($usuario['estado'] == 'activo') {
@@ -1858,18 +1859,6 @@ Route::delete('/mantenimientos_parques_eliminar/{id}', function($id){ //GET
     }else{
         return response()->json(['estado'=>false,'response'=>$tbl_reservaciones]);
     }
-
-    //--------------------------------
-    /*
-    $tbl_parques->modificado_por = $request['usuario'];
-    $tbl_parques->estado = $request['estado'];
-    $tbl_parques->save();
-    if ($tbl_parques) {
-        return response()->json(['message' => 'Actualizado']);
-    } else {
-        return response()->json(['message' => 'Error al actualizar la informacion del parque'], 500);
-    }
-    */
 });
 
 // ||======================================================================
@@ -2402,15 +2391,6 @@ Route::delete('/mantenimiento_roles/{id}', function ($id) { // RECARGA
     }else{
         return response()->json(['estado'=>false,'respuesta'=>$tbl_permisos_usuarios]);
     }
-    //return response()->json($tbl_usuario);
-    /*
-    $tbl_permisos_usuarios->delete();
-    if ($tbl_permisos_usuarios) {
-        return response()->json($tbl_permisos_usuarios);
-    } else {
-        return response()->json(['message' => 'Error durante la peticion', 'status'=>500], 500);
-    }
-    */
 });
 
 

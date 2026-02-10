@@ -6,7 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Reservaciones - solicitudes</title>
 
-
+    <link rel="icon" href="{{ asset('IMG/Escudo.svg') }}" type="image/x-icon">
     <script src="{{ url('JS/peticiones.js') }}"></script>
     <script src="{{ asset('JS/mantenimientos/Quick/R_funcion.js') }}"></script>
 

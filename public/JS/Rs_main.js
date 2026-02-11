@@ -255,29 +255,38 @@ async function Buscador_packed(ID){ //FUNCIONAL
         packed = data
     })
     .catch(error => {
-        console.log("Error: "+error)
+        console.error("Error al cargar zonas:", error)
+        P_zonas = []
     });
 
-    P_zonas.forEach(element => {
-        zona.innerHTML += `
-        <div class="Zonas_card">
-            <div class="zone_map" onclick='Formdata_4(${element['id']})' id="zn_${element.id}">
-                <img src=${element['imagen']} class="Z_img">
-                <div class="Z_locate">
-                    <img src="/IMG/location-dot-solid.svg" class="Z_svg">
-                    <p class="Z_direct">${element['direccion']}</p>
-                </div>
-                <p class="Z_mesg">${element['nombre']}</p>
-                <div class='Z_horario' id='ZNH_${element['id']}'>
-                    <p>---</p>
-                    <p>-</p>
-                    <p>---</p>
+    if (P_zonas && Array.isArray(P_zonas) && P_zonas.length > 0) {
+        P_zonas.forEach(element => {
+            zona.innerHTML += `
+            <div class="Zonas_card">
+                <div class="zone_map" onclick='Formdata_4(${element['id']})' id="zn_${element.id}">
+                    <img src="${element['imagen']}" class="Z_img" onerror="this.src='/IMG/parque_silueta.png'">
+                    <div class="Z_locate">
+                        <img src="/IMG/location-dot-solid.svg" class="Z_svg">
+                        <p class="Z_direct">${element['direccion']}</p>
+                    </div>
+                    <p class="Z_mesg">${element['nombre']}</p>
+                    <div class='Z_horario' id='ZNH_${element['id']}'>
+                        <p>---</p>
+                        <p>-</p>
+                        <p>---</p>
+                    </div>
                 </div>
             </div>
-        </div>
+            `
+        })
+    } else {
+        zona.innerHTML = `
+            <div style="text-align: center; padding: 2rem;">
+                <h3>No hay zonas disponibles para este parque</h3>
+            </div>
         `
-    })
-    
+    }
+
 }
 
 async function Busqueda_zona_img(ID){ //FUNCIONAL
@@ -371,15 +380,7 @@ function recolor_horarios(){
 
 function User_post() {
     let AutoForm = document.querySelectorAll(".AlignInfo")
-    let C_tipo = null
-    if (AutoForm[0].value == 'cedula') {
-        C_tipo = 1
-    }
-    else if(AutoForm[0].value == 'pasaporte'){
-        C_tipo = 2
-    }
-    else{
-    }
+    let C_tipo = parseInt(AutoForm[0].value); // Usar el ID directamente
 
     Doc_user
     let data = {
@@ -406,15 +407,7 @@ function User_post() {
 
 
 async function Confirmacion_documentos(Document,Type){
-    if (Type == 'cedula') {
-        Type = 1
-    }
-    else if(Type == 'pasaporte'){
-        Type = 2
-    }
-    else{
-        //return
-    }
+    // Type ya viene como ID (1=Cédula, 2=Pasaporte, etc.)
     return new Promise((resolve, reject) => {
         axios.get('/Reservaciones_solicitantes/'+Type+'/'+Document)
         .then(response => {
@@ -465,13 +458,26 @@ async function eventos_disponibles(idr_evento){
     .then(response => {
         respuesta = response.data
     })
-    respuesta.forEach(element => {
-        let option = document.createElement('option');
-        option.value = element['id']; 
-        option.text = element['tipo'];
-        select.appendChild(option);
+    .catch(error => {
+        console.error('Error al cargar tipos de eventos:', error);
+        respuesta = [];
     });
-    select.options[0].selected = true;
+
+    if (respuesta && Array.isArray(respuesta) && respuesta.length > 0) {
+        respuesta.forEach(element => {
+            let option = document.createElement('option');
+            option.value = element['id'];
+            option.text = element['tipo'];
+            select.appendChild(option);
+        });
+        select.options[0].selected = true;
+    } else {
+        console.warn('No se encontraron tipos de eventos para el parque:', idr_evento);
+        let option = document.createElement('option');
+        option.value = '';
+        option.text = 'No hay tipos de eventos disponibles';
+        select.appendChild(option);
+    }
 }
 
 //=================MODERADOR DEL 1ER FORMULARIO
@@ -587,7 +593,7 @@ async function SearchDocument(Point){//
 
     mostrar_loader()
 
-    if (Type == "cedula") {
+    if (Type == "1") { // 1 = Cédula
         await Validador_RD(Document)
         .then((data) => {
             step = true
@@ -642,7 +648,7 @@ async function SearchDocument(Point){//
             ocultar_loader()
         });
         //===================================
-        if (user_status == false && Type=="cedula") {
+        if (user_status == false && Type=="1") { // 1 = Cédula
             await Confirmacion_padron(Document)
             .then((data) => {
                 if (data[0]['response'] == true) {
@@ -1723,13 +1729,13 @@ function soloNumeros(evt) {
 
 
 function SoloFN(evt) {
-    if (document.querySelectorAll(".AlignInfo")[0].value == "cedula") {
+    if (document.querySelectorAll(".AlignInfo")[0].value == "1") { // 1 = Cédula
         evt = (evt) ? evt : window.event;
         var charCode = (evt.which) ? evt.which : evt.keyCode;
         if (charCode > 31 && (charCode < 48 || charCode > 57)) {
             if (evt.preventDefault) {
                 evt.preventDefault();
-            } 
+            }
             else {
                 evt.returnValue = false;
             }
@@ -1760,11 +1766,11 @@ function SoloFN(evt) {
 
 
 function agregarGuion() { //FUNCIONAR PERO NECESITO ALGUNAS PRUEBAS ADICIONALES
-    
+
     let Document = document.querySelectorAll(".AlignInfo")[1].value
     var valor = Document.replace(/-/g, "");;
 
-    if (document.querySelectorAll(".AlignInfo")[0].value == "cedula") {
+    if (document.querySelectorAll(".AlignInfo")[0].value == "1") { // 1 = Cédula
         if (valor.length > 2 && valor.indexOf('-') === -1) {
             valor = valor.slice(0, 3) + '-' + valor.slice(3);
         }
@@ -2025,13 +2031,14 @@ function parque_filtro() {
         Pop[0]=false
         Pop[3]=false
         arrayDeObjetos.forEach(objeto => {
-            if (busqueda.test(objeto.children[2].textContent)) {
+            let nombreParque = objeto.querySelector('.M_mes_2');
+            if (nombreParque && busqueda.test(nombreParque.textContent)) {
                 objeto.parentNode.classList.remove('card_map_hidden')
-                //console.log('Mostrar - '+objeto.children[2].textContent)
+                //console.log('Mostrar - '+nombreParque.textContent)
                 NR = false
             } else {
                 objeto.parentNode.classList.add('card_map_hidden')
-                //console.log('Ocultar - '+objeto.children[2].textContent)
+                //console.log('Ocultar - '+nombreParque.textContent)
             }
         });
         if (NR == false) {
@@ -2061,13 +2068,14 @@ function zona_filtro() {
         Zone_cleaner()
         Pop[3]=false
         arrayDeObjetos.forEach(objeto => {
-            if (busqueda.test(objeto.children[2].textContent)) {
+            let nombreZona = objeto.querySelector('.Z_mesg');
+            if (nombreZona && busqueda.test(nombreZona.textContent)) {
                 objeto.parentNode.classList.remove('card_zona_hidden')
-                //console.log('Mostrar - '+objeto.children[2].textContent)
+                //console.log('Mostrar - '+nombreZona.textContent)
                 NR = false
             } else {
                 objeto.parentNode.classList.add('card_zona_hidden')
-                //console.log('Ocultar - '+objeto.children[2].textContent)
+                //console.log('Ocultar - '+nombreZona.textContent)
             }
         });
         if (NR == false) {

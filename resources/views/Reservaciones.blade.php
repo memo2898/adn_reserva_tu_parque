@@ -126,7 +126,7 @@
                     @foreach($tbl_parques_2 as $tbl_parques_2) 
                     <div class="tag_center" id="park_{{ $tbl_parques_2->id }}">
                         <div class="Maps_info">
-                            <iframe src="{{ $tbl_parques_2->coordenadas_maps }}" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade" class="google_maps"></iframe>
+                            <iframe src="https://maps.google.com/maps?q={{ $tbl_parques_2->coordenadas_maps }}&output=embed" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade" class="google_maps"></iframe>
 
                             <div class="Maps_details">
                                 <div class="section_1">
@@ -188,7 +188,7 @@
                             <p>Tipo de documento: </p>
                             <select name="Documento" id="DocumentType" class="AlignInfo" oninput="DocumentSelect()">
                                 @foreach ($tbl_tipo_documento as $tbl_tipo_documento)
-                                    <option value="{{ $tbl_tipo_documento->tipo_documento }}"> {{ $tbl_tipo_documento->tipo_documento }}</option>
+                                    <option value="{{ $tbl_tipo_documento->id }}"> {{ $tbl_tipo_documento->tipo_documento }}</option>
                                 @endforeach
                             </select>
                         </div>

@@ -18,15 +18,52 @@ async function Acceso(){ // 2. CONFIRMACION DE USUARIO
             'password': input_pass,
         }
         let respuesta = await post(url,body) //2.1 BUSQUEDA DE USUARIO
+        console.log('Respuesta del servidor:', respuesta)
         if (respuesta['estado'] == 'activo') {
-            let pass = await descrypt(respuesta['password'])
-            if (pass == input_pass) {
-                ready()
-            }else{
-                add_red()
-                mensaje_error.innerText = 'Algun dato erroneo'
+            console.log('Usuario activo, validando contraseña...')
+            console.log('Password del servidor:', respuesta['password'])
+            console.log('Password ingresado:', input_pass)
+
+            // Intentar desencriptar, si falla o está vacío comparar directamente (para contraseñas en texto plano)
+            try {
+                console.log('Intentando desencriptar...')
+                let pass = await descrypt(respuesta['password'])
+                console.log('Password desencriptado:', pass)
+
+                // Si la desencriptación devuelve vacío, es texto plano
+                if (pass === '' || pass === null || pass === undefined) {
+                    console.log('Desencriptación devolvió vacío, usando texto plano')
+                    if (respuesta['password'] == input_pass) {
+                        console.log('Contraseña correcta (texto plano)')
+                        ready()
+                    } else {
+                        console.log('Contraseña incorrecta en texto plano')
+                        add_red()
+                        mensaje_error.innerText = 'Algun dato erroneo'
+                    }
+                } else if (pass == input_pass) {
+                    console.log('Contraseña correcta (desencriptada)')
+                    ready()
+                } else {
+                    console.log('Contraseña incorrecta después de desencriptar')
+                    add_red()
+                    mensaje_error.innerText = 'Algun dato erroneo'
+                }
+            } catch (error) {
+                // Si lanza error, comparar texto plano
+                console.log('Error al desencriptar:', error)
+                console.log('Comparando contraseña en texto plano...')
+                if (respuesta['password'] == input_pass) {
+                    console.log('Contraseña correcta (texto plano)')
+                    ready()
+                } else {
+                    console.log('Contraseña incorrecta en texto plano')
+                    add_red()
+                    mensaje_error.innerText = 'Algun dato erroneo'
+                }
             }
         }else{
+            console.log('Usuario no activo o no encontrado')
             add_red()
             mensaje_error.innerText = 'Algun dato erroneo'
         }

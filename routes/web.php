@@ -49,6 +49,7 @@ Route::get('/QRview', function () { //BORRADOR
 
 
 Route::get('/login', function () { //IMPORTANTE
+
     if (Session::has('usuario')) {
         return redirect('/inicio');
     } else {
@@ -499,7 +500,7 @@ Route::get('/reservaciones', function () { // PARTE USUARIO - GET PRINCIPAL
 });
 
 Route::get('/reservaciones_eventos/{id}',function($id){
-    $tbl_tipos_eventos = \App\Models\tbl_tipos_eventos::where('id_parque', $id)->get();
+    $tbl_tipos_eventos = \App\Models\tbl_tipos_eventos::where('estado', 'activo')->get();
     return response()->json($tbl_tipos_eventos);
 });
 
@@ -549,7 +550,7 @@ Route::post('/Reservaciones_cuenta', function (Request $request) {
 
 
 Route::post('/Reservaciones_cuenta', function (Request $request) { // 
-echo('...SS');
+
     try{
         $usuario = \App\Models\tbl_usuario::where('usuario', $request->input('usuario'))->first();
         if ($usuario['estado'] == 'activo') {
@@ -640,38 +641,41 @@ Route::get('/Reservaciones_zonas_img/{id_parque}', function ($id_parque) {
 
     foreach ($tbl_zona_parques as $zona_parque) {
         $horarios_por_zona = [];
-        
-        foreach ($tbl_imagenes_por_zona as $imagen_por_zona) {
-            if ($zona_parque->id == $imagen_por_zona->id_zona) {
-                foreach ($tbl_horarios_zonas as $horarios_zonas) {
-                    if ($zona_parque->id == $horarios_zonas->id_zona) {
-                        //$fixed = Carbon::parse($horarios_zonas['hora_apertura']);
-                        //$fixed = $fixed->format('h:i A');
-                        ////==============================================
-                        //$fixed_f = Carbon::parse($horarios_zonas['hora_cierre']);
-                        //$fixed_f = $fixed_f->format('h:i A');
-                        $horarios_por_zona[] = [
-                            'id_horario' => $horarios_zonas->id,
-                            'dia_semana' => $horarios_zonas->dia_semana,
-                            'hora_apertura' => $horarios_zonas->hora_apertura,
-                            'hora_cierre' => $horarios_zonas->hora_cierre,
-                            //'hora_apertura' => $fixed,
-                            //'hora_cierre' => $fixed_f,
-                        ];
-                    }
-                }
-                $imagenes_por_zona[] = [
-                    'id' => $zona_parque->id,
-                    'nombre' => $zona_parque->nombre,
-                    'direccion' => $zona_parque->direccion,
-                    'imagen' => $imagen_por_zona->imagen,
-                    'imagen_ruta' => $imagen_por_zona->ruta,
-                    'horarios' => $horarios_por_zona,
+        $imagen_url = '/IMG/parque_silueta.png'; // Imagen por defecto
+        $imagen_ruta = null;
+
+        // Buscar horarios para esta zona
+        foreach ($tbl_horarios_zonas as $horarios_zonas) {
+            if ($zona_parque->id == $horarios_zonas->id_zona) {
+                $horarios_por_zona[] = [
+                    'id_horario' => $horarios_zonas->id,
+                    'dia_semana' => $horarios_zonas->dia_semana,
+                    'hora_apertura' => $horarios_zonas->hora_apertura,
+                    'hora_cierre' => $horarios_zonas->hora_cierre,
                 ];
             }
         }
+
+        // Buscar imagen para esta zona (opcional)
+        foreach ($tbl_imagenes_por_zona as $imagen_por_zona) {
+            if ($zona_parque->id == $imagen_por_zona->id_zona) {
+                $imagen_url = $imagen_por_zona->imagen;
+                $imagen_ruta = $imagen_por_zona->ruta;
+                break;
+            }
+        }
+
+        // Agregar zona con o sin imagen
+        $imagenes_por_zona[] = [
+            'id' => $zona_parque->id,
+            'nombre' => $zona_parque->nombre,
+            'direccion' => $zona_parque->direccion,
+            'imagen' => $imagen_url,
+            'imagen_ruta' => $imagen_ruta,
+            'horarios' => $horarios_por_zona,
+        ];
     }
-    
+
     return response()->json($imagenes_por_zona);
 });
 

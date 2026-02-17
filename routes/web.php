@@ -13,6 +13,8 @@ use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\RequestOptions;
 //================================================
 use Carbon\Carbon;
+//================================================
+use App\Http\Controllers\FileUploadController;
 
 
 /*
@@ -1703,6 +1705,12 @@ Route::get('/Search_parque/{id}', function($id){
     }else{
         $telefono = '---';
     }
+    $imagen = null;
+    if ($tbl_imagenes_por_parque) {
+        $imagen = $tbl_imagenes_por_parque['imagen'];
+    }else{
+        $imagen = '';
+    }
     $packed = [
         'id' => $tbl_parques['id'],
         'nombre_parque' => $tbl_parques['nombre_parque'],
@@ -1713,7 +1721,7 @@ Route::get('/Search_parque/{id}', function($id){
         'direccion' => $tbl_parques['direccion'],
         'coordenadas_maps' => $tbl_parques['coordenadas_maps'],
         'descripcion' => $tbl_parques['descripcion'],
-        'imagen' => $tbl_imagenes_por_parque['imagen'],
+        'imagen' => $imagen,
         //-----------------------------------------------------------------
         'correo' => $tbl_parques['correo'],
         'espera' => $tbl_parques['espera'],
@@ -1735,6 +1743,11 @@ Route::get('/Search_parque/{id}', function($id){
 //------------------------------------------------------------------
 
 Route::patch('/mantenimientos_parques_actualizar/{id}', function($id, Request $request){ //GET
+    // Validar permisos: administrador o gestionar
+    if (!verificar_permisos(['administrador', 'gestionar'])) {
+        return response()->json(['message' => 'No tiene permisos para realizar esta acción'], 403);
+    }
+
     $tbl_parques = \App\Models\tbl_parques::find($id);
     //--------------------------------------------------------
     try {
@@ -1768,11 +1781,16 @@ Route::patch('/mantenimientos_parques_actualizar/{id}', function($id, Request $r
         return response()->json(['message' => 'Error al actualizar la informacion del parque'], 500);
     }
 
-});
+})->middleware('token.auth');
 
 Route::patch('/mantenimientos_parques_actualizar_horarios/{id}', function($id, Request $request){ //GET
+    // Validar permisos: administrador o gestionar
+    if (!verificar_permisos(['administrador', 'gestionar'])) {
+        return response()->json(['message' => 'No tiene permisos para realizar esta acción'], 403);
+    }
+
     $tbl_horarios_parques = \App\Models\tbl_horarios_parques::where('id_parque', $id)->get();
-    
+
     if ($request['lunes']['hora_apertura'] != "default") {
         $tbl_horarios_parques[0]->hora_apertura = $request['lunes']['hora_apertura'];
     }
@@ -1813,7 +1831,7 @@ Route::patch('/mantenimientos_parques_actualizar_horarios/{id}', function($id, R
     }
     if ($request['sabado']['hora_cierre'] != "default") {
         $tbl_horarios_parques[5]->hora_cierre = $request['sabado']['hora_cierre'];
-    }   
+    }
     //=================================================
     if ($request['domingo']['hora_apertura'] != "default") {
         $tbl_horarios_parques[6]->hora_apertura = $request['domingo']['hora_apertura'];
@@ -1826,17 +1844,22 @@ Route::patch('/mantenimientos_parques_actualizar_horarios/{id}', function($id, R
     foreach ($tbl_horarios_parques as $horario) {
         $horario->save();
     }
-    
+
     if ($tbl_horarios_parques) {
         return response()->json(['message' => 'Actualizado']);
     } else {
         return response()->json(['message' => 'Error al actualizar la informacion del parque'], 500);
     }
-});
+})->middleware('token.auth');
 
 
 
 Route::patch('/mantenimientos_parques_actualizar_imagen/{id}', function($id, Request $request){
+    // Validar permisos: administrador o gestionar
+    if (!verificar_permisos(['administrador', 'gestionar'])) {
+        return response()->json(['message' => 'No tiene permisos para realizar esta acción'], 403);
+    }
+
     $tbl_imagenes_por_parque = \App\Models\tbl_imagenes_por_parque::where("id_parque", $id)->first();
     $tbl_imagenes_por_parque->imagen = $request['imagen'];
     $tbl_imagenes_por_parque->agregado_por = $request['responsable'];
@@ -1846,10 +1869,15 @@ Route::patch('/mantenimientos_parques_actualizar_imagen/{id}', function($id, Req
     } else {
         return response()->json(['message' => 'Error al actualizar la informacion del parque'], 500);
     }
-});
+})->middleware('token.auth');
 
 
 Route::delete('/mantenimientos_parques_eliminar/{id}', function($id){ //GET
+    // Validar permisos: solo administrador puede eliminar parques
+    if (!verificar_permisos(['administrador'])) {
+        return response()->json(['estado' => 'error', 'message' => 'No tiene permisos para realizar esta acción'], 403);
+    }
+
     $tbl_reservaciones = \App\Models\tbl_reservaciones::where('id_parque',$id)->get();
     $tbl_parques = \App\Models\tbl_parques::find($id);
     //return response()->json($tbl_reservaciones);
@@ -1863,7 +1891,7 @@ Route::delete('/mantenimientos_parques_eliminar/{id}', function($id){ //GET
     }else{
         return response()->json(['estado'=>false,'response'=>$tbl_reservaciones]);
     }
-});
+})->middleware('token.auth');
 
 // ||======================================================================
 
@@ -1893,6 +1921,11 @@ Route::post('/mantenimientos_parque_agregar', function(Request $request){ //GET
 */
 
 Route::post('/mantenimientos_parque_agregar', function(Request $request){ //GET
+    // Validar permisos: solo administrador puede crear parques
+    if (!verificar_permisos(['administrador'])) {
+        return response()->json(['mensaje' => 'No tiene permisos para realizar esta acción', 'error' => 'Acceso denegado'], 403);
+    }
+
     $tbl_parques = new \App\Models\tbl_parques;
     $tbl_telefonos_por_parque = new \App\Models\tbl_telefonos_por_parque;
     //--------------------------------------------------------------
@@ -1908,7 +1941,7 @@ Route::post('/mantenimientos_parque_agregar', function(Request $request){ //GET
         $tbl_parques->direccion = $request['direccion'];
         $tbl_parques->espera = $request['espera'];
         $tbl_parques->agregado_por = $request['responsable'];
-        $tbl_parques->estado = 'inactivo';
+        $tbl_parques->estado = 'activo';
         //--------------------------------------------------------------
         $tbl_parques->save();
         $tbl_telefonos_por_parque['id_parque'] = $tbl_parques['id'];
@@ -1920,27 +1953,71 @@ Route::post('/mantenimientos_parque_agregar', function(Request $request){ //GET
     } catch (\Exception $e) {
         return response()->json(['mensaje' => 'Error al agregar el registro', 'error' => $e->getMessage()], 500);
     }
-});
+})->middleware('token.auth');
 
 
 Route::post('/mantenimientos_parque_agregar_img', function(Request $request){ //GET
-    //return response()-> json($request);
-    $tbl_imagenes_por_parque = new \App\Models\tbl_imagenes_por_parque;
-    $tbl_imagenes_por_parque['id_parque'] = $request['id_parque'];
-    $tbl_imagenes_por_parque['imagen'] = $request['img'];
-    $tbl_imagenes_por_parque['agregado_por'] = $request['responsable'];
-    //-----------------------------
-    try {
-        $tbl_imagenes_por_parque->save();
-        return response()->json(['mensaje' => 'Registro agregado exitosamente', 'response' => $tbl_imagenes_por_parque, 'status'=>200], 200);
-    } catch (\Exception $e) {
-        return response()->json(['mensaje' => 'Error al agregar el registro', 'error' => $e->getMessage()], 500);
+    \Log::info('=== DEBUG mantenimientos_parque_agregar_img ===');
+    \Log::info('Request data', ['data' => $request->all()]);
+
+    // Validar permisos: solo administrador puede agregar imágenes a parques
+    if (!verificar_permisos(['administrador'])) {
+        \Log::warning('Permiso denegado para agregar imagen de parque');
+        return response()->json(['mensaje' => 'No tiene permisos para realizar esta acción', 'error' => 'Acceso denegado'], 403);
     }
-});
+
+    // Si no hay URL de imagen, retornar éxito sin guardar
+    if (empty($request['url'])) {
+        \Log::info('No hay imagen para agregar');
+        return response()->json(['mensaje' => 'Sin imagen para agregar', 'status'=>200], 200);
+    }
+
+    \Log::info('Actualizando portada del parque', [
+        'id_parque' => $request['id_parque'],
+        'url' => $request['url'],
+        'responsable' => $request['responsable']
+    ]);
+
+    try {
+        // Buscar el parque
+        $parque = \App\Models\tbl_parques::find($request['id_parque']);
+
+        if (!$parque) {
+            \Log::error('❌ Parque no encontrado', ['id_parque' => $request['id_parque']]);
+            return response()->json(['mensaje' => 'Parque no encontrado', 'error' => 'Not found'], 404);
+        }
+
+        // Actualizar la portada del parque
+        $parque->portada_url = $request['url'];
+        $parque->portada_size = $request['size'] ?? null;
+        $parque->portada_formato = $request['formato'] ?? null;
+        $parque->modificado_por = $request['responsable'];
+
+        \Log::info('Guardando portada en parque...');
+        $parque->save();
+
+        \Log::info('✅ Portada actualizada exitosamente', ['id' => $parque->id]);
+        return response()->json(['mensaje' => 'Portada actualizada exitosamente', 'response' => $parque, 'status'=>200], 200);
+
+    } catch (\Exception $e) {
+        \Log::error('❌ Error al actualizar portada', [
+            'message' => $e->getMessage(),
+            'file' => $e->getFile(),
+            'line' => $e->getLine(),
+            'trace' => $e->getTraceAsString()
+        ]);
+        return response()->json(['mensaje' => 'Error al actualizar portada', 'error' => $e->getMessage()], 500);
+    }
+})->middleware('token.auth');
 
 
 
 Route::post('/mantenimientos_parque_agregar_horarios/{id}', function($id, Request $request){ //GET
+    // Validar permisos: solo administrador puede agregar horarios a parques
+    if (!verificar_permisos(['administrador'])) {
+        return response()->json(['mensaje' => 'No tiene permisos para realizar esta acción', 'error' => 'Acceso denegado'], 403);
+    }
+
     $dia = ['lunes','martes','miércoles','jueves','viernes','sábado','domingo'];
     for ($i = 0; $i < 7; $i++) {
         $tbl_horarios_parques = new \App\Models\tbl_horarios_parques;
@@ -1952,7 +2029,7 @@ Route::post('/mantenimientos_parque_agregar_horarios/{id}', function($id, Reques
         $tbl_horarios_parques->save();
     }
     return response()-> json($tbl_horarios_parques);
-});
+})->middleware('token.auth');
 // ||======================================================================
 
 //------------------------------------------------------------------
@@ -1974,6 +2051,11 @@ Route::get('/Search_zonas/{id}', function($id){ //GET
 
 
 Route::patch('/mantenimientos_zona_actualizar/{id}', function($id, Request $request){ //GET
+    // Validar permisos: administrador o gestionar
+    if (!verificar_permisos(['administrador', 'gestionar'])) {
+        return response()->json(['message' => 'No tiene permisos para realizar esta acción'], 403);
+    }
+
     $tbl_zona_parques = \App\Models\tbl_zona_parques::find($id);
     //--------------------------------------------------------
     $tbl_zona_parques->nombre = $request['nombre'];
@@ -1987,11 +2069,16 @@ Route::patch('/mantenimientos_zona_actualizar/{id}', function($id, Request $requ
     } else {
         return response()->json(['message' => 'Error de peticion'], 500);
     }
-});
+})->middleware('token.auth');
 
 Route::patch('/mantenimientos_zona_actualizar_horarios/{id}', function($id, Request $request){ //GET
+    // Validar permisos: administrador o gestionar
+    if (!verificar_permisos(['administrador', 'gestionar'])) {
+        return response()->json(['message' => 'No tiene permisos para realizar esta acción'], 403);
+    }
+
     $tbl_horarios_zonas = \App\Models\tbl_horarios_zonas::where('id_zona', $id)->get();
-    
+
     if ($request['lunes']['hora_apertura'] != "default") {
         $tbl_horarios_zonas[0]->hora_apertura = $request['lunes']['hora_apertura'];
     }
@@ -2032,7 +2119,7 @@ Route::patch('/mantenimientos_zona_actualizar_horarios/{id}', function($id, Requ
     }
     if ($request['sabado']['hora_cierre'] != "default") {
         $tbl_horarios_zonas[5]->hora_cierre = $request['sabado']['hora_cierre'];
-    }   
+    }
     //=================================================
     if ($request['domingo']['hora_apertura'] != "default") {
         $tbl_horarios_zonas[6]->hora_apertura = $request['domingo']['hora_apertura'];
@@ -2045,16 +2132,21 @@ Route::patch('/mantenimientos_zona_actualizar_horarios/{id}', function($id, Requ
     foreach ($tbl_horarios_zonas as $horario) {
         $horario->save();
     }
-    
+
     if ($tbl_horarios_zonas) {
         return response()->json(['message' => 'Actualizado']);
     } else {
         return response()->json(['message' => 'Error de peticion'], 500);
     }
-});
+})->middleware('token.auth');
 
 
 Route::patch('/mantenimientos_zona_actualizar_imagen/{id}', function($id, Request $request){
+    // Validar permisos: administrador o gestionar
+    if (!verificar_permisos(['administrador', 'gestionar'])) {
+        return response()->json(['message' => 'No tiene permisos para realizar esta acción'], 403);
+    }
+
     $tbl_imagenes_por_zona = \App\Models\tbl_imagenes_por_zona::where("id_zona", $id)->first();
     $tbl_imagenes_por_zona->imagen = $request['imagen'];
     $tbl_imagenes_por_zona->agregado_por = $request['responsable'];
@@ -2064,7 +2156,7 @@ Route::patch('/mantenimientos_zona_actualizar_imagen/{id}', function($id, Reques
     } else {
         return response()->json(['message' => 'Error de peticion'], 500);
     }
-});
+})->middleware('token.auth');
 
 
 Route::get('/mantenimientos_zona_agregar_img', function(Request $request){ //GET
@@ -2072,6 +2164,11 @@ Route::get('/mantenimientos_zona_agregar_img', function(Request $request){ //GET
     return response()->json($tbl_imagenes_por_zona);
 });
 Route::post('/mantenimientos_zona_agregar', function(Request $request){ //GET
+    // Validar permisos: administrador o gestionar
+    if (!verificar_permisos(['administrador', 'gestionar'])) {
+        return response()->json(['mensaje' => 'No tiene permisos para realizar esta acción', 'error' => 'Acceso denegado'], 403);
+    }
+
     $tbl_zona_parques = new \App\Models\tbl_zona_parques;
     $tbl_imagenes_por_zona = new \App\Models\tbl_imagenes_por_zona;
     //--------------------------------------------------------------
@@ -2086,24 +2183,59 @@ Route::post('/mantenimientos_zona_agregar', function(Request $request){ //GET
     } catch (\Exception $e) {
         return response()->json(['mensaje' => 'Error al agregar el registro', 'error' => $e->getMessage()], 500);
     }
-});
+})->middleware('token.auth');
 
-Route::post('/mantenimientos_zona_agregar_img', function(Request $request){ //GET
-    $tbl_imagenes_por_zona = new \App\Models\tbl_imagenes_por_zona;
-    $tbl_imagenes_por_zona->id_zona = $request['id_zona'];
-    $tbl_imagenes_por_zona->imagen = $request['img'];
-    $tbl_imagenes_por_zona->agregado_por = $request['responsable'];
-    //$tbl_imagenes_por_zona->save();
-    //-----------------------------
-    try {
-        $tbl_imagenes_por_zona->save();
-        return response()->json(['mensaje' => 'Registro agregado exitosamente', 'response' => $tbl_imagenes_por_zona, 'status'=>200], 200);
-    } catch (\Exception $e) {
-        return response()->json(['mensaje' => 'Error al agregar el registro', 'error' => $e->getMessage()], 500);
+Route::post('/mantenimientos_zona_agregar_img', function(Request $request){ //POST
+    // Validar permisos: administrador o gestionar
+    if (!verificar_permisos(['administrador', 'gestionar'])) {
+        \Log::warning('Permiso denegado para agregar imagen de zona');
+        return response()->json(['mensaje' => 'No tiene permisos para realizar esta acción', 'error' => 'Acceso denegado'], 403);
     }
-});
+
+    // Si no hay imagen, retornar éxito sin guardar
+    if (empty($request['url'])) {
+        \Log::info('No hay imagen para agregar a la zona');
+        return response()->json(['mensaje' => 'Sin imagen para agregar', 'status'=>200], 200);
+    }
+
+    \Log::info('Agregando imagen a zona', [
+        'id_zona' => $request['id_zona'],
+        'url' => $request['url'],
+        'responsable' => $request['responsable']
+    ]);
+
+    try {
+        $tbl_imagenes_por_zona = new \App\Models\tbl_imagenes_por_zona;
+        $tbl_imagenes_por_zona->id_zona = $request['id_zona'];
+        $tbl_imagenes_por_zona->ruta = $request['path'];
+        $tbl_imagenes_por_zona->url = $request['url'];
+        $tbl_imagenes_por_zona->nombre_original = $request['original_name'] ?? null;
+        $tbl_imagenes_por_zona->formato = $request['formato'] ?? null;
+        $tbl_imagenes_por_zona->size = $request['size'] ?? null;
+        $tbl_imagenes_por_zona->agregado_por = $request['responsable'];
+
+        \Log::info('Guardando imagen de zona en BD...');
+        $tbl_imagenes_por_zona->save();
+        \Log::info('✅ Imagen de zona guardada exitosamente', ['id' => $tbl_imagenes_por_zona->id]);
+
+        return response()->json(['mensaje' => 'Imagen agregada exitosamente', 'response' => $tbl_imagenes_por_zona, 'status'=>200], 200);
+    } catch (\Exception $e) {
+        \Log::error('❌ Error al guardar imagen de zona', [
+            'message' => $e->getMessage(),
+            'file' => $e->getFile(),
+            'line' => $e->getLine(),
+            'trace' => $e->getTraceAsString()
+        ]);
+        return response()->json(['mensaje' => 'Error al agregar imagen', 'error' => $e->getMessage()], 500);
+    }
+})->middleware('token.auth');
 
 Route::post('/mantenimientos_zona_agregar_horarios/{id}', function($id, Request $request){ //GET
+    // Validar permisos: administrador o gestionar
+    if (!verificar_permisos(['administrador', 'gestionar'])) {
+        return response()->json(['mensaje' => 'No tiene permisos para realizar esta acción', 'error' => 'Acceso denegado'], 403);
+    }
+
     $dia = ['lunes','martes','miércoles','jueves','viernes','sábado','domingo'];
     for ($i = 0; $i < 7; $i++) {
         $tbl_horarios_zonas = new \App\Models\tbl_horarios_zonas;
@@ -2122,10 +2254,15 @@ Route::post('/mantenimientos_zona_agregar_horarios/{id}', function($id, Request 
     }
     */
     return response()-> json($tbl_horarios_zonas);
-});
+})->middleware('token.auth');
 
 
 Route::delete('/mantenimientos_zona_eliminar/{id}', function($id){ //GET
+    // Validar permisos: administrador o gestionar
+    if (!verificar_permisos(['administrador', 'gestionar'])) {
+        return response()->json(['estado' => 'error', 'message' => 'No tiene permisos para realizar esta acción'], 403);
+    }
+
     $tbl_reservaciones = \App\Models\tbl_reservaciones::where('id_zona',$id)->get();
     $tbl_zona_parques = \App\Models\tbl_zona_parques::find($id);
     if ($tbl_reservaciones->isEmpty()) {
@@ -2138,7 +2275,7 @@ Route::delete('/mantenimientos_zona_eliminar/{id}', function($id){ //GET
     }else{
         return response()->json(['estado'=>false,'response'=>$tbl_reservaciones]);
     }
-});
+})->middleware('token.auth');
 
 //==============================================================================
 //USUARIOS
@@ -2929,6 +3066,28 @@ Route::get('/user_packed/{id}', function($id){
 });
 
 
+/**
+ * Verifica si el usuario tiene los permisos necesarios
+ * @param array $permisos_requeridos Array de permisos permitidos (ej: ['administrador', 'gestionar'])
+ * @return bool true si tiene permisos, false si no
+ */
+function verificar_permisos($permisos_requeridos = []) {
+    $sesion = Session::get('usuario');
+
+    // Verificar si existe sesión
+    if (!$sesion || !isset($sesion['permisos'])) {
+        return false;
+    }
+
+    // Si no se especifican permisos, solo verificar que exista sesión
+    if (empty($permisos_requeridos)) {
+        return true;
+    }
+
+    // Verificar si el permiso del usuario está en la lista de permisos requeridos
+    return in_array($sesion['permisos'], $permisos_requeridos);
+}
+
 function token_maker($request){
     $tbl_usuario = \App\Models\tbl_usuario::where('usuario', $request->input('usuario'))->first();
 
@@ -3129,3 +3288,7 @@ Route::get('/key',function(){
 });
 
 
+
+// File Upload Endpoint
+// TEMPORALMENTE SIN MIDDLEWARE PARA PRUEBAS - RESTAURAR DESPUÉS
+Route::post('/files/upload', [FileUploadController::class, 'upload'])->name('files.upload');

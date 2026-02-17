@@ -1,0 +1,548 @@
+/* ============================================
+   MEJORAS UI MULTISTEP FORM - RESERVA TU PARQUE
+   ============================================ */
+
+/* Variables mejoradas */
+:root {
+    --Azul: #00569C;
+    --Whiteblue: #82BDE0;
+    --Verde: #00893E;
+    --Amarillo: #F7E300;
+    --Gris: #EFEFEF;
+    --GrisB: #D8D9DB;
+    --GrisC: #bdbdbd;
+
+    /* Nuevas variables para mejoras */
+    --shadow-sm: 0 2px 4px rgba(0, 86, 156, 0.1);
+    --shadow-md: 0 4px 12px rgba(0, 86, 156, 0.15);
+    --shadow-lg: 0 8px 24px rgba(0, 86, 156, 0.2);
+    --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-fast: all 0.15s ease-in-out;
+}
+
+/* ============================================
+   INDICADOR DE PROGRESO MEJORADO
+   ============================================ */
+
+.progress-container {
+    position: relative;
+    margin-bottom: 2rem;
+    padding: 0 1rem;
+}
+
+.progress-bar-line {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: var(--GrisB);
+    transform: translateY(-50%);
+    z-index: 1;
+}
+
+.progress-bar-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--Azul), var(--Whiteblue));
+    transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    border-radius: 10px;
+}
+
+/* Steps mejorados */
+.FormStatus, .FormStatus2 {
+    position: relative;
+    z-index: 2;
+    transition: var(--transition-smooth);
+    box-shadow: var(--shadow-sm);
+}
+
+.FormStatus:hover:not(.StatusLight),
+.FormStatus2:hover:not(.StatusLight) {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+}
+
+.StatusLight {
+    background: linear-gradient(135deg, var(--Azul) 0%, #004F8D 100%);
+    color: white;
+    box-shadow: var(--shadow-md);
+    animation: pulse-subtle 2s ease-in-out infinite;
+}
+
+@keyframes pulse-subtle {
+    0%, 100% {
+        box-shadow: 0 0 0 0 rgba(0, 86, 156, 0.4);
+    }
+    50% {
+        box-shadow: 0 0 0 8px rgba(0, 86, 156, 0);
+    }
+}
+
+/* ============================================
+   TARJETAS DE PARQUES MEJORADAS
+   ============================================ */
+
+.card_map {
+    position: relative;
+    width: 5cm;
+    height: 16rem;
+    overflow: hidden;
+    border: 1px solid var(--GrisC);
+    border-radius: 1rem;
+    background: white;
+    transition: var(--transition-smooth);
+    cursor: pointer;
+    box-shadow: var(--shadow-sm);
+}
+
+.card_map::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(180deg, transparent 0%, rgba(0, 0, 0, 0.05) 100%);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    pointer-events: none;
+}
+
+.card_map:hover {
+    transform: translateY(-8px) scale(1.02);
+    box-shadow: var(--shadow-lg);
+    border-color: var(--Whiteblue);
+}
+
+.card_map:hover::before {
+    opacity: 1;
+}
+
+.card_active {
+    border-color: var(--Azul) !important;
+    box-shadow: 0 8px 24px rgba(0, 86, 156, 0.3), 0 0 0 3px var(--Azul) !important;
+    transform: translateY(-4px) scale(1.03);
+}
+
+.card_active::after {
+    content: '✓';
+    position: absolute;
+    top: 0.5rem;
+    right: 0.5rem;
+    width: 2rem;
+    height: 2rem;
+    background: var(--Verde);
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 1.2rem;
+    box-shadow: var(--shadow-md);
+    animation: checkmark-pop 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+@keyframes checkmark-pop {
+    0% {
+        transform: scale(0) rotate(-180deg);
+        opacity: 0;
+    }
+    100% {
+        transform: scale(1) rotate(0deg);
+        opacity: 1;
+    }
+}
+
+.M_img {
+    width: 100%;
+    height: 3.4cm;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.5s ease;
+}
+
+.card_map:hover .M_img {
+    transform: scale(1.1);
+}
+
+.M_mes_2 {
+    margin: 0;
+    padding: 0.5rem;
+    font-weight: 600;
+    font-size: 1.1rem;
+    color: var(--Azul);
+    transition: color 0.3s ease;
+}
+
+.card_map:hover .M_mes_2 {
+    color: var(--Verde);
+}
+
+/* ============================================
+   BOTONES DE NAVEGACIÓN MEJORADOS
+   ============================================ */
+
+.botones, .botones_extra {
+    display: flex;
+    gap: 1rem;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+.Previous, .Next {
+    width: 3rem;
+    height: 3rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: white;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: var(--transition-smooth);
+    box-shadow: var(--shadow-sm);
+    border: 2px solid var(--Azul);
+}
+
+.Previous:hover, .Next:hover {
+    transform: scale(1.15);
+    box-shadow: var(--shadow-md);
+    background: var(--Azul);
+}
+
+.Previous:hover .btnStyle,
+.Next:hover .btnStyle {
+    fill: white;
+}
+
+.Previous:active, .Next:active {
+    transform: scale(0.95);
+}
+
+.btnStyle {
+    fill: var(--Azul);
+    width: 1.5rem;
+    height: 1.5rem;
+    transition: fill 0.3s ease;
+}
+
+/* Botones espejo mejorados */
+.mirror_style {
+    padding: 0.8rem 1.5rem;
+    border-radius: 2rem;
+    cursor: pointer;
+    color: white;
+    background: linear-gradient(135deg, var(--Azul) 0%, #004F8D 100%);
+    border: none;
+    font-weight: 600;
+    transition: var(--transition-smooth);
+    box-shadow: var(--shadow-sm);
+    font-size: 0.95rem;
+}
+
+.mirror_style:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+}
+
+.mirror_style:active {
+    transform: translateY(0) scale(0.98);
+}
+
+/* ============================================
+   ANIMACIONES DE TRANSICIÓN ENTRE STEPS
+   ============================================ */
+
+.NextAnimation {
+    animation: slideInRight 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.PreviousAnimation {
+    animation: slideInLeft 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@keyframes slideInRight {
+    from {
+        opacity: 0;
+        transform: translateX(50px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes slideInLeft {
+    from {
+        opacity: 0;
+        transform: translateX(-50px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+/* ============================================
+   INPUTS Y FORMULARIOS MEJORADOS
+   ============================================ */
+
+.AlignInfo, .InputAlign, .EventInfo {
+    transition: var(--transition-fast);
+    border: 2px solid var(--GrisB);
+    border-radius: 0.5rem;
+    padding: 0.7rem;
+}
+
+.AlignInfo:focus, .InputAlign:focus, .EventInfo:focus {
+    outline: none;
+    border-color: var(--Azul);
+    box-shadow: 0 0 0 3px rgba(0, 86, 156, 0.1);
+    transform: translateY(-1px);
+}
+
+.Input_red {
+    border-color: #dc3545 !important;
+    animation: shake 0.5s ease-in-out;
+}
+
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+    20%, 40%, 60%, 80% { transform: translateX(5px); }
+}
+
+.Input_blue {
+    border-color: var(--Azul) !important;
+    background-color: rgba(0, 86, 156, 0.05);
+}
+
+/* ============================================
+   BUSCADOR MEJORADO
+   ============================================ */
+
+.contenedor_input {
+    width: 100%;
+    max-width: 400px;
+    display: flex;
+    align-items: center;
+    border: 2px solid var(--GrisB);
+    border-radius: 2rem;
+    padding: 0.5rem 1rem;
+    transition: var(--transition-fast);
+    background: white;
+    box-shadow: var(--shadow-sm);
+}
+
+.contenedor_input:focus-within {
+    border-color: var(--Azul);
+    box-shadow: 0 0 0 3px rgba(0, 86, 156, 0.1), var(--shadow-md);
+    transform: translateY(-2px);
+}
+
+.contenedor_input input {
+    flex: 1;
+    padding: 0.3rem;
+    border: none;
+    outline: none;
+    background: transparent;
+    color: var(--Azul);
+    font-size: 0.95rem;
+}
+
+.contenedor_input input::placeholder {
+    color: var(--GrisC);
+}
+
+.contenedor_input img {
+    width: 1.2rem;
+    opacity: 0.6;
+    transition: opacity 0.3s ease;
+}
+
+.contenedor_input:focus-within img {
+    opacity: 1;
+}
+
+/* ============================================
+   ZONAS MEJORADAS
+   ============================================ */
+
+.zone_map {
+    position: relative;
+    border-radius: 1rem;
+    overflow: hidden;
+    transition: var(--transition-smooth);
+    cursor: pointer;
+    background: white;
+    box-shadow: var(--shadow-sm);
+    border: 2px solid var(--GrisB);
+}
+
+.zone_map:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-md);
+    border-color: var(--Whiteblue);
+}
+
+.zone_active {
+    border-color: var(--Verde) !important;
+    box-shadow: 0 8px 24px rgba(0, 137, 62, 0.3), 0 0 0 3px var(--Verde) !important;
+    transform: translateY(-4px) scale(1.02);
+}
+
+.zone_active::after {
+    content: '✓';
+    position: absolute;
+    top: 0.5rem;
+    right: 0.5rem;
+    width: 2rem;
+    height: 2rem;
+    background: var(--Verde);
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 1.2rem;
+    box-shadow: var(--shadow-md);
+    animation: checkmark-pop 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+.Z_grey {
+    opacity: 0.5;
+    pointer-events: none;
+    filter: grayscale(0.8);
+}
+
+.Z_red {
+    border-color: #dc3545 !important;
+    background-color: rgba(220, 53, 69, 0.05);
+}
+
+/* ============================================
+   LOADER MEJORADO
+   ============================================ */
+
+.loader-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(255, 255, 255, 0.95);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+    visibility: hidden;
+    opacity: 0;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.loader-container[style*="visibility: initial"],
+.loader-container[style*="visibility: visible"] {
+    visibility: visible !important;
+    opacity: 1 !important;
+}
+
+.loader {
+    width: 60px;
+    height: 60px;
+    border: 4px solid var(--GrisB);
+    border-top-color: var(--Azul);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+/* ============================================
+   MENSAJES FLOTANTES MEJORADOS
+   ============================================ */
+
+.toast {
+    border-radius: 1rem;
+    box-shadow: var(--shadow-lg);
+    border: 2px solid var(--Azul);
+    animation: slideInDown 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@keyframes slideInDown {
+    from {
+        opacity: 0;
+        transform: translateY(-30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ============================================
+   RESPONSIVE IMPROVEMENTS
+   ============================================ */
+
+@media (max-width: 768px) {
+    .card_map {
+        width: 100%;
+        max-width: 300px;
+    }
+
+    .main {
+        width: 95%;
+        padding: 1rem;
+    }
+
+    .contenedor_input {
+        max-width: 100%;
+    }
+}
+
+/* ============================================
+   ACCESIBILIDAD
+   ============================================ */
+
+.card_map:focus-visible,
+.zone_map:focus-visible,
+.FormStatus:focus-visible {
+    outline: 3px solid var(--Azul);
+    outline-offset: 2px;
+}
+
+/* Mejora de contraste para texto */
+.M_direct, .Z_direct {
+    color: #333;
+    line-height: 1.4;
+}
+
+/* ============================================
+   UTILIDADES ADICIONALES
+   ============================================ */
+
+.fade-in {
+    animation: fadeIn 0.5s ease-in;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+.scale-in {
+    animation: scaleIn 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+@keyframes scaleIn {
+    from {
+        transform: scale(0.8);
+        opacity: 0;
+    }
+    to {
+        transform: scale(1);
+        opacity: 1;
+    }
+}

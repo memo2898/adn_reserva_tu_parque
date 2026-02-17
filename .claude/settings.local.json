@@ -2,7 +2,8 @@
   "permissions": {
     "allow": [
       "Bash(mysql:*)",
-      "Bash(php artisan:*)"
+      "Bash(php artisan:*)",
+      "Bash(grep:*)"
     ]
   }
 }

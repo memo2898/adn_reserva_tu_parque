@@ -20,9 +20,11 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js" integrity="sha512-pumBsjNRGGqkPzKHndZMaAG+bir374sORyzM3uulLV14lN5LyykqNk8eEeUlUkB3U0M4FApyaHraT65ihJhDpQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
     <link rel="stylesheet" href="{{ asset('CSS/Rs_main.css') }}" >
+    <link rel="stylesheet" href="{{ asset('CSS/Rs_modern.css') }}" >
     <link rel="stylesheet" href="{{ asset('CSS/Rs_Mens_flotante.css') }}" >
     <script src="{{ asset('JS/Rs_main.js') }}"></script>
     <script src="{{ asset('JS/Rs_efectos.js') }}"></script>
+    <script src="{{ asset('JS/StepperX.js') }}"></script>
 
     
     <link href="https://fonts.googleapis.com/css?family=Montserrat:400,600,600i,900,900i" rel="stylesheet">
@@ -46,135 +48,210 @@
         </div>
     </div>
 
-    <h2 id="Titulo">Reserva tu Parque</h2>
-
-    <div class="Subcontent2">
-        <div class="timebox">
-            <div class="FormStatus2 StatusLight" onclick="FormOpcion(1)">
-                <h4>P1</h4>
-            </div>
-            <div class="FormStatus2" onclick="FormOpcion(2)">
-                <h4>P2</h4>
-            </div>
-            <div class="FormStatus2" onclick="FormOpcion(3)">
-                <h4>P3</h4>
-            </div>
-            <div class="FormStatus2" onclick="FormOpcion(4)">
-                <h4>P4</h4>
-            </div>
-            <div class="FormStatus2" onclick="FormOpcion(5)">
-                <h4>P5</h4>
-            </div>
+    <!-- Contenedor principal con nuevo diseño -->
+    <div class="transaccion-multistep">
+        <!-- Header -->
+        <div class="transaccion-multistep-header">
+            <h1 class="transaccion-multistep-title">Reserva tu Parque</h1>
         </div>
-    </div>
-</div>
 
-
-    <div class="content">
-        <div class="main">
-            <div class="botones">
-                <div class="Previous" onclick="Previous()"><!-- Previous()-->
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="btnStyle"><path d="M512 256A256 256 0 1 0 0 256a256 256 0 1 0 512 0zM231 127c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9l-71 71L376 232c13.3 0 24 10.7 24 24s-10.7 24-24 24l-182.1 0 71 71c9.4 9.4 9.4 24.6 0 33.9s-24.6 9.4-33.9 0L119 273c-9.4-9.4-9.4-24.6 0-33.9L231 127z"/></svg>
+        <!-- StepperX - Indicador de progreso horizontal -->
+        <div class="stepperx">
+            <div class="stepperx-indicator horizontal">
+                <!-- Paso 1 -->
+                <div class="stepperx-step current" data-step="1">
+                    <div class="stepperx-step-circle">
+                        <span class="step-number">1</span>
+                    </div>
+                    <div class="stepperx-step-content">
+                        <span class="stepperx-step-label">Seleccionar Parque</span>
+                    </div>
+                    <div class="stepperx-connector"></div>
                 </div>
-                <div class="Next" onclick="Next()"> <!-- Next()-->
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="btnStyle"><path d="M0 256a256 256 0 1 0 512 0A256 256 0 1 0 0 256zM281 385c-9.4 9.4-24.6 9.4-33.9 0s-9.4-24.6 0-33.9l71-71L136 280c-13.3 0-24-10.7-24-24s10.7-24 24-24l182.1 0-71-71c-9.4-9.4-9.4-24.6 0-33.9s24.6-9.4 33.9 0L393 239c9.4 9.4 9.4 24.6 0 33.9L281 385z"/></svg>
+
+                <!-- Paso 2 -->
+                <div class="stepperx-step pending" data-step="2">
+                    <div class="stepperx-step-circle">
+                        <span class="step-number">2</span>
+                    </div>
+                    <div class="stepperx-step-content">
+                        <span class="stepperx-step-label">Info. Personal</span>
+                    </div>
+                    <div class="stepperx-connector"></div>
+                </div>
+
+                <!-- Paso 3 -->
+                <div class="stepperx-step pending" data-step="3">
+                    <div class="stepperx-step-circle">
+                        <span class="step-number">3</span>
+                    </div>
+                    <div class="stepperx-step-content">
+                        <span class="stepperx-step-label">Info. Evento</span>
+                    </div>
+                    <div class="stepperx-connector"></div>
+                </div>
+
+                <!-- Paso 4 -->
+                <div class="stepperx-step pending" data-step="4">
+                    <div class="stepperx-step-circle">
+                        <span class="step-number">4</span>
+                    </div>
+                    <div class="stepperx-step-content">
+                        <span class="stepperx-step-label">Seleccionar Zona</span>
+                    </div>
+                    <div class="stepperx-connector"></div>
+                </div>
+
+                <!-- Paso 5 -->
+                <div class="stepperx-step pending" data-step="5">
+                    <div class="stepperx-step-circle">
+                        <span class="step-number">5</span>
+                    </div>
+                    <div class="stepperx-step-content">
+                        <span class="stepperx-step-label">Confirmación</span>
+                    </div>
                 </div>
             </div>
-                <h3 id="subTitulo">Paso N.1</h3>
-                <h4 id="Desc">Seleccione el parque de su preferencia</h4>
+
+            <!-- Contenido de los pasos -->
+            <div class="stepperx-content">
+                <h3 id="subTitulo" style="display: none;">Paso N.1</h3>
+                <h4 id="Desc" style="display: none;">Seleccione el parque de su preferencia</h4>
                 <div class="Form1">
-                    <!---->
-                    <div class="contenedor_input">
-                        <input type="text" id="buscador_parque" oninput="parque_filtro()">
-                        <img src="./IMG/magnifying-glass-solid.svg" alt="">
-                    </div>
-                    <div class="Replace">
-                        <div class="Input-border">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" id="Glass" onclick="MapaBuscador()"><!--! Font Awesome Pro 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2022 Fonticons, Inc. --><path d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352c79.5 0 144-64.5 144-144s-64.5-144-144-144S64 128.5 64 208s64.5 144 144 144z"/></svg>
-                            <input type="text" placeholder="Escriba su parque" id="Input-parque" name="Buscador">
-                        </div>
-                    </div>
-                    <!--FORMULARIO INTERNO-->
 
-                    
-                    <div class="DisplayMapas">
-                        @foreach ($tbl_parques as $tbl_parques)
-                            <div class="Mapas_3">
-                                <div class="card_map" onclick="ParkSelector('{{ $tbl_parques->id }}', '{{ $tbl_parques->nombre_parque }}')" id="PK_{{ $tbl_parques->id }}">
-                                    @foreach ($tbl_imagenes_por_parque as $imagenes_parque)
-                                        @if ($imagenes_parque->id_parque == $tbl_parques->id)
-                                            <img src={{ $imagenes_parque->imagen }} class="M_img">
+                    <!-- Buscador de parques -->
+                    <div class="search-input-wrapper">
+                        <svg class="search-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="currentColor">
+                            <path d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352c79.5 0 144-64.5 144-144s-64.5-144-144-144S64 128.5 64 208s64.5 144 144 144z"/>
+                        </svg>
+                        <input type="text" id="buscador_parque" oninput="parque_filtro()" placeholder="Buscar parque...">
+                    </div>
+
+                    <!-- Contenedor dinámico: Grid completo → Split al seleccionar -->
+                    <div class="park-selection-container" id="park-selection-container">
+
+                        <!-- Lado izquierdo: Grid de cards -->
+                        <div class="split-layout-left">
+                            <div class="cards-grid" id="DisplayMapas">
+                                @foreach ($tbl_parques as $tbl_parques)
+                                    <div class="park-card Mapas_3" onclick="ParkSelector('{{ $tbl_parques->id }}', '{{ $tbl_parques->nombre_parque }}')" id="PK_{{ $tbl_parques->id }}" data-park-name="{{ strtolower($tbl_parques->nombre_parque) }}">
+                                        @if($tbl_parques->portada_url)
+                                            <img src="{{ asset($tbl_parques->portada_url) }}" class="park-card-image M_img" alt="{{ $tbl_parques->nombre_parque }}">
+                                        @else
+                                            <div class="park-card-placeholder">
+                                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="currentColor">
+                                                    <path d="M0 96C0 60.7 28.7 32 64 32H448c35.3 0 64 28.7 64 64V416c0 35.3-28.7 64-64 64H64c-35.3 0-64-28.7-64-64V96zM323.8 202.5c-4.5-6.6-11.9-10.5-19.8-10.5s-15.4 3.9-19.8 10.5l-87 127.6L170.7 297c-4.6-5.7-11.5-9-18.7-9s-14.2 3.3-18.7 9l-64 80c-5.8 7.2-6.9 17.1-2.9 25.4s12.4 13.6 21.6 13.6h96 32H424c8.9 0 17.1-4.9 21.2-12.8s3.6-17.4-1.4-24.7l-120-176zM112 192a48 48 0 1 0 0-96 48 48 0 1 0 0 96z"/>
+                                                </svg>
+                                                <span>Sin imagen</span>
+                                            </div>
                                         @endif
-                                    @endforeach
-                                    <div class="M_locate">
-                                        
-                                        <img src="{{ asset('IMG/location-dot-solid.svg') }}" class="M_svg">
-                                        
-                                        <!-- 
-                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512" class="M_svg"> <path d="M215.7 499.2C267 435 384 279.4 384 192C384 86 298 0 192 0S0 86 0 192c0 87.4 117 243 168.3 307.2c12.3 15.3 35.1 15.3 47.4 0zM192 128a64 64 0 1 1 0 128 64 64 0 1 1 0-128z"/></svg>
-                                        -->
-                                        <p class="M_direct">{{ $tbl_parques->direccion }}</p>
+                                        <div class="park-card-content">
+                                            <h3 class="park-card-title M_mes_2">{{ $tbl_parques->nombre_parque }}</h3>
+                                            <div class="park-card-location M_locate">
+                                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512" fill="currentColor">
+                                                    <path d="M215.7 499.2C267 435 384 279.4 384 192C384 86 298 0 192 0S0 86 0 192c0 87.4 117 243 168.3 307.2c12.3 15.3 35.1 15.3 47.4 0zM192 128a64 64 0 1 1 0 128 64 64 0 1 1 0-128z"/>
+                                                </svg>
+                                                <span class="M_direct">{{ $tbl_parques->direccion }}</span>
+                                            </div>
+                                        </div>
                                     </div>
-                                    <p class="M_mes_2">{{ $tbl_parques->nombre_parque }}</p>    
+                                @endforeach
+                                <div class="no_content no_hidden_parque">
+                                    <h3>No se han encontrado coincidencias</h3>
                                 </div>
                             </div>
-                        @endforeach
-                        <div class="no_content no_hidden_parque">
-                            <h3>No se han encontrado coincidencias</h3>
-                        </div>
-                    </div>
-                    @foreach($tbl_parques_2 as $tbl_parques_2) 
-                    <div class="tag_center" id="park_{{ $tbl_parques_2->id }}">
-                        <div class="Maps_info">
-                            <iframe src="https://maps.google.com/maps?q={{ $tbl_parques_2->coordenadas_maps }}&output=embed" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade" class="google_maps"></iframe>
+                        </div> <!-- Cierre split-layout-left -->
 
-                            <div class="Maps_details">
-                                <div class="section_1">
-                                    <h4 class="tag_header">{{ $tbl_parques_2->provincia }}</h4>
-                                    <h3>Descripción</h3>
-                                    <p class="tag_descrip">{{ $tbl_parques_2->descripcion }}</p>
+                        <!-- Lado derecho: Detalles del parque seleccionado -->
+                        <div class="split-layout-right" id="park-details-container">
+                            @foreach($tbl_parques_2 as $tbl_parques_2)
+                                <div class="park-details tag_center" id="park_{{ $tbl_parques_2->id }}">
+                                    <!-- Título del parque -->
+                                    <h2 class="park-details-title">{{ $tbl_parques_2->nombre_parque }}</h2>
+
+                                    <!-- Mapa -->
+                                    <div class="park-details-section">
+                                        <!-- Skeleton loader -->
+                                        <div class="map-skeleton" id="map-skeleton-{{ $tbl_parques_2->id }}"></div>
+
+                                        <!-- Iframe del mapa -->
+                                        <iframe src="https://maps.google.com/maps?q={{ $tbl_parques_2->coordenadas_maps }}&output=embed"
+                                                width="100%"
+                                                height="250"
+                                                style="border:0; border-radius: 0.375rem;"
+                                                allowfullscreen=""
+                                                loading="lazy"
+                                                referrerpolicy="no-referrer-when-downgrade"
+                                                class="google_maps"
+                                                onload="handleMapLoad({{ $tbl_parques_2->id }}, this)"></iframe>
+                                    </div>
+
+                                    <!-- Descripción -->
+                                    <div class="park-details-section Maps_details">
+                                        <h3 class="park-details-section-title">Descripción</h3>
+                                        <p class="park-details-text tag_descrip">{{ $tbl_parques_2->descripcion }}</p>
+                                        <p class="park-details-text" style="margin-top: 0.5rem; font-weight: 500;">
+                                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512" fill="currentColor" style="width: 0.875rem; height: 0.875rem; display: inline-block; margin-right: 0.25rem;">
+                                                <path d="M215.7 499.2C267 435 384 279.4 384 192C384 86 298 0 192 0S0 86 0 192c0 87.4 117 243 168.3 307.2c12.3 15.3 35.1 15.3 47.4 0zM192 128a64 64 0 1 1 0 128 64 64 0 1 1 0-128z"/>
+                                            </svg>
+                                            {{ $tbl_parques_2->provincia }}
+                                        </p>
+                                    </div>
+
+                                    <!-- Horarios -->
+                                    <div class="park-details-section">
+                                        <h3 class="park-details-section-title">Horarios</h3>
+                                        <table class="Horario_table" style="width: 100%; font-size: 0.875rem; border-collapse: collapse;">
+                                            <thead>
+                                                <tr style="background: var(--bg-gray-50);">
+                                                    <th style="padding: 0.5rem; text-align: left; border: 1px solid var(--border-color);">Día</th>
+                                                    <th style="padding: 0.5rem; text-align: center; border: 1px solid var(--border-color);">Apertura</th>
+                                                    <th style="padding: 0.5rem; text-align: center; border: 1px solid var(--border-color);">Cierre</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody class="H_body">
+                                                @foreach ($tbl_horarios_parques as $horarios_parques)
+                                                    @if ($horarios_parques->id_parque == $tbl_parques_2->id)
+                                                        <tr>
+                                                            <td style="padding: 0.5rem; border: 1px solid var(--border-color);">{{$horarios_parques->dia_semana}}</td>
+                                                            <td style="padding: 0.5rem; text-align: center; border: 1px solid var(--border-color);">{{$horarios_parques->hora_apertura}}</td>
+                                                            <td style="padding: 0.5rem; text-align: center; border: 1px solid var(--border-color);">{{$horarios_parques->hora_cierre}}</td>
+                                                        </tr>
+                                                    @endif
+                                                @endforeach
+                                            </tbody>
+                                        </table>
+                                    </div>
+
+                                    <!-- Contacto -->
+                                    <div class="park-details-section info_contacto">
+                                        <h3 class="park-details-section-title">Contacto</h3>
+                                        <div style="display: flex; flex-direction: column; gap: 0.75rem;">
+                                            <div class="hover_effect" style="display: flex; align-items: center; gap: 0.5rem;">
+                                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="contact_icon" style="width: 1rem; height: 1rem; fill: var(--text-secondary);">
+                                                    <path d="M48 64C21.5 64 0 85.5 0 112c0 15.1 7.1 29.3 19.2 38.4L236.8 313.6c11.4 8.5 27 8.5 38.4 0L492.8 150.4c12.1-9.1 19.2-23.3 19.2-38.4c0-26.5-21.5-48-48-48H48zM0 176V384c0 35.3 28.7 64 64 64H448c35.3 0 64-28.7 64-64V176L294.4 339.2c-22.8 17.1-54 17.1-76.8 0L0 176z"/>
+                                                </svg>
+                                                <span style="font-size: 0.875rem; color: var(--text-secondary);">{{ $tbl_parques_2->correo }}</span>
+                                            </div>
+                                            <div class="hover_effect" style="display: flex; align-items: center; gap: 0.5rem;">
+                                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="contact_icon" style="width: 1rem; height: 1rem; fill: var(--text-secondary);">
+                                                    <path d="M164.9 24.6c-7.7-18.6-28-28.5-47.4-23.2l-88 24C12.1 30.2 0 46 0 64C0 311.4 200.6 512 448 512c18 0 33.8-12.1 38.6-29.5l24-88c5.3-19.4-4.6-39.7-23.2-47.4l-96-40c-16.3-6.8-35.2-2.1-46.3 11.6L304.7 368C234.3 334.7 177.3 277.7 144 207.3L193.3 167c13.7-11.2 18.4-30 11.6-46.3l-40-96z"/>
+                                                </svg>
+                                                <span style="font-size: 0.875rem; color: var(--text-secondary);">
+                                                    @foreach ($tbl_telefonos_por_parque as $telefonos)
+                                                        @if ($telefonos->id_parque == $tbl_parques_2->id)
+                                                            {{ $telefonos->telefono }}
+                                                        @endif
+                                                    @endforeach
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
-                            </div>
-                        </div>
+                            @endforeach
+                        </div> <!-- Cierre split-layout-right -->
 
-                        <table class="Horario_table">
-                            <thead> <!--  onclick="tabla_Horario_hidden()" -->
-                                <tr>
-                                    <th class="H_left"> </th>
-                                    <th> Horarios </th>
-                                    <th class="H_right"> </th>
-                                </tr>
-                            </thead>
-                            <tbody class="H_body">
-                                @foreach ($tbl_horarios_parques as $horarios_parques)
-                                    @if ($horarios_parques->id_parque == $tbl_parques_2->id)
-                                        <tr>
-                                            <th>{{$horarios_parques->dia_semana}}</th>
-                                            <th>{{$horarios_parques->hora_apertura}}</th>
-                                            <th>{{$horarios_parques->hora_cierre}}</th>
-                                        </tr>
-                                    @endif
-                                @endforeach
-                            </tbody>
-                        </table>
-                        <div class="info_contacto"> 
-                            <div class="hover_effect">
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="contact_icon"><path d="M48 64C21.5 64 0 85.5 0 112c0 15.1 7.1 29.3 19.2 38.4L236.8 313.6c11.4 8.5 27 8.5 38.4 0L492.8 150.4c12.1-9.1 19.2-23.3 19.2-38.4c0-26.5-21.5-48-48-48H48zM0 176V384c0 35.3 28.7 64 64 64H448c35.3 0 64-28.7 64-64V176L294.4 339.2c-22.8 17.1-54 17.1-76.8 0L0 176z"/></svg>
-                                <a>{{ $tbl_parques_2->correo }}</a> <!-- href="#" target="_blank" rel="" -->
-                            </div>
-                            <div class="hover_effect">
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="contact_icon"><path d="M164.9 24.6c-7.7-18.6-28-28.5-47.4-23.2l-88 24C12.1 30.2 0 46 0 64C0 311.4 200.6 512 448 512c18 0 33.8-12.1 38.6-29.5l24-88c5.3-19.4-4.6-39.7-23.2-47.4l-96-40c-16.3-6.8-35.2-2.1-46.3 11.6L304.7 368C234.3 334.7 177.3 277.7 144 207.3L193.3 167c13.7-11.2 18.4-30 11.6-46.3l-40-96z"/></svg>
-                                
-                                @foreach ($tbl_telefonos_por_parque as $telefonos)
-                                    @if ($telefonos->id_parque == $tbl_parques_2->id)
-                                    <a>{{ $telefonos->telefono }}</a> <!-- href="#" target="_blank" rel="" -->
-                                    @endif
-                                @endforeach
-                            </div>
-                        </div>
-                    </div>
-                    
-                    @endforeach
+                    </div> <!-- Cierre split-layout -->
                 <!--FIN-->
                 </div>
 
@@ -182,165 +259,239 @@
 
 
                 <div class="Form2 NextAnimation">
-
                     <div class="PersonalInfo">
-                        <div class="AgrupINF">
-                            <p>Tipo de documento: </p>
-                            <select name="Documento" id="DocumentType" class="AlignInfo" oninput="DocumentSelect()">
-                                @foreach ($tbl_tipo_documento as $tbl_tipo_documento)
-                                    <option value="{{ $tbl_tipo_documento->id }}"> {{ $tbl_tipo_documento->tipo_documento }}</option>
-                                @endforeach
-                            </select>
-                        </div>
-                        <div class="AgrupINF">
-                            <p>Documento: </p>
-                            <div class="Agrup_space">
-                                <input type="text" class="AlignInfo" onchange="SearchDocument(1); agregarGuion()" name="Doc_buscador" onkeypress="SoloFN(event); agregarGuion()" maxlength="13" oncut="return false;" oncopy="return false;" onpaste="return false;" placeholder = "402-1234567-2">
-                                <p style="visibility: hidden; margin:0;padding:0;">---</p>
+                        <!-- Fila 1: Tipo de documento y Documento -->
+                        <div class="step-form-row">
+                            <div class="form-group AgrupINF">
+                                <label class="form-label required">Tipo de documento</label>
+                                <select name="Documento" id="DocumentType" class="form-select AlignInfo select-full" oninput="DocumentSelect()">
+                                    @foreach ($tbl_tipo_documento as $tbl_tipo_documento)
+                                        <option value="{{ $tbl_tipo_documento->id }}">{{ $tbl_tipo_documento->tipo_documento }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="form-group AgrupINF">
+                                <label class="form-label required">Documento</label>
+                                <div class="Agrup_space">
+                                    <input type="text"
+                                           class="form-input AlignInfo"
+                                           onchange="SearchDocument(1); agregarGuion()"
+                                           name="Doc_buscador"
+                                           onkeypress="SoloFN(event); agregarGuion()"
+                                           maxlength="13"
+                                           oncut="return false;"
+                                           oncopy="return false;"
+                                           onpaste="return false;"
+                                           placeholder="402-1234567-2">
+                                    <p style="visibility: hidden; margin:0;padding:0;">---</p>
+                                </div>
                             </div>
                         </div>
-                        <div class="AgrupINF">
-                            <p>Nombre: </p>
-                            <div class="Agrup_space">
-                                <input type="text" class="AlignInfo" onchange="Form2_Status(2)" placeholder="">
-                                <p class="Agrup_P">Nombre invalido</p>
+
+                        <!-- Fila 2: Nombre y Apellido -->
+                        <div class="step-form-row">
+                            <div class="form-group AgrupINF">
+                                <label class="form-label required">Nombre</label>
+                                <div class="Agrup_space">
+                                    <input type="text"
+                                           class="form-input AlignInfo"
+                                           onchange="Form2_Status(2)"
+                                           placeholder="Ingrese su nombre">
+                                    <p class="form-error-message Agrup_P">Nombre inválido</p>
+                                </div>
+                            </div>
+                            <div class="form-group AgrupINF">
+                                <label class="form-label required">Apellido</label>
+                                <div class="Agrup_space">
+                                    <input type="text"
+                                           class="form-input AlignInfo"
+                                           onchange="Form2_Status(3)"
+                                           placeholder="Ingrese su apellido">
+                                    <p class="form-error-message Agrup_P">Apellido inválido</p>
+                                </div>
                             </div>
                         </div>
-                        <div class="AgrupINF">
-                            <p>Apellido: </p>
-                            <div class="Agrup_space">
-                                <input type="text" class="AlignInfo" onchange="Form2_Status(3)" placeholder="">
-                                <p class="Agrup_P">Apellido invalido</p>
+
+                        <!-- Fila 3: Correo y Celular -->
+                        <div class="step-form-row">
+                            <div class="form-group AgrupINF">
+                                <label class="form-label required">Correo electrónico</label>
+                                <div class="Agrup_space">
+                                    <input type="email"
+                                           class="form-input AlignInfo"
+                                           onchange="Form2_Status(4)"
+                                           name="email"
+                                           placeholder="ejemplo@correo.com">
+                                    <p class="form-error-message Agrup_P">Formato inválido</p>
+                                </div>
+                            </div>
+                            <div class="form-group AgrupINF">
+                                <label class="form-label required">Celular</label>
+                                <div class="Agrup_space">
+                                    <input type="tel"
+                                           class="form-input AlignInfo"
+                                           onchange=""
+                                           onkeypress="soloNumeros(event)"
+                                           name="phone"
+                                           id="phone"
+                                           placeholder="(000) 000-0000">
+                                    <p class="form-error-message Agrup_P">Formato inválido</p>
+                                </div>
                             </div>
                         </div>
-                        <div class="AgrupINF">
-                            <p>Correo: </p>
-                            <div class="Agrup_space">
-                                <input type="text" class="AlignInfo" onchange="Form2_Status(4)" name="email" placeholder="Example@Gmail.com">
-                                <p class="Agrup_P">Formato invalido</p>
-                            </div>
-                        </div>
-                        <!--
-                        <div class="AgrupINF">
-                            <p>Celular: </p>
-                            <input type="text" class="AlignInfo" onchange="Form2_Status(5)" onkeypress="soloNumeros(event)" name="phone">
-                        </div>
-                        -->
-                        <div class="AgrupINF">
-                            <p>Celular: </p>
-                            <div class="Agrup_space">
-                                <input type="tel" class="AlignInfo" onchange="" onkeypress="soloNumeros(event)" name="phone" id="phone">
-                                <p class="Agrup_P">Formato invalido</p>
-                            </div>
-                        </div>
-                        <!-- =================================== -->
+
+                        <!-- Loader -->
                         <div class="loader-container">
                             <div class="loader"></div>
                         </div>
-                        <!-- =================================== -->
-                        
                     </div>
-                
                 </div>
                 <div class="Form3 NextAnimation">
-                    <!---->
                     <div class="Infoevent">
+                        <!-- Sección de fecha y horarios -->
                         <div class="eventTimer">
-                            <div id="Start">
-                                <h4 style="margin-bottom: 1%;">Fecha del evento </h4>
-                                <div>
-                                    <input type="date" class="InputAlign" id="dateselector" oninput="datesave(0)">
-                                    <p class="InputAlign_P"> Formulario incompleto</p>
+                            <!-- Fecha del evento -->
+                            <div class="step-form-row full-width">
+                                <div class="form-group" id="Start">
+                                    <label class="form-label required">Fecha del evento</label>
+                                    <div>
+                                        <input type="date"
+                                               class="form-input InputAlign"
+                                               id="dateselector"
+                                               oninput="datesave(0)">
+                                        <p class="form-error-message InputAlign_P">Formulario incompleto</p>
+                                    </div>
+                                    <script>
+                                        var currentDate = new Date().toISOString().split("T")[0];
+                                        document.getElementById("dateselector").setAttribute("min", currentDate);
+                                    </script>
                                 </div>
-                                <script>
-                                    var currentDate = new Date().toISOString().split("T")[0];
-                                    document.getElementById("dateselector").setAttribute("min", currentDate);
-                                </script>
                             </div>
-                            <!---->
-                            <div class="AgrupT">
-                                <div>
-                                    <p>Desde: </p>
+
+                            <!-- Horarios (Desde - Hasta) -->
+                            <div class="step-form-row AgrupT">
+                                <div class="form-group">
+                                    <label class="form-label required">Desde</label>
                                     <div>
-                                        <select name="" id="hora-select-desde" oninput="datesave(1)" class="InputAlign">
+                                        <select name=""
+                                                id="hora-select-desde"
+                                                oninput="datesave(1)"
+                                                class="form-select InputAlign">
                                             <option value="" disabled="disabled" selected>-- Seleccione un horario --</option>
                                         </select>
-                                        
-                                        <p class="InputAlign_P">Formulario incompleto</p>
+                                        <p class="form-error-message InputAlign_P">Formulario incompleto</p>
                                     </div>
-                                    
                                 </div>
-                                <div>
-                                    <p>Hasta: </p>
+                                <div class="form-group">
+                                    <label class="form-label required">Hasta</label>
                                     <div>
-                                        
-                                        <select name="" id="hora-select-hasta"  disabled="disabled" class="InputAlign" oninput="datesave(2)">
+                                        <select name=""
+                                                id="hora-select-hasta"
+                                                disabled="disabled"
+                                                class="form-select InputAlign"
+                                                oninput="datesave(2)">
                                             <option value="" disabled="disabled" selected>-- Seleccione un horario --</option>
-                                            
                                         </select>
-                                        <p class="InputAlign_P">Formulario incompleto</p>
+                                        <p class="form-error-message InputAlign_P">Formulario incompleto</p>
                                     </div>
-                                </div>        
+                                </div>
                             </div>
                         </div>
+
+                        <!-- Sección de información del evento -->
                         <div class="eventText">
-                            <div class="Agrup">
-                                <p>Tipo de evento </p>
-                                <select name="Tipo_evento" id="Event_type" class="InputAlign EventInfo" oninput="Formdata_3(0)">
-                                </select>
-                            </div>
-                            <div class="Agrup">
-                                <p>Motivo del evento</p>
-                                <div>
-                                    <input type="text" class="InputAlign EventInfo" onchange="Formdata_3(1)">
-                                    <p class="InputAlign_P">Formulario incompleto</p>
+                            <!-- Tipo de evento y Motivo -->
+                            <div class="step-form-row">
+                                <div class="form-group Agrup">
+                                    <label class="form-label required">Tipo de evento</label>
+                                    <select name="Tipo_evento"
+                                            id="Event_type"
+                                            class="form-select InputAlign EventInfo"
+                                            oninput="Formdata_3(0)">
+                                    </select>
                                 </div>
-                            </div>
-                            <div class="Agrup">
-                                <p>Patrocinadores </p>
-                                <input type="text" class="InputAlign EventInfo" onchange="Formdata_3(2)" placeholder="Opcional">
-                            </div>
-                            <div class="Agrup">
-                                <p>Adultos participantes </p>
-                                <div style="text-align: -webkit-right;">
-                                    <input type="text" class="InputAlign EventInfo Eventnumeric" onchange="Formdata_3(3)" onkeypress="soloNumeros(event)">
-                                    <p class="InputAlign_P">Formulario incompleto</p>
-                                </div>
-                            </div>
-                            <div class="Agrup">
-                                <p>Niños participantes </p>
-                                <div style="text-align: -webkit-right;">
-                                    <input type="text" class="InputAlign EventInfo Eventnumeric" onchange="Formdata_3(4)" onkeypress="soloNumeros(event)">
-                                    <p class="InputAlign_P">Formulario incompleto</p>
+                                <div class="form-group Agrup">
+                                    <label class="form-label required">Motivo del evento</label>
+                                    <div>
+                                        <input type="text"
+                                               class="form-input InputAlign EventInfo"
+                                               onchange="Formdata_3(1)"
+                                               placeholder="Ingrese el motivo">
+                                        <p class="form-error-message InputAlign_P">Formulario incompleto</p>
+                                    </div>
                                 </div>
                             </div>
 
-                            <div class="AgrupM">
-                                <p>Descripción del evento </p>
-                                <textarea class="InputAlign EventInfo" id="MotivoEvento" cols="30" rows="10" maxlength="600" onchange="Formdata_3(5)"></textarea>
-                                <p class="error_mens">Se requiere un mínimo de 15 caracteres</p>
+                            <!-- Patrocinadores (full width) -->
+                            <div class="step-form-row full-width">
+                                <div class="form-group Agrup">
+                                    <label class="form-label">Patrocinadores</label>
+                                    <input type="text"
+                                           class="form-input InputAlign EventInfo"
+                                           onchange="Formdata_3(2)"
+                                           placeholder="Opcional">
+                                </div>
                             </div>
 
+                            <!-- Participantes: Adultos y Niños -->
+                            <div class="step-form-row">
+                                <div class="form-group Agrup">
+                                    <label class="form-label required">Adultos participantes</label>
+                                    <div>
+                                        <input type="text"
+                                               class="form-input InputAlign EventInfo Eventnumeric"
+                                               onchange="Formdata_3(3)"
+                                               onkeypress="soloNumeros(event)"
+                                               placeholder="0">
+                                        <p class="form-error-message InputAlign_P">Formulario incompleto</p>
+                                    </div>
+                                </div>
+                                <div class="form-group Agrup">
+                                    <label class="form-label required">Niños participantes</label>
+                                    <div>
+                                        <input type="text"
+                                               class="form-input InputAlign EventInfo Eventnumeric"
+                                               onchange="Formdata_3(4)"
+                                               onkeypress="soloNumeros(event)"
+                                               placeholder="0">
+                                        <p class="form-error-message InputAlign_P">Formulario incompleto</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Descripción del evento (full width) -->
+                            <div class="step-form-row full-width">
+                                <div class="form-group AgrupM">
+                                    <label class="form-label required">Descripción del evento</label>
+                                    <textarea class="form-textarea InputAlign EventInfo"
+                                              id="MotivoEvento"
+                                              cols="30"
+                                              rows="6"
+                                              maxlength="600"
+                                              onchange="Formdata_3(5)"
+                                              placeholder="Describa el evento (mínimo 15 caracteres)"></textarea>
+                                    <p class="form-error-message error_mens">Se requiere un mínimo de 15 caracteres</p>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                    <!--FINAL DEL FORMULARIO-->
                 </div>
 
                 <div class="Form4 NextAnimation">
-                    <!---->
-                    <div class="contenedor_input">
-                        <input type="text" id="buscador_zona" oninput="zona_filtro()">
-                        <img src="./IMG/magnifying-glass-solid.svg" alt="">
+                    <!-- Buscador de zonas -->
+                    <div class="search-input-wrapper">
+                        <svg class="search-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="currentColor">
+                            <path d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352c79.5 0 144-64.5 144-144s-64.5-144-144-144S64 128.5 64 208s64.5 144 144 144z"/>
+                        </svg>
+                        <input type="text" id="buscador_zona" oninput="zona_filtro()" placeholder="Buscar zona...">
                     </div>
-                    <div class="Replace">
-                        <div class="Input-border">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" id="Glass" onclick="MapaBuscador()"><!--! Font Awesome Pro 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2022 Fonticons, Inc. --><path d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352c79.5 0 144-64.5 144-144s-64.5-144-144-144S64 128.5 64 208s64.5 144 144 144z"/></svg>
-                            <input type="text" placeholder="Escriba su parque" id="Input-parque" name="Buscador">
-                        </div>
+
+                    <!-- Grid de zonas disponibles -->
+                    <div class="cards-grid DisplayZone">
+                        <!-- Las zonas se cargan dinámicamente aquí -->
                     </div>
-                    <div class="DisplayZone">
-                        
-                    </div>
+
+                    <!-- Mensaje cuando no hay coincidencias -->
                     <div class="no_content no_hidden_parque_2">
                         <h3>No se han encontrado coincidencias</h3>
                     </div>
@@ -405,44 +556,26 @@
                     </div>
                 </div>
                 <!-- --------------------------------------- -->
-        </div>
+            </div> <!-- Cierre stepperx-content -->
 
-        <div class="Subcontent">
-            <div class="FormStatus FormEffect StatusLight" onclick="FormOpcion(1)">
-                <h4>P1</h4>
-                <p>Seleccionar Parque</p>
-                <!-- <p class="Pop"></p>-->
+            <!-- StepperX Navigation -->
+            <div class="stepperx-navigation">
+                <div class="stepperx-nav-left">
+                    <button type="button" class="stepperx-btn stepperx-btn-prev" onclick="Previous()">
+                        Anterior
+                    </button>
+                </div>
+                <div class="stepperx-nav-right">
+                    <button type="button" class="stepperx-btn stepperx-btn-next" onclick="Next()">
+                        Siguiente
+                    </button>
+                </div>
             </div>
-            <div class="FormStatus FormEffect" onclick="FormOpcion(2)">
-                <h4>P2</h4>
-                <p>Info. Personal</p>
-                <!-- 
-                <p class="Pop"></p>
-                -->
-            </div>
-            <div class="FormStatus FormEffect" onclick="FormOpcion(3)">
-                <h4>P3</h4>
-                <p>Info. evento</p>
-                <!-- 
-                <p class="Pop"></p>
-                -->
-            </div>
-            <div class="FormStatus FormEffect" onclick="FormOpcion(4)">
-                <h4>P4</h4>
-                <p>Seleccionar zona</p>
-                <!-- 
-                <p class="Pop"></p>
-                -->
-            </div>
-            <div class="FormStatus FormEffect QRgenerator" onclick="FormOpcion(5)">
-                <h4>P5</h4>
-                <p>Realizar</p>
-                <!-- 
-                <p class="Pop"></p>
-                -->
-            </div>
-        </div>
-    </div>
+
+        </div> <!-- Cierre stepperx -->
+    </div> <!-- Cierre transaccion-multistep -->
+
+        <!-- OLD SUBCONTENT REMOVIDO - Ahora usamos StepperX horizontal -->
 
     <div class="toast" role="alert" aria-live="assertive" aria-atomic="true">
         <div class="toast-header">
@@ -471,6 +604,34 @@
 <script src="{{ asset('JS/peticiones.js') }}"></script>
 
 <script>
+    // Función de filtrado de parques
+    function parque_filtro() {
+        const searchInput = document.getElementById('buscador_parque');
+        const searchTerm = searchInput.value.toLowerCase().trim();
+        const parkCards = document.querySelectorAll('.park-card.Mapas_3');
+        const noContent = document.querySelector('.no_content.no_hidden_parque');
+
+        let visibleCount = 0;
+
+        parkCards.forEach(card => {
+            const parkName = card.getAttribute('data-park-name');
+
+            if (parkName && parkName.includes(searchTerm)) {
+                card.classList.remove('hidden');
+                visibleCount++;
+            } else {
+                card.classList.add('hidden');
+            }
+        });
+
+        // Mostrar u ocultar mensaje de "no coincidencias"
+        if (visibleCount === 0 && searchTerm !== '') {
+            noContent.classList.add('show');
+        } else {
+            noContent.classList.remove('show');
+        }
+    }
+
     const phoneInputField = document.querySelector("#phone");
     const phoneInput = window.intlTelInput(phoneInputField, {
         initialCountry: "do",

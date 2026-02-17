@@ -39,10 +39,10 @@ INSERT INTO `tbl_tipo_documentos` (`id`, `tipo_documento`, `agregado_por`, `agre
 -- 2. PERMISOS DE USUARIOS (ROLES)
 -- =====================================================
 INSERT INTO `tbl_permisos_usuarios` (`id`, `posicion`, `permisos`, `agregado_por`, `agregado_en`, `estado`) VALUES
-(1, 'Administrador', 'Total', 'Reservaciones_ADN', NOW(), 'activo'),
-(2, 'Supervisor', 'Evaluación', 'Reservaciones_ADN', NOW(), 'activo'),
-(3, 'Operador', 'Consulta', 'Reservaciones_ADN', NOW(), 'activo'),
-(4, 'Encargado de Parque', 'Gestión de Parque', 'Reservaciones_ADN', NOW(), 'activo');
+(1, 'Administrador', 'administrador', 'Reservaciones_ADN', NOW(), 'activo'),
+(2, 'Supervisor', 'supervisor', 'Reservaciones_ADN', NOW(), 'activo'),
+(3, 'Operador', 'operador', 'Reservaciones_ADN', NOW(), 'activo'),
+(4, 'Encargado de Parque', 'gestionar', 'Reservaciones_ADN', NOW(), 'activo');
 
 -- =====================================================
 -- 3. TIPOS DE EVENTOS

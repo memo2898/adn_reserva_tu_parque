@@ -11,6 +11,51 @@ async function reset(){
     horarios = null
     horarios_temp = null
 }
+
+/**
+ * Sube un archivo al servidor usando el endpoint de files
+ * @param {File} file - El archivo a subir
+ * @param {string} directory - Directorio donde guardar el archivo (opcional)
+ * @returns {Promise} - Respuesta del servidor
+ */
+async function uploadFile(file, directory = '') {
+    console.log('=== DEBUG uploadFile ===');
+    console.log('File object:', file);
+    console.log('File name:', file ? file.name : 'null');
+    console.log('File size:', file ? file.size : 'null');
+    console.log('File type:', file ? file.type : 'null');
+    console.log('Directory:', directory);
+
+    return new Promise((resolve, reject) => {
+        const formData = new FormData();
+        formData.append('file', file);
+        if (directory) {
+            formData.append('directory', directory);
+        }
+
+        console.log('FormData creado, enviando request a /files/upload');
+
+        axios.post('/files/upload', formData, {
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            }
+        })
+        .then(response => {
+            console.log('✅ Upload exitoso:', response);
+            console.log('Response data:', response.data);
+            resolve(response.data);
+        })
+        .catch(error => {
+            console.error('❌ Error al subir archivo:');
+            console.error('Error completo:', error);
+            console.error('Error response:', error.response);
+            console.error('Error status:', error.response ? error.response.status : 'N/A');
+            console.error('Error data:', error.response ? error.response.data : 'N/A');
+            reject(error);
+        });
+    });
+}
+
 /*
 async function Try(){
     let ruta = '/terminos_condiciones'
@@ -924,6 +969,9 @@ async function guardar_horarios_parques(origen){
 
 
 async function crear_parque(origen){ //CREACION SOLO PARQUE SIN ZONA INMEDIATA
+    console.log('=== DEBUG crear_parque INICIO ===');
+    console.log('File_img2_raw al inicio:', File_img2_raw);
+    console.log('File_img2 al inicio:', File_img2);
     let campos = document.querySelectorAll(".input_data_parque")
     let token = await visualizar()
     let estado = []
@@ -1055,35 +1103,73 @@ async function crear_parque(origen){ //CREACION SOLO PARQUE SIN ZONA INMEDIATA
             'responsable':local_sesion['usuario'],
         }
         let respuesta = await Post(ruta,body) //REGISTRO DE PARQUE
+        console.log('=== DEBUG crear_parque ===');
+        console.log('Respuesta registro parque:', respuesta);
         id_temp = respuesta['response']['id']
+        console.log('ID parque creado:', id_temp);
+
         if (respuesta['status'] == 200) {
-            ruta = null
-            body = null
-            respuesta = null
-            //------------------------------
-            ruta = '/mantenimientos_parque_agregar_img'
-            body = {
-                'id_parque': id_temp,
-                'img':File_img2,
-                'responsable':local_sesion['usuario'],
+            // Subir imagen usando el endpoint de archivos
+            console.log('Verificando imagen File_img2_raw:', File_img2_raw);
+            let imageData = null;
+            if (File_img2_raw) {
+                console.log('Hay imagen, iniciando upload...');
+                try {
+                    const uploadResult = await uploadFile(File_img2_raw, 'parques');
+                    console.log('Resultado upload:', uploadResult);
+                    if (uploadResult.success) {
+                        imageData = uploadResult.data; // Guardar todos los datos
+                        console.log('✅ Imagen subida correctamente:', imageData);
+                    } else {
+                        console.log('⚠️ Upload falló:', uploadResult);
+                    }
+                } catch (error) {
+                    console.error('❌ Error capturado al subir imagen:', error);
+                }
+            } else {
+                console.log('⚠️ No hay imagen File_img2_raw para subir');
             }
-            respuesta = await Post(ruta,body) // REGISTRO DE IMAGEN
-            if (respuesta['status'] == 200) {
+
+            // Si hay imagen, actualizar la portada del parque
+            if (imageData) {
                 ruta = null
                 body = null
                 respuesta = null
-                //-------------------------------------
-                ruta = '/mantenimientos_parque_agregar_horarios/'+id_temp
-                body = await registrar_horario_flex('parque')
-                respuesta = await Post(ruta,body) // REGISTRO DE HORARIO DEL PARQUE
-                //-------------------------------------
+                //------------------------------
+                ruta = '/mantenimientos_parque_agregar_img'
+                body = {
+                    'id_parque': id_temp,
+                    'url': imageData.url, // URL completa
+                    'size': imageData.size, // Tamaño en bytes
+                    'formato': imageData.mime_type, // Tipo MIME
+                    'responsable':local_sesion['usuario'],
+                }
+                console.log('Body para actualizar portada:', body);
+                respuesta = await Post(ruta,body) // ACTUALIZAR PORTADA
+                console.log('Respuesta actualizar portada:', respuesta);
+
+                if (respuesta['status'] != 200) {
+                    console.warn('⚠️ Error al actualizar portada, pero continuamos con el registro');
+                }
+            }
+
+            // Continuar con el registro de horarios (independiente de si hay imagen o no)
+            ruta = null
+            body = null
+            respuesta = null
+            //-------------------------------------
+            ruta = '/mantenimientos_parque_agregar_horarios/'+id_temp
+            body = await registrar_horario_flex('parque')
+            respuesta = await Post(ruta,body) // REGISTRO DE HORARIO DEL PARQUE
+            //-------------------------------------
+            if (respuesta['status'] == 200) {
                 reset_modal_parque()
                 closemodal_2()
                 show_modal('Parque registrado','Se ha completado exitosamente el nuevo registro')
                 Actualizar_tabla()
             }else{
                 closemodal_2()
-                show_modal('Registro invalido','Se ha producido un error inesperado durante el registro del parque, Por favor vuelva a intentarlo')
+                show_modal('Registro invalido','Se ha producido un error inesperado durante el registro de horarios del parque')
                 Actualizar_tabla()
             }
         }
@@ -1260,28 +1346,66 @@ async function crear_zona(origen){
         }
         // 'img':File_img,
         let respuesta = await Post(ruta,body)
+        console.log('=== DEBUG crear_zona ===');
+        console.log('Respuesta registro zona:', respuesta);
+
         if (respuesta['status']== 200) {
-            //console.log('Registro de zona')
-            ruta = null
-            body = null
-            ruta = '/mantenimientos_zona_agregar_img'
-            body = {
-                'id_zona': respuesta['response']['id'],
-                'img':File_img,
-                'responsable':local_sesion['usuario'],
+            // Guardar el ID de la zona creada
+            const id_zona_creada = respuesta['response']['id'];
+            console.log('Zona creada con ID:', id_zona_creada);
+
+            // Subir imagen usando el endpoint de archivos
+            console.log('Verificando imagen File_img_raw:', File_img_raw);
+            let imageData = null;
+            if (File_img_raw) {
+                console.log('Hay imagen de zona, iniciando upload...');
+                try {
+                    const uploadResult = await uploadFile(File_img_raw, 'zonas');
+                    console.log('Resultado upload zona:', uploadResult);
+                    if (uploadResult.success) {
+                        imageData = uploadResult.data; // Guardar todos los datos
+                        console.log('✅ Imagen zona subida correctamente:', imageData);
+                    } else {
+                        console.log('⚠️ Upload zona falló:', uploadResult);
+                    }
+                } catch (error) {
+                    console.error('❌ Error capturado al subir imagen de zona:', error);
+                }
+            } else {
+                console.log('⚠️ No hay imagen File_img_raw para subir');
             }
-            respuesta = await Post(ruta,body)
-            //console.log(respuesta)
-            if (respuesta['status']== 200) {
-                //console.log("Registrando horarios")
-                registrar_horario(respuesta['response']['id_zona'])
-                reset_modal_zona()
-                zonas_display(id_parque)
-                show_modal('Actualizacion-zona','Se ha completado exitosamente el registro')
-                closeModal()
-                document.querySelectorAll(".btn-primary")[0].disabled = false
+
+            // Si hay imagen, guardar en la tabla de imágenes de zona
+            if (imageData) {
+                ruta = null
+                body = null
+                ruta = '/mantenimientos_zona_agregar_img'
+                body = {
+                    'id_zona': id_zona_creada,
+                    'path': imageData.path, // Ruta relativa
+                    'url': imageData.url, // URL completa
+                    'original_name': imageData.original_name, // Nombre original
+                    'size': imageData.size, // Tamaño en bytes
+                    'formato': imageData.mime_type, // Tipo MIME
+                    'responsable':local_sesion['usuario'],
+                }
+                console.log('Body para agregar imagen zona:', body);
+                const respuestaImg = await Post(ruta,body)
+                console.log('Respuesta agregar imagen zona:', respuestaImg);
+
+                if (respuestaImg['status'] != 200) {
+                    console.warn('⚠️ Error al guardar imagen de zona, pero continuamos');
+                }
             }
-            
+
+            // Continuar con horarios independientemente de si hay imagen o no
+            //console.log("Registrando horarios")
+            registrar_horario(id_zona_creada)
+            reset_modal_zona()
+            zonas_display(id_parque)
+            show_modal('Actualizacion-zona','Se ha completado exitosamente el registro')
+            closeModal()
+            document.querySelectorAll(".btn-primary")[0].disabled = false
         }
         //console.log(respuesta)
     }
@@ -1335,9 +1459,11 @@ async function registrar_horario(id){
 //-------------------------- SECCION DE PRUEBAS
 //let file = null
 let File_img = null
+let File_img_raw = null // Guardar el archivo original para subirlo
 document.getElementById('fileInput_1').addEventListener('change', function(event) {
     let file = event.target.files[0];
     if (file) {
+        File_img_raw = file; // Guardar archivo original
         const reader = new FileReader();
         //console.log(reader)
         reader.onload = function() {
@@ -1352,9 +1478,17 @@ document.getElementById('fileInput_1').addEventListener('change', function(event
 
 
 let File_img2 = null
+let File_img2_raw = null // Guardar el archivo original para subirlo
 document.getElementById('fileInput_2').addEventListener('change', function(event) {
+    console.log('=== DEBUG fileInput_2 change event ===');
+    console.log('Event:', event);
+    console.log('Files:', event.target.files);
     let file = event.target.files[0];
+    console.log('File selected:', file);
     if (file) {
+        File_img2_raw = file; // Guardar archivo original
+        console.log('✅ File_img2_raw asignado:', File_img2_raw);
+        console.log('File details - Name:', file.name, 'Size:', file.size, 'Type:', file.type);
         const reader = new FileReader();
         //console.log(reader)
         reader.onload = function() {
@@ -1362,15 +1496,20 @@ document.getElementById('fileInput_2').addEventListener('change', function(event
             previewImage.src = reader.result;
             File_img2 = reader.result
             previewImage.style.display = 'block';
+            console.log('✅ Preview image actualizado');
         }
         reader.readAsDataURL(file);
+    } else {
+        console.log('⚠️ No se seleccionó ningún archivo');
     }
 });
 
 let File_img3 = null
+let File_img3_raw = null // Guardar el archivo original para subirlo
 document.getElementById('fileInput_3').addEventListener('change', function(event) {
     let file = event.target.files[0];
     if (file) {
+        File_img3_raw = file; // Guardar archivo original
         const reader = new FileReader();
         //console.log(reader)
         reader.onload = function() {
@@ -1452,6 +1591,9 @@ function reset_horarios(){
 
 
 function reset_modal_parque(){
+    console.log('=== DEBUG reset_modal_parque ===');
+    console.log('File_img2_raw antes de reset:', File_img2_raw);
+    console.log('File_img2 antes de reset:', File_img2);
     let campos = document.querySelectorAll(".input_data_parque")
     let campos2 = document.querySelectorAll(".input_data_zona")
     document.getElementById('previewImage_2').src = '/IMG/parque_default.avif'
@@ -1466,6 +1608,9 @@ function reset_modal_parque(){
     });
     File_img2 = null
     File_img3 = null
+    File_img2_raw = null // Agregar esta línea para limpiar también el raw
+    File_img3_raw = null // Agregar esta línea para limpiar también el raw
+    console.log('✅ Variables de archivo reseteadas');
     reset_horarios_2()
 }
 function reset_horarios_2(){

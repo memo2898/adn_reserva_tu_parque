@@ -1,0 +1,797 @@
+/* ============================================
+   RESERVA TU PARQUE - Estilos Modernos Minimalistas
+   Basado en el diseño del multistep ejemplo
+   ============================================ */
+
+:root {
+    /* Colores principales */
+    --text-primary: #1e293b;
+    --text-secondary: #64748b;
+    --text-muted: #94a3b8;
+
+    /* Backgrounds */
+    --bg-white: #fff;
+    --bg-gray-50: #f8fafc;
+    --bg-gray-100: #f1f5f9;
+
+    /* Borders */
+    --border-color: #e2e8f0;
+    --border-color-hover: #cbd5e1;
+
+    /* Colores de acento */
+    --azul: #00569C;
+    --azul-hover: #004F8D;
+    --azul-light: rgba(0, 86, 156, 0.1);
+
+    --verde: #22c55e;
+    --verde-hover: #16a34a;
+
+    --azul-info: #3b82f6;
+    --azul-info-hover: #2563eb;
+
+    --rojo-error: #ef4444;
+
+    /* Sombras */
+    --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.1);
+    --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1);
+
+    /* Transiciones */
+    --transition: all 0.2s ease;
+}
+
+/* ============================================
+   RESET Y BASE
+   ============================================ */
+
+* {
+    box-sizing: border-box;
+}
+
+.Body {
+    font-family: 'Montserrat', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    color: var(--text-primary);
+    background-color: #F4F4F4;
+    font-size: 16px;
+    line-height: 1.5;
+}
+
+/* ============================================
+   CONTENEDOR PRINCIPAL
+   ============================================ */
+
+.transaccion-multistep {
+    max-width: 900px;
+    margin: 2rem auto;
+    padding: 1.5rem;
+    background: var(--bg-white);
+    border-radius: 0.5rem;
+    box-shadow: var(--shadow-sm);
+}
+
+/* Header */
+.transaccion-multistep-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.transaccion-multistep-title {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin: 0;
+}
+
+.transaccion-multistep-cancel {
+    padding: 0.5rem 1rem;
+    background: transparent;
+    border: 1px solid var(--border-color);
+    border-radius: 0.375rem;
+    color: var(--text-secondary);
+    font-size: 0.875rem;
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.transaccion-multistep-cancel:hover {
+    background: var(--bg-gray-50);
+    border-color: var(--border-color-hover);
+    color: var(--text-primary);
+}
+
+/* ============================================
+   STEPPERX - Indicador de Progreso
+   ============================================ */
+
+.stepperx {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    width: 100%;
+}
+
+.stepperx-indicator {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0;
+    padding: 1rem 0;
+}
+
+.stepperx-indicator.horizontal {
+    flex-direction: row;
+}
+
+/* Cada paso */
+.stepperx-step {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    flex: 1;
+    text-align: center;
+    position: relative;
+}
+
+/* Círculo del paso */
+.stepperx-step-circle {
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    font-size: 0.875rem;
+    border: 2px solid var(--border-color);
+    background: var(--bg-white);
+    color: var(--text-secondary);
+    transition: var(--transition);
+    position: relative;
+    z-index: 2;
+    flex-shrink: 0;
+}
+
+/* Estados del círculo */
+.stepperx-step.pending .stepperx-step-circle {
+    border-color: var(--border-color);
+    background: var(--bg-white);
+    color: var(--text-muted);
+}
+
+.stepperx-step.current .stepperx-step-circle {
+    border-color: var(--azul);
+    background: var(--azul);
+    color: var(--bg-white);
+    box-shadow: 0 0 0 4px var(--azul-light);
+}
+
+.stepperx-step.completed .stepperx-step-circle {
+    border-color: var(--verde);
+    background: var(--verde);
+    color: var(--bg-white);
+}
+
+/* Check icon para completados */
+.stepperx-step.completed .stepperx-step-circle::after {
+    content: '\2713';
+    font-size: 1rem;
+}
+
+.stepperx-step.completed .stepperx-step-circle .step-number {
+    display: none;
+}
+
+/* Contenido del paso */
+.stepperx-step-content {
+    display: flex;
+    flex-direction: column;
+    gap: 0.125rem;
+    margin-top: 0.5rem;
+}
+
+.stepperx-step-label {
+    font-weight: 500;
+    font-size: 0.875rem;
+    color: var(--text-primary);
+    transition: color 0.2s ease;
+}
+
+.stepperx-step.current .stepperx-step-label {
+    color: var(--azul);
+}
+
+.stepperx-step.completed .stepperx-step-label {
+    color: var(--verde);
+}
+
+.stepperx-step.pending .stepperx-step-label {
+    color: var(--text-muted);
+}
+
+/* Línea conectora */
+.stepperx-connector {
+    flex: 1;
+    height: 2px;
+    background: var(--border-color);
+    position: absolute;
+    top: calc(1.25rem - 1px);
+    left: calc(50% + 1.25rem + 0.5rem);
+    right: calc(-50% + 1.25rem + 0.5rem);
+    margin: 0;
+    z-index: 1;
+}
+
+.stepperx-step.completed .stepperx-connector {
+    background: var(--verde);
+}
+
+.stepperx-step:last-child .stepperx-connector {
+    display: none;
+}
+
+/* ============================================
+   NAVEGACIÓN
+   ============================================ */
+
+.stepperx-navigation {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+    border-top: 1px solid var(--border-color);
+    gap: 1rem;
+}
+
+.stepperx-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.625rem 1.25rem;
+    font-size: 0.875rem;
+    font-weight: 500;
+    border-radius: 0.375rem;
+    cursor: pointer;
+    transition: var(--transition);
+    border: 1px solid transparent;
+}
+
+.stepperx-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.stepperx-btn-prev {
+    background: var(--bg-white);
+    border-color: var(--border-color);
+    color: var(--text-secondary);
+}
+
+.stepperx-btn-prev:hover:not(:disabled) {
+    background: var(--bg-gray-50);
+    border-color: var(--border-color-hover);
+}
+
+.stepperx-btn-next {
+    background: var(--azul);
+    color: var(--bg-white);
+}
+
+.stepperx-btn-next:hover:not(:disabled) {
+    background: var(--azul-hover);
+}
+
+/* ============================================
+   CONTENIDO DE PASOS
+   ============================================ */
+
+.stepperx-content {
+    padding: 1rem;
+    min-height: 300px;
+}
+
+/* ============================================
+   FORMULARIOS - Estilos Base
+   ============================================ */
+
+.step-form-row {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+.step-form-row.full-width {
+    grid-template-columns: 1fr;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.form-label {
+    font-weight: 500;
+    font-size: 0.875rem;
+    color: var(--text-primary);
+}
+
+.form-label.required::after {
+    content: ' *';
+    color: var(--rojo-error);
+}
+
+/* Inputs */
+.form-input,
+.form-select,
+.form-textarea {
+    width: 100%;
+    padding: 0.625rem 0.875rem;
+    font-size: 0.875rem;
+    border: 1px solid var(--border-color);
+    border-radius: 0.375rem;
+    background: var(--bg-white);
+    color: var(--text-primary);
+    transition: var(--transition);
+}
+
+.form-input:focus,
+.form-select:focus,
+.form-textarea:focus {
+    outline: none;
+    border-color: var(--azul);
+    box-shadow: 0 0 0 2px var(--azul-light);
+}
+
+.form-input::placeholder {
+    color: var(--text-muted);
+}
+
+.form-textarea {
+    min-height: 100px;
+    resize: vertical;
+}
+
+/* Estados de error */
+.form-input.error,
+.form-select.error,
+.form-textarea.error {
+    border-color: var(--rojo-error);
+}
+
+.form-error-message {
+    font-size: 0.75rem;
+    color: var(--rojo-error);
+    margin-top: 0.25rem;
+}
+
+/* ============================================
+   BUSCADOR
+   ============================================ */
+
+.search-input-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 0.75rem;
+    background: var(--bg-gray-50);
+    border: 1px solid var(--border-color);
+    border-radius: 0.375rem;
+    transition: var(--transition);
+    margin-bottom: 1rem;
+}
+
+.search-input-wrapper:focus-within {
+    background: var(--bg-white);
+    border-color: var(--azul);
+    box-shadow: 0 0 0 2px var(--azul-light);
+}
+
+.search-input-wrapper input {
+    flex: 1;
+    border: none;
+    background: transparent;
+    font-size: 0.875rem;
+    color: var(--text-primary);
+    outline: none;
+}
+
+.search-input-wrapper input::placeholder {
+    color: var(--text-muted);
+}
+
+.search-icon {
+    color: var(--text-muted);
+    width: 1rem;
+    height: 1rem;
+}
+
+/* ============================================
+   CARDS DE PARQUES
+   ============================================ */
+
+.cards-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+    padding-top: 10px;
+    transition: all 0.3s ease;
+    justify-content: center;
+}
+
+/* Animación suave para el contenedor izquierdo */
+.split-layout-left {
+    transition: all 0.3s ease;
+}
+
+.park-card {
+    border: 1px solid var(--border-color);
+    border-radius: 0.5rem;
+    overflow: hidden;
+    background: var(--bg-white);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    width: 22rem;
+    height: 280px;
+    flex-shrink: 0;
+}
+
+.park-card:hover {
+    border-color: var(--azul);
+    box-shadow: var(--shadow-md);
+    transform: translateY(-2px);
+}
+
+.park-card.selected {
+    border-color: var(--azul);
+    background: var(--azul);
+    box-shadow: 0 0 0 2px var(--azul-light);
+    transform: translateY(-2px);
+}
+
+.park-card.selected .park-card-title,
+.park-card.selected .park-card-location,
+.park-card.selected .park-card-location span {
+    color: #fff;
+    transition: color 0.3s ease;
+}
+
+.park-card.selected .park-card-location svg {
+    fill: #fff;
+    transition: fill 0.3s ease;
+}
+
+/* Transiciones para los elementos del card */
+.park-card-title,
+.park-card-location,
+.park-card-location span,
+.park-card-location svg {
+    transition: all 0.3s ease;
+}
+
+.park-card-image {
+    width: 100%;
+    height: 150px;
+    object-fit: cover;
+    flex-shrink: 0;
+}
+
+.park-card-content {
+    padding: 1rem;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+/* Placeholder cuando no hay imagen de portada */
+.park-card-placeholder {
+    width: 100%;
+    height: 150px;
+    background: #d9d9d9;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+}
+
+.park-card-placeholder svg {
+    width: 3rem;
+    height: 3rem;
+    fill: rgba(255, 255, 255, 0.8);
+}
+
+.park-card-placeholder span {
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 0.875rem;
+    font-weight: 500;
+}
+
+/* Ocultar cards filtradas */
+.park-card.hidden {
+    display: none;
+}
+
+/* Mensaje de no coincidencias */
+.no_content {
+    display: none;
+    text-align: center;
+    padding: 3rem 1rem;
+    color: var(--text-secondary);
+    grid-column: 1 / -1;
+}
+
+.no_content.show {
+    display: block;
+}
+
+.park-card-title {
+    font-weight: 600;
+    font-size: 0.9375rem;
+    color: var(--text-primary);
+    margin: 0 0 0.5rem 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    max-width: 100%;
+}
+
+.park-card-location {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+    font-size: 0.8125rem;
+    color: var(--text-secondary);
+    min-width: 0;
+}
+
+.park-card-location span {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.park-card-location svg {
+    width: 0.875rem;
+    height: 0.875rem;
+    fill: var(--text-secondary);
+    flex-shrink: 0;
+}
+
+/* ============================================
+   LAYOUT DIVIDIDO (Paso 1)
+   ============================================ */
+
+/* Estado inicial: Grid completo */
+.park-selection-container {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+    transition: all 0.3s ease;
+}
+
+/* Estado con parque seleccionado: Split layout */
+.park-selection-container.split-mode {
+    grid-template-columns: 1fr 1fr;
+}
+
+.split-layout-left {
+    overflow-y: auto;
+    max-height: 700px;
+}
+
+.split-layout-right {
+    position: sticky;
+    top: 1rem;
+    display: none; /* Oculto por defecto */
+    opacity: 0;
+    transform: translateX(20px);
+    transition: opacity 0.4s ease, transform 0.4s ease;
+    max-height: 700px;
+    overflow-y: auto;
+    align-self: start;
+}
+
+/* Mostrar panel derecho solo cuando hay selección */
+.park-selection-container.split-mode .split-layout-right {
+    display: block;
+    animation: slideInRight 0.4s ease forwards;
+}
+
+@keyframes slideInRight {
+    from {
+        opacity: 0;
+        transform: translateX(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+.park-details {
+    border: 1px solid var(--border-color);
+    border-radius: 0.5rem;
+    padding: 1.5rem;
+    background: var(--bg-white);
+}
+
+.park-details-title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin: 0 0 1rem 0;
+}
+
+.park-details-section {
+    margin-bottom: 1.5rem;
+    position: relative;
+    min-height: 250px;
+}
+
+/* Skeleton Loader para el mapa */
+.map-skeleton {
+    z-index: 3;
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    padding: 0px;
+    border-width: 0px;
+    margin: 0px;
+    left: 0px;
+    top: 0px;
+    background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+    background-size: 200% 100%;
+    animation: shimmer 1.5s infinite;
+    border-radius: 0.375rem;
+    overflow: hidden;
+}
+
+.map-skeleton::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 40px;
+    height: 40px;
+    border: 3px solid #d0d0d0;
+    border-top-color: var(--azul);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+.map-skeleton::after {
+    content: 'Cargando mapa...';
+    position: absolute;
+    bottom: 1rem;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 0.875rem;
+    color: #94a3b8;
+    font-weight: 500;
+}
+
+@keyframes shimmer {
+    0% {
+        background-position: -200% 0;
+    }
+    100% {
+        background-position: 200% 0;
+    }
+}
+
+@keyframes spin {
+    to {
+        transform: translate(-50%, -50%) rotate(360deg);
+    }
+}
+
+/* Ocultar skeleton cuando el mapa carga */
+.map-skeleton.hidden {
+    display: none;
+}
+
+.park-details-section iframe {
+    display: block;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.park-details-section iframe.loaded {
+    opacity: 1;
+}
+
+.park-details-section-title {
+    font-size: 0.9375rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin: 0 0 0.5rem 0;
+}
+
+.park-details-text {
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+    line-height: 1.6;
+}
+
+/* Estilos para la tabla de horarios */
+.park-details .Horario_table thead th {
+    color: #000;
+    font-weight: 600;
+    text-align: center;
+}
+
+.park-details .Horario_table tbody th,
+.park-details .Horario_table tbody td {
+    color: var(--text-primary);
+    text-align: center;
+}
+
+/* ============================================
+   RESPONSIVE
+   ============================================ */
+
+@media (max-width: 768px) {
+    .transaccion-multistep {
+        padding: 1rem;
+        margin: 1rem;
+        border-radius: 0.375rem;
+    }
+
+    .transaccion-multistep-title {
+        font-size: 1.25rem;
+    }
+
+    .stepperx-step-circle {
+        width: 2rem;
+        height: 2rem;
+        font-size: 0.75rem;
+    }
+
+    .stepperx-step-content {
+        display: none;
+    }
+
+    .stepperx-connector {
+        top: calc(1rem - 1px);
+        left: calc(50% + 1rem + 0.25rem);
+        right: calc(-50% + 1rem + 0.25rem);
+    }
+
+    .step-form-row {
+        grid-template-columns: 1fr;
+    }
+
+    .park-selection-container,
+    .park-selection-container.split-mode {
+        grid-template-columns: 1fr;
+    }
+
+    .split-layout-right {
+        position: static;
+    }
+
+    .cards-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 480px) {
+    .stepperx-navigation {
+        flex-direction: column-reverse;
+    }
+
+    .stepperx-btn {
+        width: 100%;
+        justify-content: center;
+    }
+}

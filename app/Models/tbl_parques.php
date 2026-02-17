@@ -17,6 +17,30 @@ class tbl_parques extends Model
 
     protected $connection = 'ADN_reservaciones';
 
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
+    protected $fillable = [
+        'nombre_parque',
+        'id_parque_ADN',
+        'descripcion',
+        'correo',
+        'provincia',
+        'municipio',
+        'sector',
+        'circunscripcion',
+        'coordenadas_maps',
+        'direccion',
+        'portada_url',
+        'portada_size',
+        'portada_formato',
+        'espera',
+        'agregado_por',
+        'modificado_por',
+        'estado',
+    ];
 
     //public $timestamps = false;
     const CREATED_AT = 'agregado_en';

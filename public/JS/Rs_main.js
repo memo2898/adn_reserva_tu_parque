@@ -502,18 +502,25 @@ function ParkSelector(ID, Nombre){
     ocultar_detalles()
     Park_details.style.display='block'
     let btn_identy = document.querySelectorAll("#PK_"+ID)[0]
-    if (btn_identy.classList[1] == undefined) {
-        Parkcleaner()
+    // Verificar si el card ya está seleccionado (para hacer toggle)
+    const isAlreadySelected = btn_identy.classList.contains("card_active") || btn_identy.classList.contains("selected");
+
+    // Primero limpiar TODAS las selecciones previas
+    Parkcleaner()
+    Park_add_cleaner()
+
+    if (isAlreadySelected) {
+        // Si ya estaba seleccionado, solo deseleccionar (toggle off)
+        Pop[0]=false
+        Pop[3]=false
+    }
+    else{
+        // Si no estaba seleccionado, seleccionar este parque (ya limpiamos los demás arriba)
         btn_identy.classList.add("card_active")
+        btn_identy.classList.add("selected")
         Pop[0]=true
         Pop[3]=false
         Buscador_packed(ID)
-    }
-    else{
-        Pop[0]=false
-        Pop[3]=false
-        Parkcleaner()
-        Park_add_cleaner()
     }
     ModeradorPOP()
     function ocultar_detalles(){
@@ -530,9 +537,16 @@ function ParkSelector(ID, Nombre){
 }
 
 function Parkcleaner(){
+    // Limpiar cards antiguos (si existen)
     let Mapcard = document.querySelectorAll(".card_map")
     Mapcard.forEach(element => {
         element.classList.remove("card_active")
+    });
+
+    // Limpiar nuevos park-cards
+    let ParkCards = document.querySelectorAll(".park-card")
+    ParkCards.forEach(element => {
+        element.classList.remove("card_active", "selected")
     });
 }
 

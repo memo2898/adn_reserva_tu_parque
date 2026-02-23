@@ -53,13 +53,12 @@ function Solicitudes_pruebas(){ //PRUEBAS
 
 async function Reservacion(){ //PARTE FINAL
     let code_r = document.querySelector("#code_r")
-    document.querySelector(".botones").style.visibility = 'hidden'
-    document.querySelector('.Next').removeAttribute('onclick')
-    document.querySelector('.Previous').removeAttribute('onclick')
 
-    document.querySelector(".botones_extra").style.visibility = 'hidden'
-    document.querySelector('.next_mirror').removeAttribute('onclick')
-    document.querySelector('.preview_mirror').removeAttribute('onclick')
+    // Deshabilitar botones de navegación
+    const btnNext = document.querySelector('.stepperx-btn-next');
+    const btnPrev = document.querySelector('.stepperx-btn-prev');
+    if (btnNext) btnNext.removeAttribute('onclick');
+    if (btnPrev) btnPrev.removeAttribute('onclick');
 
     code_r.innerHTML = ``
     axios.post('/Reservaciones_2_post', {
@@ -80,51 +79,62 @@ async function Reservacion(){ //PARTE FINAL
     })
     .then(response => {
         console.log(response.data);
-        /*
-        code_r.innerHTML = `${response.data["codigo_reservacion"]}`
-        document.querySelectorAll(".Carga_icon")[0].style.display = "none"
-        document.querySelectorAll(".QRView")[0].style.display = "block"
-        */
-        //let QR = QRMaker()
+
+        // Generar QR inmediatamente
         QRMaker(response.data["id"])
-        Enviar_correos(response.data["id"])
+
+        // Mostrar QR después de un breve delay
         setTimeout(() => {
             code_r.innerHTML = response.data["codigo_reservacion"];
             document.querySelectorAll(".Carga_icon")[0].style.display = "none";
             document.querySelectorAll(".QRView")[0].style.display = "block";
-        }, Math.floor(Math.random() * 1001) + 2000); // Entre 2 y 3 segundos (2000 y 3000 milisegundos)
+        }, 1500); // 1.5 segundos
+
+        // Enviar correo en segundo plano (no bloqueante)
+        Enviar_correos(response.data["id"])
+            .then(() => {
+                console.log('✅ Correo enviado exitosamente');
+            })
+            .catch(error => {
+                console.error('⚠️ Error al enviar correo (no crítico):', error);
+                // El error del correo no afecta la reservación que ya fue guardada
+            });
     })
     .catch(error => {
-        console.log(error);
+        console.error('Error al crear reservación:', error);
+        alert('Hubo un error al procesar su reservación. Por favor, intente nuevamente.');
+        // Recargar la página o permitir reintentar
     });
 }
 
 
-async function Enviar_correos(id){ //PRUEBAS
-    let canvas = document.querySelector("#QRdisplay > canvas").toDataURL()
-    
-        let url="enviar-correo";
-        //let id=20;
-        //==============================================
-        /*
-        let cuerpoGuardar={ //IMAGEN QR
-            id: id,
-            image: canvas
-            
-        }
-        let respuestaQR= await guardarImagenADN(cuerpoGuardar); //CREACION DEL QR
-        console.log(respuestaQR)
-        */
-        //console.log("Esperando")
-        //==============================================
+async function Enviar_correos(id){ //ENVIO DE CORREO EN SEGUNDO PLANO
+    try {
+        let canvas = document.querySelector("#QRdisplay > canvas").toDataURL()
 
-        let cuerpo ={ //CORREO ELECTRONICO
+        let url = "enviar-correo";
+        let cuerpo = {
             'Reservacion': id,
-            'QR':canvas,
+            'QR': canvas,
         }
-        let respuesta= await enviar_post(url,cuerpo); //ENVIANDO EL CORREO
-        console.log(respuesta)
-    
+
+        // Configurar timeout de 30 segundos para el envío de correo
+        const timeoutPromise = new Promise((_, reject) =>
+            setTimeout(() => reject(new Error('Timeout: El envío de correo tardó demasiado')), 30000)
+        );
+
+        const emailPromise = enviar_post(url, cuerpo);
+
+        // Race entre el envío y el timeout
+        const respuesta = await Promise.race([emailPromise, timeoutPromise]);
+
+        console.log('✅ Correo enviado:', respuesta);
+        return respuesta;
+    } catch (error) {
+        console.error('⚠️ Error al enviar correo:', error.message || error);
+        // No lanzar el error para que no afecte la reservación
+        return { error: true, message: error.message };
+    }
 }
 
 
@@ -193,10 +203,9 @@ function recolor_gris(){
 
     //---------------------------------------------
     packed.forEach(element => {
-        element['id']
-        document.querySelector("#zn_"+element["id"]).classList
-        if (document.querySelector("#zn_"+element["id"]).classList[1] == "Z_grey" || document.querySelector("#zn_"+element["id"]).classList[2] == "Z_grey") {
-            document.querySelector("#zn_"+element["id"]).classList.remove("Z_grey")
+        const zoneElement = document.querySelector("#zn_"+element["id"]);
+        if (zoneElement && zoneElement.classList.contains("Z_grey")) {
+            zoneElement.classList.remove("Z_grey")
         }
     });
     //---------------------------------------------
@@ -262,18 +271,23 @@ async function Buscador_packed(ID){ //FUNCIONAL
     if (P_zonas && Array.isArray(P_zonas) && P_zonas.length > 0) {
         P_zonas.forEach(element => {
             zona.innerHTML += `
-            <div class="Zonas_card">
-                <div class="zone_map" onclick='Formdata_4(${element['id']})' id="zn_${element.id}">
-                    <img src="${element['imagen']}" class="Z_img" onerror="this.src='/IMG/parque_silueta.png'">
-                    <div class="Z_locate">
-                        <img src="/IMG/location-dot-solid.svg" class="Z_svg">
-                        <p class="Z_direct">${element['direccion']}</p>
+            <div class="park-card Zonas_card" onclick='Formdata_4(${element['id']})' id="zn_${element.id}">
+                <img src="${element['imagen']}" class="park-card-image" onerror="this.src='/IMG/parque_silueta.png'" alt="${element['nombre']}">
+                <div class="park-card-content">
+                    <h3 class="park-card-title">${element['nombre']}</h3>
+                    <div class="park-card-location">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512" fill="currentColor">
+                            <path d="M215.7 499.2C267 435 384 279.4 384 192C384 86 298 0 192 0S0 86 0 192c0 87.4 117 243 168.3 307.2c12.3 15.3 35.1 15.3 47.4 0zM192 128a64 64 0 1 1 0 128 64 64 0 1 1 0-128z"/>
+                        </svg>
+                        <span>${element['direccion']}</span>
                     </div>
-                    <p class="Z_mesg">${element['nombre']}</p>
                     <div class='Z_horario' id='ZNH_${element['id']}'>
-                        <p>---</p>
-                        <p>-</p>
-                        <p>---</p>
+                        <div style="display: flex; align-items: center; gap: 0.5rem; font-size: 0.875rem; color: #999; margin-top: 0.5rem;">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="currentColor" style="width: 14px; height: 14px;">
+                                <path d="M256 0a256 256 0 1 1 0 512A256 256 0 1 1 256 0zM232 120V256c0 8 4 15.5 10.7 20l96 64c11 7.4 25.9 4.4 33.3-6.7s4.4-25.9-6.7-33.3L280 243.2V120c0-13.3-10.7-24-24-24s-24 10.7-24 24z"/>
+                            </svg>
+                            <span>Cargando horarios...</span>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -287,6 +301,11 @@ async function Buscador_packed(ID){ //FUNCIONAL
         `
     }
 
+    // Validar horarios si ya hay datos del evento
+    if (eventB !== "" && eventF !== "" && fecha !== "") {
+        await P_horario();
+        recolor_horarios();
+    }
 }
 
 async function Busqueda_zona_img(ID){ //FUNCIONAL
@@ -331,24 +350,25 @@ async function P_horario(){ //PROBANDO HORARIOS FLEXIBLES
 async function P_horario(){ //PROBANDO HORARIOS FLEXIBLES
     let apertura = null
     let cierre = null
-    packed.forEach(async (element) => {
+    for (const element of packed) {
         for (const elements of element['horarios']) {
             if (elements['dia_semana'] == dia_seleccionado) {
                 apertura = await R_convertir_12h(elements['hora_apertura']);
                 cierre = await R_convertir_12h(elements['hora_cierre']);
-                document.querySelector("#ZNH_" + element['id']).innerHTML = `
-                    <div class='Z_header'>
-                        <h3>Desde - Hasta</h3>
-                    </div>
-                    <div class='Z_center'>
-                        <p>${apertura}</p>
-                        <p style='padding-left: .4rem;padding-right: .4rem;'>-</p>
-                        <p>${cierre}</p>
-                    </div>
-                `;
+                const horarioElement = document.querySelector("#ZNH_" + element['id']);
+                if (horarioElement) {
+                    horarioElement.innerHTML = `
+                        <div style="display: flex; align-items: center; gap: 0.5rem; font-size: 0.875rem; color: #666; margin-top: 0.5rem;">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="currentColor" style="width: 14px; height: 14px;">
+                                <path d="M256 0a256 256 0 1 1 0 512A256 256 0 1 1 256 0zM232 120V256c0 8 4 15.5 10.7 20l96 64c11 7.4 25.9 4.4 33.3-6.7s4.4-25.9-6.7-33.3L280 243.2V120c0-13.3-10.7-24-24-24s-24 10.7-24 24z"/>
+                            </svg>
+                            <span>${apertura} - ${cierre}</span>
+                        </div>
+                    `;
+                }
             }
         }
-    });
+    }
 }
 
 
@@ -356,25 +376,30 @@ function recolor_horarios(){
     packed.forEach(element => {
         element['horarios'].forEach(elements => {
             if (elements['dia_semana'] == dia_seleccionado) {
+                const horarioElement = document.querySelector("#ZNH_"+element['id']);
+                const zonaElement = document.querySelector("#zn_"+element['id']);
+
                 if (eventB >= elements['hora_apertura'] && eventB <= elements['hora_cierre']) {
-                    document.querySelector("#ZNH_"+element['id']).classList.remove('Z_red')
                     //----------------
                     if (eventF >= elements['hora_apertura'] && eventF <= elements['hora_cierre']) {
-                        document.querySelector("#ZNH_"+element['id']).classList.remove('Z_red')
+                        // Horario válido - remover indicadores de error
+                        if (horarioElement) horarioElement.classList.remove('Z_red');
+                        if (zonaElement) zonaElement.classList.remove('zona-disabled');
                     }
                     else{
-                        document.querySelector("#ZNH_"+element['id']).classList.add('Z_red')
+                        // Hora de fin fuera de rango
+                        if (horarioElement) horarioElement.classList.add('Z_red');
+                        if (zonaElement) zonaElement.classList.add('zona-disabled');
                     }
                 }
                 else{
-                    document.querySelector("#ZNH_"+element['id']).classList.add('Z_red')
+                    // Hora de inicio fuera de rango
+                    if (horarioElement) horarioElement.classList.add('Z_red');
+                    if (zonaElement) zonaElement.classList.add('zona-disabled');
                 }
             }
-
-            
         });
     });
-
 }
 
 
@@ -1221,35 +1246,69 @@ function Extracion_horarios(){
 
                 //MODERADOR DEL 4TO FORMULARIO (END)
 
+// Variable para prevenir clicks múltiples
+let isProcessingZoneClick = false;
 
 function Formdata_4(Zona){
+    // Prevenir ejecución múltiple
+    if (isProcessingZoneClick) {
+        return;
+    }
+    isProcessingZoneClick = true;
+
     let Card_zone = document.querySelector('#zn_'+Zona)
+
+    // Verificar si la zona está deshabilitada por horario
+    if(Card_zone && Card_zone.classList.contains("zona-disabled")){
+        Show_flotante('P4 Seleccionar zona' , 'Horario del evento fuera del rango de esta zona')
+        Zone_cleaner()
+        Pop[3]=false
+        return;
+    }
+
     id_zona = Zona
-    if(document.querySelector("#ZNH_"+Zona).classList[1] == "Z_red" || document.querySelector("#ZNH_"+Zona).classList[2] == "Z_red"){
+    if(document.querySelector("#ZNH_"+Zona).classList.contains("Z_red")){
         Show_flotante('P4 Seleccionar zona' , 'Fuera de margen')
         Zone_cleaner()
         Pop[3]=false
     }
-    else if(document.querySelector("#zn_"+Zona).classList[1] == "Z_grey" || document.querySelector("#zn_"+Zona).classList[2] == "Z_grey"){
+    else if(document.querySelector("#zn_"+Zona).classList.contains("Z_grey")){
         Show_flotante('P4 Seleccionar zona' , 'Zona ocupada')
         Zone_cleaner()
         Pop[3]=false
     }
     else{
-        if (Card_zone.classList[1] == undefined) {
+        if (!Card_zone.classList.contains("zone_active")) {
             Zone_cleaner()
             Card_zone.classList.add("zone_active")
             Pop[3]=true
+
+            // Ocultar mensaje de validación cuando se selecciona una zona
+            const zonaValidationMsg = document.getElementById('zona-validation-msg');
+            if (zonaValidationMsg) {
+                zonaValidationMsg.style.display = 'none';
+                zonaValidationMsg.classList.remove('show');
+            }
+
+            // Avanzar automáticamente al siguiente paso después de un breve delay
+            setTimeout(() => {
+                Next();
+            }, 500);
         }
         else{
             Zone_cleaner()
             Card_zone.classList.remove("zone_active")
             Pop[3]=false
         }
-    
+
     }
-    
+
     ModeradorPOP()
+
+    // Resetear la bandera después de un pequeño delay
+    setTimeout(() => {
+        isProcessingZoneClick = false;
+    }, 800); // Aumentado a 800ms para dar tiempo al avance automático
 }
 
 
@@ -1382,6 +1441,13 @@ function Date_Siguiente(){
 
 
 function Previous(){ //CON ANIMACION
+    // Ocultar mensaje de validación de zona si existe
+    const zonaValidationMsg = document.getElementById('zona-validation-msg');
+    if (zonaValidationMsg) {
+        zonaValidationMsg.style.display = 'none';
+        zonaValidationMsg.classList.remove('show');
+    }
+
     if (document.querySelector(".Form"+(position-1)) != null) {
         document.querySelector(".Form"+position).classList.add("NextAnimation")
         setTimeout(start, 200);
@@ -1451,14 +1517,21 @@ async function Next(){ //CON ANIMACION
     }
     
     if (Pop[position-1] == true /*|| Pop[position-1]=="Inconcluso"*/) {
+        // Ocultar mensaje de validación de zona si existe
+        const zonaValidationMsg = document.getElementById('zona-validation-msg');
+        if (zonaValidationMsg) {
+            zonaValidationMsg.style.display = 'none';
+            zonaValidationMsg.classList.remove('show');
+        }
+
         if (document.querySelector(".Form"+(position+1)) != null) {
             document.querySelector(".Form"+position).classList.add("PreviousAnimation")
             setTimeout(start, 200);
             setTimeout(END, 230);
             position++
         }
-        else{}    
-        
+        else{}
+
     }
     else if (Pop[position-1] == false) {
         //Show_flotante('P'+position+' Seleccion de parque' , 'Formulario incompleto')
@@ -1482,10 +1555,19 @@ async function Next(){ //CON ANIMACION
                 //Show_flotante(Mens_float , 'Complete los formularios requeridos')
                 break;
             case 4:
-                
-                Mens_float = 'P'+position + " Seleccionar zona" 
-                Show_flotante(Mens_float , 'Formulario incompleto')
-                
+                Mens_float = 'P'+position + " Seleccionar zona"
+                Show_flotante(Mens_float , 'Debe seleccionar una zona')
+
+                // Mostrar mensaje de validación en el cuerpo
+                const zonaValidationMsg = document.getElementById('zona-validation-msg');
+                if (zonaValidationMsg) {
+                    zonaValidationMsg.style.display = 'flex';
+                    zonaValidationMsg.classList.add('show');
+
+                    // Scroll suave hacia el mensaje
+                    zonaValidationMsg.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                }
+
                 break;
             default:
                 break;
@@ -1528,15 +1610,6 @@ async function Next(){ //CON ANIMACION
     }
 }
 
-function mirror_preview(){
-    document.querySelector('.Previous').click()
-}
-
-function mirror_next(){
-    document.querySelector('.Next').click()
-}
-
-
 
 
 function FormActual(){
@@ -1548,22 +1621,17 @@ function FormActual(){
     switch (position) {
         case 1:
             Desc.innerHTML = `Seleccione el parque de su preferencia`;
-            document.querySelector('.botones_extra').style.visibility = 'hidden'
             break;
         case 2:
             Desc.innerHTML = `Información personal `;
-            document.querySelector('.botones_extra').style.visibility = 'hidden'
             break;
         case 3:
-            document.querySelector('.botones_extra').style.visibility = 'initial'
             Desc.innerHTML = `Información del evento`;
             break;
         case 4:
-            document.querySelector('.botones_extra').style.visibility = 'initial'
             Desc.innerHTML = `Seleccione la zona`;
             break;
         case 5:
-            document.querySelector('.botones_extra').style.visibility = 'hidden'
             document.querySelector('#Desc').style.display = 'none'
             document.querySelector('#subTitulo').style.display = 'none'
             Desc.innerHTML = `Código QR`;

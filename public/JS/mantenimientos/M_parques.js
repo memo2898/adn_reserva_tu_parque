@@ -46,7 +46,7 @@ async function uploadFile(file, directory = '') {
             resolve(response.data);
         })
         .catch(error => {
-            console.error('❌ Error al subir archivo:');
+            console.error('Error al subir archivo:');
             console.error('Error completo:', error);
             console.error('Error response:', error.response);
             console.error('Error status:', error.response ? error.response.status : 'N/A');
@@ -229,12 +229,11 @@ async function Zona_target(id){
     document.querySelector(".sect_2").style.display = 'none'
     document.querySelector(".sect_3").style.display = 'block'
     //-----------------------------
-    if (response['imagenes'][0]['imagen'] == null || response['imagenes'][0]['imagen'] == '') {
-        document.querySelector('.zona_img').src = '/IMG/parque_default.avif'
-    }else{
+    if (response['imagenes'].length > 0 && response['imagenes'][0]['imagen'] != null && response['imagenes'][0]['imagen'] != '') {
         document.querySelector('.zona_img').src = response['imagenes'][0]['imagen']
+    } else {
+        document.querySelector('.zona_img').src = '/IMG/parque_default.avif'
     }
-    //document.querySelector('.zona_img').src = response['imagenes'][0]['imagen']
     document.querySelector(".info_header_2").children[0].innerText = response['zonas']['nombre']
     zonas[0].value = response['zonas']['nombre']
     zonas[1].value = response['zonas']['direccion']
@@ -1124,7 +1123,7 @@ async function crear_parque(origen){ //CREACION SOLO PARQUE SIN ZONA INMEDIATA
                         console.log('⚠️ Upload falló:', uploadResult);
                     }
                 } catch (error) {
-                    console.error('❌ Error capturado al subir imagen:', error);
+                    console.error('Error capturado al subir imagen:', error);
                 }
             } else {
                 console.log('⚠️ No hay imagen File_img2_raw para subir');
@@ -1369,7 +1368,7 @@ async function crear_zona(origen){
                         console.log('⚠️ Upload zona falló:', uploadResult);
                     }
                 } catch (error) {
-                    console.error('❌ Error capturado al subir imagen de zona:', error);
+                    console.error('Error capturado al subir imagen de zona:', error);
                 }
             } else {
                 console.log('⚠️ No hay imagen File_img_raw para subir');

@@ -3,7 +3,8 @@
     "allow": [
       "Bash(mysql:*)",
       "Bash(php artisan:*)",
-      "Bash(grep:*)"
+      "Bash(grep:*)",
+      "Bash(composer require:*)"
     ]
   }
 }

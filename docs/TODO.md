@@ -5,10 +5,10 @@
 ## Fase 1 – Ajustes técnicos y preparación de datos
 **Duración estimada:** 3 días laborables
 
-- [ ] Bajar y sustituir la base de datos *(requiere intervención del encargado)*.
-- [ ] Agregar el ID del parque que se muestra en el listado a la tabla en MySQL.
-- [ ] Cargar en el sistema todos los parques suministrados en la lista **(207 parques)**.
-- [ ] Gestionar credenciales de Alert con Juan Cabrera y reparar el módulo de envío de correos.
+- [x] Bajar y sustituir la base de datos *(requiere intervención del encargado)*.
+- [x] Agregar el ID del parque que se muestra en el listado a la tabla en MySQL.
+- [x] Cargar en el sistema todos los parques suministrados en la lista **(207 parques)**.
+- [x] Gestionar credenciales de Alert con Juan Cabrera y reparar el módulo de envío de correos.
 - [ ] Realizar pruebas de envío de correos.
 - [ ] Verificar que continúe activa y en correcto funcionamiento la plantilla de envío de correos de Stripo utilizada por Andy Torres *(anterior desarrollador)*.
 
@@ -18,7 +18,7 @@
 **Duración estimada:** 2 días laborables
 
 - [ ] Refactorizar parcialmente el archivo `RS_main.js`, que contiene la lógica del multistep form y supera las 2,000 líneas de código, lo que dificulta realizar modificaciones en el frontend del lado del cliente.
-- [ ] Mejorar la interfaz del lado del munícipe.
+- [x] Mejorar la interfaz del lado del munícipe.
 - [ ] Incorporar filtro por circunscripción.
 
 ---

@@ -3,9 +3,11 @@ use App\Mail\ReservacionMaker;
 use App\Mail\ReservacionMaker_qr;
 use App\Mail\Reset_pass;
 //================================================
+use App\Services\GraphMailer;
+use App\Services\HybridMailer;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Route;
-use Illuminate\Http\Request; 
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 //================================================
 use GuzzleHttp\Client;
@@ -15,6 +17,7 @@ use GuzzleHttp\RequestOptions;
 use Carbon\Carbon;
 //================================================
 use App\Http\Controllers\FileUploadController;
+use App\Http\Controllers\DiagnosticoGraphController;
 
 
 /*
@@ -334,15 +337,25 @@ Route::post('/enviar-correo', function (Request $request) { // RESERVACIONES
             "estado" => $tbl_reservacion["estado"],
             'condiciones'=>$tbl_terminos_condiciones,
         ];
-        $correo = new ReservacionMaker($packed);
+
+        // Enviar correo usando HybridMailer (Graph con fallback a SMTP)
+        $hybridMailer = new HybridMailer();
         $Destinatario = $tbl_solicitantes['correo'];
-        Mail::to($Destinatario)->send($correo);
+
+        $resultadoEnvio = $hybridMailer->sendFromView(
+            $Destinatario,
+            'Confirmación de Reservación - ADN Parques',
+            'stripo_confirmacion',
+            ['datosReservacion' => $packed]
+        );
+
         $respuestas[] = [
-            'respuestas' => 'Correo electronico enviado correctamente',
+            'respuestas' => $resultadoEnvio['success'] ? 'Correo electronico enviado correctamente' : 'Error al enviar correo',
             'Reservacion' => $tbl_reservacion,
             'destinatario' => $Destinatario,
             'condiciones'=>$tbl_terminos_condiciones,
             'QR' => $QR,
+            'envio_detalles' => $resultadoEnvio
         ];
         return response() ->json($respuestas);
         //return ["Correo electrónico enviado",$Destinatario];
@@ -371,13 +384,23 @@ Route::post('/enviar-correo_confirmacion', function (Request $request) { // EN P
             "hora_inicio" => $tbl_reservacion["hora_inicio"],
             "hora_fin" => $tbl_reservacion["hora_fin"],
         ];
-        $correo = new ReservacionMaker_qr($packed);
+
+        // Enviar correo usando HybridMailer (Graph con fallback a SMTP)
+        $hybridMailer = new HybridMailer();
         $Destinatario = $tbl_solicitantes['correo'];
-        Mail::to($Destinatario)->send($correo);
+
+        $resultadoEnvio = $hybridMailer->sendFromView(
+            $Destinatario,
+            'Confirmación de Reservación - ADN Parques',
+            'stripo_confirmacion',
+            ['datosReservacion' => $packed]
+        );
+
         $respuestas[] = [
-            'respuestas' => 'Correo electronico enviado correctamente',
+            'respuestas' => $resultadoEnvio['success'] ? 'Correo electronico enviado correctamente' : 'Error al enviar correo',
             'Reservacion' => $tbl_reservacion,
             'destinatario' => $Destinatario,
+            'envio_detalles' => $resultadoEnvio,
             //'QR' => $QR,
         ];
         return response() ->json($respuestas);
@@ -1983,7 +2006,7 @@ Route::post('/mantenimientos_parque_agregar_img', function(Request $request){ //
         $parque = \App\Models\tbl_parques::find($request['id_parque']);
 
         if (!$parque) {
-            \Log::error('❌ Parque no encontrado', ['id_parque' => $request['id_parque']]);
+            \Log::error('Parque no encontrado', ['id_parque' => $request['id_parque']]);
             return response()->json(['mensaje' => 'Parque no encontrado', 'error' => 'Not found'], 404);
         }
 
@@ -2000,7 +2023,7 @@ Route::post('/mantenimientos_parque_agregar_img', function(Request $request){ //
         return response()->json(['mensaje' => 'Portada actualizada exitosamente', 'response' => $parque, 'status'=>200], 200);
 
     } catch (\Exception $e) {
-        \Log::error('❌ Error al actualizar portada', [
+        \Log::error('Error al actualizar portada', [
             'message' => $e->getMessage(),
             'file' => $e->getFile(),
             'line' => $e->getLine(),
@@ -2220,7 +2243,7 @@ Route::post('/mantenimientos_zona_agregar_img', function(Request $request){ //PO
 
         return response()->json(['mensaje' => 'Imagen agregada exitosamente', 'response' => $tbl_imagenes_por_zona, 'status'=>200], 200);
     } catch (\Exception $e) {
-        \Log::error('❌ Error al guardar imagen de zona', [
+        \Log::error('Error al guardar imagen de zona', [
             'message' => $e->getMessage(),
             'file' => $e->getFile(),
             'line' => $e->getLine(),
@@ -3145,13 +3168,23 @@ function notificacion_email($request){ //EMAIL DE CONFIRMACION
             "hora_inicio" => $tbl_reservacion["hora_inicio"],
             "hora_fin" => $tbl_reservacion["hora_fin"],
         ];
-        $correo = new ReservacionMaker_qr($packed);
+
+        // Enviar correo usando HybridMailer (Graph con fallback a SMTP)
+        $hybridMailer = new HybridMailer();
         $Destinatario = $tbl_solicitantes['correo'];
-        Mail::to($Destinatario)->send($correo);
+
+        $resultadoEnvio = $hybridMailer->sendFromView(
+            $Destinatario,
+            'Confirmación de Reservación - ADN Parques',
+            'stripo_confirmacion',
+            ['datosReservacion' => $packed]
+        );
+
         $respuestas[] = [
-            'respuestas' => 'Correo electronico enviado correctamente',
+            'respuestas' => $resultadoEnvio['success'] ? 'Correo electronico enviado correctamente' : 'Error al enviar correo',
             'Reservacion' => $tbl_reservacion,
             'destinatario' => $Destinatario,
+            'envio_detalles' => $resultadoEnvio,
             //'QR' => $QR,
         ];
         return response() ->json($respuestas);
@@ -3265,15 +3298,25 @@ Route::post('/correo-reset', function (Request $request) { // RESERVACIONES
             "usuario" => $tbl_usuario["usuario"],
             "password" => $tbl_usuario["password"],
         ];
-        $correo = new Reset_pass($packed);
+
+        // Enviar correo usando HybridMailer (Graph con fallback a SMTP)
+        $hybridMailer = new HybridMailer();
         $Destinatario = $tbl_usuario['correo'];
-        Mail::to($Destinatario)->send($correo);
+
+        $resultadoEnvio = $hybridMailer->sendFromView(
+            $Destinatario,
+            'Restablecimiento de Contraseña - ADN Parques',
+            'Stripo-reset',
+            ['datosReservacion' => $packed]
+        );
+
         $respuestas = [
-            'respuestas' => 'Correo electronico enviado correctamente',
+            'respuestas' => $resultadoEnvio['success'] ? 'Correo electronico enviado correctamente' : 'Error al enviar correo',
             'destinatario' => $Destinatario,
             'Info'=>$packed,
+            'envio_detalles' => $resultadoEnvio,
             //'Request'=>$request,
-            'estado'=>true
+            'estado'=> $resultadoEnvio['success']
         ];
         return response() ->json($respuestas);
     } catch (\Exception $e) {
@@ -3287,8 +3330,63 @@ Route::get('/key',function(){
     return response()->json($cryptoKey);
 });
 
+// Ruta de prueba para HybridMailer (Graph + SMTP Fallback)
+Route::get('/test-graph-email', function () {
+    try {
+        $hybridMailer = new HybridMailer();
+
+        $resultado = $hybridMailer->sendEmail(
+            env('MAIL_FROM_ADDRESS', 'alerts@adn.gob.do'),
+            'Prueba de Microsoft Graph API - ADN Parques',
+            '<html>
+                <body style="font-family: Arial, sans-serif; padding: 20px;">
+                    <h1 style="color: #4CAF50;">¡Configuración Exitosa!</h1>
+                    <p>El envío de correos con <strong>Microsoft Graph API</strong> está funcionando correctamente.</p>
+                    <hr>
+                    <p><strong>Detalles de configuración:</strong></p>
+                    <ul>
+                        <li>Client ID: ' . config('msgraph.clientId') . '</li>
+                        <li>Tenant ID: ' . config('msgraph.tenantId') . '</li>
+                        <li>Fecha de prueba: ' . now()->format('Y-m-d H:i:s') . '</li>
+                    </ul>
+                    <p style="color: #666; font-size: 12px;">Este es un correo de prueba generado automáticamente.</p>
+                </body>
+            </html>'
+        );
+
+        return response()->json([
+            'mensaje' => 'Prueba de envío de correo completada',
+            'resultado' => $resultado,
+            'configuracion' => [
+                'client_id' => config('msgraph.clientId'),
+                'tenant_id' => config('msgraph.tenantId'),
+                'from_address' => env('MAIL_FROM_ADDRESS')
+            ]
+        ]);
+
+    } catch (\Exception $e) {
+        return response()->json([
+            'error' => 'Error al probar el envío de correo',
+            'mensaje' => $e->getMessage(),
+            'linea' => $e->getLine(),
+            'archivo' => $e->getFile()
+        ], 500);
+    }
+});
 
 
 // File Upload Endpoint
 // TEMPORALMENTE SIN MIDDLEWARE PARA PRUEBAS - RESTAURAR DESPUÉS
 Route::post('/files/upload', [FileUploadController::class, 'upload'])->name('files.upload');
+
+/*
+    ||====================================================
+    || DIAGNÓSTICO MICROSOFT GRAPH API
+    ||====================================================
+*/
+
+// Ruta para diagnosticar la configuración de Microsoft Graph
+Route::get('/diagnostico/graph', [DiagnosticoGraphController::class, 'diagnosticar']);
+
+// Ruta para limpiar el caché del token
+Route::get('/diagnostico/graph/limpiar-cache', [DiagnosticoGraphController::class, 'limpiarCache']);

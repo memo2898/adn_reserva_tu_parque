@@ -991,14 +991,14 @@ POST /enviar-correo_confirmacion
 
 | Acción | Administrador | Operador |
 |--------|---------------|----------|
-| Ver todas las solicitudes | ✅ | ❌ |
+| Ver todas las solicitudes | ✅ | |
 | Ver solicitudes de su parque | ✅ | ✅ |
 | Aprobar solicitudes | ✅ | ✅ |
 | Rechazar solicitudes | ✅ | ✅ |
-| Ver estadísticas globales | ✅ | ❌ |
+| Ver estadísticas globales | ✅ | |
 | Ver estadísticas de su parque | ✅ | ✅ |
-| Gestionar usuarios | ✅ | ❌ |
-| Configurar parques | ✅ | ❌ |
+| Gestionar usuarios | ✅ | |
+| Configurar parques | ✅ | |
 
 ---
 
@@ -2054,16 +2054,16 @@ if (!document.getElementById('acepto_terminos').checked) {
 | **Ver formulario de reserva** | ✅ | ✅ | ✅ |
 | **Crear reserva** | ✅ | ✅ | ✅ |
 | **Consultar estado (sin auth)** | ✅ | ✅ | ✅ |
-| **Iniciar sesión** | ❌ | ✅ | ✅ |
-| **Ver dashboard** | ❌ | ✅ (solo su parque) | ✅ (global) |
-| **Ver solicitudes pendientes** | ❌ | ✅ (solo su parque) | ✅ (todas) |
-| **Aprobar reserva** | ❌ | ✅ (solo su parque) | ✅ (todas) |
-| **Rechazar reserva** | ❌ | ✅ (solo su parque) | ✅ (todas) |
-| **Ver estadísticas globales** | ❌ | ❌ | ✅ |
-| **Gestionar usuarios** | ❌ | ❌ | ✅ |
-| **Configurar parques** | ❌ | ❌ | ✅ |
-| **Configurar zonas** | ❌ | ❌ | ✅ |
-| **Ver historial completo** | ❌ | ✅ (solo su parque) | ✅ (global) |
+| **Iniciar sesión** | | ✅ | ✅ |
+| **Ver dashboard** | | ✅ (solo su parque) | ✅ (global) |
+| **Ver solicitudes pendientes** | | ✅ (solo su parque) | ✅ (todas) |
+| **Aprobar reserva** | | ✅ (solo su parque) | ✅ (todas) |
+| **Rechazar reserva** | | ✅ (solo su parque) | ✅ (todas) |
+| **Ver estadísticas globales** | | | ✅ |
+| **Gestionar usuarios** | | | ✅ |
+| **Configurar parques** | | | ✅ |
+| **Configurar zonas** | | | ✅ |
+| **Ver historial completo** | | ✅ (solo su parque) | ✅ (global) |
 
 ---
 

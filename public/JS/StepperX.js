@@ -188,7 +188,7 @@ class StepperX {
         // Actualizar línea conectora
         const connector = stepElement.querySelector('.stepperx-connector');
         if (connector && stepNumber < this.currentStep) {
-            connector.style.background = '#22c55e'; // verde para completados
+            connector.style.background = '#00569C'; // verde para completados
         } else if (connector) {
             connector.style.background = '#e2e8f0'; // gris por defecto
         }

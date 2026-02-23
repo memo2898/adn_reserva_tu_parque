@@ -162,15 +162,15 @@
 }
 
 .stepperx-step.current .stepperx-step-circle {
-    border-color: var(--azul);
-    background: var(--azul);
+    border-color: var(--Whiteblue);
+    background: var(--Whiteblue);
     color: var(--bg-white);
     box-shadow: 0 0 0 4px var(--azul-light);
 }
 
 .stepperx-step.completed .stepperx-step-circle {
-    border-color: var(--verde);
-    background: var(--verde);
+    border-color: var(--azul);
+    background: var(--azul);
     color: var(--bg-white);
 }
 
@@ -204,7 +204,7 @@
 }
 
 .stepperx-step.completed .stepperx-step-label {
-    color: var(--verde);
+    color: var(--azul);
 }
 
 .stepperx-step.pending .stepperx-step-label {
@@ -225,7 +225,7 @@
 }
 
 .stepperx-step.completed .stepperx-connector {
-    background: var(--verde);
+    background: var(--azul);
 }
 
 .stepperx-step:last-child .stepperx-connector {
@@ -531,6 +531,50 @@
 
 .no_content.show {
     display: block;
+}
+
+/* Mensaje de validación de zona */
+.zona-validation-message {
+    display: none;
+    background: #fef2f2;
+    border: 1px solid #fecaca;
+    border-radius: 0.5rem;
+    padding: 1rem;
+    margin: 1rem 0;
+    animation: shake 0.5s;
+}
+
+.zona-validation-message.show {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+}
+
+.zona-validation-message svg {
+    width: 1.5rem;
+    height: 1.5rem;
+    color: #dc2626;
+    flex-shrink: 0;
+    margin-top: 0.125rem;
+}
+
+.zona-validation-message strong {
+    display: block;
+    color: #991b1b;
+    font-size: 0.9375rem;
+    margin-bottom: 0.25rem;
+}
+
+.zona-validation-message p {
+    color: #7f1d1d;
+    font-size: 0.875rem;
+    margin: 0;
+}
+
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+    20%, 40%, 60%, 80% { transform: translateX(5px); }
 }
 
 .park-card-title {

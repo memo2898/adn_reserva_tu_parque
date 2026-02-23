@@ -1145,18 +1145,10 @@ margin: 0;
 /*--------------------------FORMULARIO-4--------------------------*/
 
 
+/* .DisplayZone ahora usa .cards-grid de Rs_modern.css */
 .DisplayZone{
-    display: grid;
-    /* gap: 3%; */
     overflow: auto;
-    /* padding-top: 4%; */
-    /* padding-bottom: 0.2cm; */
-    padding-top: 0.1cm;
-    padding-left: 0.2cm;
-    padding-right: 0.2cm;
-    grid-template-columns: repeat(auto-fit, minmax(14rem, 0fr));
-    justify-items: center;
-    justify-content: center;
+    max-height: 600px;
 }
 
 .DisplayZone::-webkit-scrollbar{
@@ -1218,9 +1210,9 @@ margin: 0;
 }
 
 
+/* .Zonas_card ahora usa los estilos de .park-card */
 .Zonas_card{
-    width: fit-content;
-    height: fit-content;
+    /* Los estilos vienen de .park-card en Rs_modern.css */
 }
 
 .Z_img{
@@ -1296,11 +1288,38 @@ margin: 0;
 }
 
 .Z_red{
-    color: red;
+    color: #dc2626 !important;
+    font-weight: 600;
 }
 
 .Z_grey{
     opacity: 0.6;
+}
+
+/* Zona deshabilitada por horario fuera de rango */
+.zona-disabled {
+    opacity: 0.5;
+    pointer-events: none;
+    cursor: not-allowed !important;
+    position: relative;
+}
+
+.zona-disabled::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: repeating-linear-gradient(
+        45deg,
+        transparent,
+        transparent 10px,
+        rgba(220, 38, 38, 0.05) 10px,
+        rgba(220, 38, 38, 0.05) 20px
+    );
+    border-radius: 0.5rem;
+    pointer-events: none;
 }
 /*--------------------------FORMULARIO-4(END)--------------------------*/
 

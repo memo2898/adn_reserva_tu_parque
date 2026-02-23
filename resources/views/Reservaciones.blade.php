@@ -491,6 +491,17 @@
                         <!-- Las zonas se cargan dinámicamente aquí -->
                     </div>
 
+                    <!-- Mensaje cuando no hay zona seleccionada -->
+                    <div class="validation-message zona-validation-message" id="zona-validation-msg" style="display: none;">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="currentColor">
+                            <path d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zm0-384c13.3 0 24 10.7 24 24V264c0 13.3-10.7 24-24 24s-24-10.7-24-24V152c0-13.3 10.7-24 24-24zM224 352a32 32 0 1 1 64 0 32 32 0 1 1 -64 0z"/>
+                        </svg>
+                        <div>
+                            <strong>Debe seleccionar una zona</strong>
+                            <p>Por favor, seleccione una zona disponible para continuar con su reservación.</p>
+                        </div>
+                    </div>
+
                     <!-- Mensaje cuando no hay coincidencias -->
                     <div class="no_content no_hidden_parque_2">
                         <h3>No se han encontrado coincidencias</h3>
@@ -546,16 +557,6 @@
                         </div>
                     </div>
                 </div>
-                <!-- --------------------------------------- -->
-                <div class="botones_extra">
-                    <div class="preview_mirror mirror_style" onclick="mirror_preview()">
-                        <p>Retroceder</p>
-                    </div>
-                    <div class="next_mirror mirror_style" onclick="mirror_next()">
-                        <p>Continuar</p>
-                    </div>
-                </div>
-                <!-- --------------------------------------- -->
             </div> <!-- Cierre stepperx-content -->
 
             <!-- StepperX Navigation -->

@@ -168,7 +168,7 @@ const DynamicFieldsExample: React.FC = () => {
         if (result.general_validation) {
             alert(`Formulario "${activeTab}" válido!\n\nRevisa la consola para ver los datos.`);
         } else {
-            alert("❌ Hay errores en el formulario.");
+            alert("Hay errores en el formulario.");
         }
     };
 

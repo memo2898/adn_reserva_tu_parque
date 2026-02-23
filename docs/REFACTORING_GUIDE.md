@@ -314,11 +314,11 @@ async function eventos_disponibles(idr_evento){
 ## 🎯 Beneficios de la Refactorización
 
 ### Antes:
-- ❌ 2,100+ líneas en un solo archivo
-- ❌ Código difícil de mantener
-- ❌ Variables globales dispersas
-- ❌ Funciones con múltiples responsabilidades
-- ❌ Difícil de testear
+- 2,100+ líneas en un solo archivo
+- Código difícil de mantener
+- Variables globales dispersas
+- Funciones con múltiples responsabilidades
+- Difícil de testear
 
 ### Después:
 - ✅ Código modular y organizado

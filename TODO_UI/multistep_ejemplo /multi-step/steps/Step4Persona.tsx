@@ -290,7 +290,7 @@ export function Step4Persona() {
             console.log('✅ [DEPTS] Estableciendo departamentoId:', state.persona.departamento_id);
             setDepartamentoId(state.persona.departamento_id);
           } else {
-            console.log('❌ [DEPTS] Departamento NO encontrado en la lista cargada');
+            console.log('[DEPTS] Departamento NO encontrado en la lista cargada');
           }
         } else {
           console.log('ℹ️ [DEPTS] No hay departamento pendiente o la dirección no coincide');
@@ -300,7 +300,7 @@ export function Step4Persona() {
           });
         }
       } catch (error) {
-        console.error('❌ [DEPTS] Error cargando departamentos:', error);
+        console.error('[DEPTS] Error cargando departamentos:', error);
         setDepartamentos([]);
       }
     };

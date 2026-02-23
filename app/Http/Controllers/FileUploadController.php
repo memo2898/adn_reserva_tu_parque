@@ -104,7 +104,7 @@ class FileUploadController extends Controller
             ], 200);
 
         } catch (\Illuminate\Validation\ValidationException $e) {
-            \Log::error('❌ Error de validación:', [
+            \Log::error('Error de validación:', [
                 'errors' => $e->errors(),
                 'message' => $e->getMessage()
             ]);
@@ -115,7 +115,7 @@ class FileUploadController extends Controller
             ], 422);
 
         } catch (\Exception $e) {
-            \Log::error('❌ Error general en upload:', [
+            \Log::error('Error general en upload:', [
                 'message' => $e->getMessage(),
                 'file' => $e->getFile(),
                 'line' => $e->getLine(),

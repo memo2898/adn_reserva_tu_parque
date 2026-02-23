@@ -344,7 +344,7 @@
                     </div>
                     <div class="info_zonas">
                         <div class="info_header_zonas">
-                            <h3>Gazebos</h3>
+                            <h3>Zonas del parque</h3>
                             <div class="btn_position">
                                 <div class="btn_style btn_agregar_zona" onclick="view_modal()">
                                     <p>Agregar</p>

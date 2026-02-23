@@ -42,8 +42,8 @@ http://localhost/adn_reserva_tu_parque/public
 - ✅ Funciona inmediatamente
 
 **Contras:**
-- ❌ URL no profesional con `/public`
-- ❌ No es ideal para demostración
+- URL no profesional con `/public`
+- No es ideal para demostración
 
 ---
 

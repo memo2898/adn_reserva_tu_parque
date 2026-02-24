@@ -1,10 +1,3 @@
--- =====================================================
--- Inserts generados automáticamente desde Excel
--- =====================================================
--- Archivo: Listado de Parques intervenidos-Innovacion y proyectos.xlsx
--- Fecha: 2/16/2026, 2:35:54 PM
--- Total de registros: 211
--- =====================================================
 
 USE adn_reservaciones_parques;
 

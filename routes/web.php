@@ -40,6 +40,10 @@ Route::get('/Reservaciones', function () {
     return view('Reservaciones');
 });
 */
+
+Route::get('/', function () {
+    return redirect('/reservaciones');
+});
 Route::get('/Office', function () { //ANTIGUO
     return view('Home');
 });
@@ -493,8 +497,10 @@ Route::get('/Tempo', function () {
 //$fixed = Carbon::parse($tbl_horarios_parques['hora_apertura']);
 //$fixed = $fixed->format('Y-m-d h:i:s A');
 
-Route::get('/reservaciones', function () { // PARTE USUARIO - GET PRINCIPAL
+Route::get('/reservaciones', function (Request $request) { // PARTE USUARIO - GET PRINCIPAL
+    $parqueID = $request->query('parqueID');
     $tbl_parques = \App\Models\tbl_parques::where('estado', 'activo')->get();
+    $parqueSeleccionado = $parqueID ? $tbl_parques->firstWhere('id', $parqueID) : null;
     $tbl_tipo_documento = \App\Models\tbl_tipo_documento::where('estado', 'activo')->get();
     $tbl_tipos_eventos = \App\Models\tbl_tipos_eventos::where('estado', 'activo')->get();
     $tbl_telefonos_por_parque = \App\Models\tbl_telefonos_por_parque::orderBy('id', 'asc')->get();
@@ -521,7 +527,13 @@ Route::get('/reservaciones', function () { // PARTE USUARIO - GET PRINCIPAL
         'tbl_imagenes_por_zona' => $tbl_imagenes_por_zona,
         //'tbl_horarios_parques' => $tbl_horarios_parques,
         'tbl_horarios_parques' => $formateo,
+        'parqueSeleccionado' => $parqueSeleccionado,
     ]);
+});
+
+Route::get('/qr_parques', function () { // PÁGINA DE QR POR PARQUE
+    $tbl_parques = \App\Models\tbl_parques::where('estado', 'activo')->get();
+    return view('qr_parques', ['tbl_parques' => $tbl_parques]);
 });
 
 Route::get('/reservaciones_eventos/{id}',function($id){

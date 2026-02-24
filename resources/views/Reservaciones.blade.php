@@ -643,4 +643,17 @@
     fix()
 </script>
 
+@if(isset($parqueSeleccionado) && $parqueSeleccionado)
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        // Seleccionar el parque
+        ParkSelector('{{ $parqueSeleccionado->id }}', '{{ addslashes($parqueSeleccionado->nombre_parque) }}');
+        // Esperar a que StepperX termine de interceptar (500ms) y avanzar al paso 2
+        setTimeout(function () {
+            Next();
+        }, 700);
+    });
+</script>
+@endif
+
 </html>

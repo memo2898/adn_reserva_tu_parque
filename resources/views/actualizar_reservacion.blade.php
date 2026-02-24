@@ -32,7 +32,7 @@
             </div>
             <div class="mid_content">
                 <p>
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptatum maxime temporibus nihil dolorum accusantium quo officiis autem pariatur, quia voluptate facere beatae fuga, eum hic tempore a ipsam ratione totam!
+                    Hemos recibido tu solicitud de actualización de reservación. A continuación encontrarás el resultado del proceso de verificación de tu correo electrónico.
                 </p>
                 <p>
                     Su solicitud es 
@@ -56,8 +56,8 @@
                     </div>
                     <div class="contenedor_intermedio">
                         <p>
-                            Lorem ipsum dolor sit amet consectetur, adipisicing elit. Nisi sapiente recusandae pariatur repellendus distinctio saepe vitae nulla quo soluta sequi, voluptatem quos, nam voluptas, delectus ipsa rerum optio tenetur fugiat
-                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Expedita laudantium quis obcaecati nihil, qui aperiam sequi tenetur, adipisci itaque suscipit delectus cupiditate nisi. Error hic ratione sit maiores odit dignissimos.
+                            Tu correo electrónico ha sido verificado correctamente. Tu solicitud de reservación ha sido registrada y será procesada en breve.
+                            Recibirás una notificación con los detalles de tu reservación una vez que sea confirmada por el administrador del parque.
                         </p>
                     </div>
                     <div class="contenedor_inferior">
@@ -71,8 +71,8 @@
                     </div>
                     <div class="contenedor_intermedio">
                         <p>
-                            Lorem ipsum dolor sit amet consectetur, adipisicing elit. Nisi sapiente recusandae pariatur repellendus distinctio saepe vitae nulla quo soluta sequi, voluptatem quos, nam voluptas, delectus ipsa rerum optio tenetur fugiat
-                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Expedita laudantium quis obcaecati nihil, qui aperiam sequi tenetur, adipisci itaque suscipit delectus cupiditate nisi. Error hic ratione sit maiores odit dignissimos.
+                            Lamentamos informarte que tu solicitud de reservación ha sido rechazada. Si consideras que esto es un error o deseas más información,
+                            puedes comunicarte con el administrador del parque para recibir asistencia personalizada.
                         </p>
                     </div>
                     <div class="contenedor_inferior">
@@ -87,8 +87,8 @@
                 </div>
                 <div class="contenedor_intermedio">
                     <p>
-                        Lorem ipsum dolor sit amet consectetur, adipisicing elit. Nisi sapiente recusandae pariatur repellendus distinctio saepe vitae nulla quo soluta sequi, voluptatem quos, nam voluptas, delectus ipsa rerum optio tenetur fugiat
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Expedita laudantium quis obcaecati nihil, qui aperiam sequi tenetur, adipisci itaque suscipit delectus cupiditate nisi. Error hic ratione sit maiores odit dignissimos.
+                        Esta reservación ya fue procesada anteriormente y no puede volver a modificarse mediante este enlace.
+                        Si necesitas realizar cambios adicionales, por favor contacta directamente al administrador del parque.
                     </p>
                 </div>
                 <div class="contenedor_inferior">
@@ -102,8 +102,8 @@
                 </div>
                 <div class="contenedor_intermedio">
                     <p>
-                        Lorem ipsum dolor sit amet consectetur, adipisicing elit. Nisi sapiente recusandae pariatur repellendus distinctio saepe vitae nulla quo soluta sequi, voluptatem quos, nam voluptas, delectus ipsa rerum optio tenetur fugiat
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Expedita laudantium quis obcaecati nihil, qui aperiam sequi tenetur, adipisci itaque suscipit delectus cupiditate nisi. Error hic ratione sit maiores odit dignissimos.
+                        El identificador de reservación proporcionado no existe en nuestro sistema. Es posible que el enlace sea incorrecto o que la reservación haya sido eliminada.
+                        Por favor verifica el enlace recibido o comunícate con el administrador para obtener ayuda.
                     </p>
                 </div>
                 <div class="contenedor_inferior">

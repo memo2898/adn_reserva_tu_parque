@@ -1,0 +1,88 @@
+Asunto: Evaluación técnica del sistema de reservas — Opciones para la siguiente fase
+
+---
+
+Estimado/a [Nombre],
+
+En respuesta a los nuevos requerimientos funcionales y la urgencia de entrega comunicada, he realizado una evaluación del estado actual del proyecto. El objetivo de este correo es presentar las opciones disponibles con total transparencia, incluyendo lo que es y no es realista en el tiempo disponible.
+
+---
+
+LO QUE HAY QUE DECIR ANTES DE HABLAR DE OPCIONES
+
+Los nuevos requerimientos —lista de espera, permisos por roles, reportes estadísticos, verificación de correo, campos de discapacidad y límites de capacidad— representan un sistema considerablemente más complejo que el alcance original. Ninguno de los tres escenarios descritos a continuación entrega todas estas funcionalidades en semanas. Presentar lo contrario sería inexacto.
+
+Lo que sí es posible en ese tiempo es entregar las funcionalidades más críticas correctamente, con un plan claro y realista para el resto.
+
+---
+
+ESTADO ACTUAL DEL CÓDIGO
+
+Para dimensionar los riesgos, es importante describir cómo está organizado el sistema hoy:
+
+- El frontend opera prácticamente desde un único archivo de más de 2,000 líneas de código. Cualquier cambio en una parte del formulario puede afectar otra parte de forma no intencionada.
+
+- El backend tiene entre 2 y 3 módulos de control formales. El resto de las reglas del negocio viven dispersas en las rutas del sistema, sin estructura clara de separación.
+
+- El efecto dominó: Cada modificación en este código es una fuente potencial de errores difíciles de rastrear. Bajo presión de tiempo, este efecto se vuelve el mayor enemigo de un plazo de entrega corto.
+
+---
+
+ESCENARIO A — Construir los nuevos features sobre el código actual
+
+Por qué parece atractivo bajo presión de tiempo:
+No hay pausa inicial, se construye encima de lo que ya existe.
+
+Por qué es el escenario más riesgoso precisamente cuando hay prisa:
+La estructura actual garantiza que cada cambio puede romper algo ya funcionando. Bajo presión, los errores imprevistos no se detectan a tiempo, y el tiempo que se "ahorra" al inicio se pierde —con intereses— en correcciones de último momento. Un plazo apretado con este código es la receta para una entrega caótica.
+
+Estimación realista: 10–16 semanas para todas las funcionalidades. En semanas, se puede entregar algo, pero con alta probabilidad de fallos visibles.
+
+---
+
+ESCENARIO B — Refactorizar el código actual y luego construir los nuevos features
+
+Bajo un plazo de semanas, este escenario no es viable. Reorganizar el código existente requiere tiempo antes de poder construir cualquier funcionalidad nueva. Es la opción más lenta en total.
+
+Estimación realista: 14–20 semanas. No recomendado cuando hay urgencia.
+
+---
+
+ESCENARIO C — Reconstruir con arquitectura adecuada, entrega incremental (RECOMENDADO)
+
+Qué se conserva:
+- Toda la lógica de negocio ya definida
+- Los datos existentes (207 parques, zonas, usuarios)
+- La identidad visual desarrollada
+- Las integraciones actuales (correos, Microsoft)
+
+Cómo se adapta a la urgencia:
+En lugar de esperar a tener todo listo, se entrega en fases priorizadas:
+
+  Fase 1 - MVP              | Reservas, confirmación de correo, flujo básico completo | 2-3 semanas
+  Fase 2                    | Lista de espera, límites de capacidad por zona          | 2-3 semanas
+  Fase 3                    | Permisos por rol, logs de aprobación                    | 2-3 semanas
+  Fase 4                    | Reportes y estadísticas, campos de discapacidad         | 2-3 semanas
+
+La Fase 1 entrega un sistema funcional, estable y presentable en el mismo tiempo —o menos— que el Escenario A, pero sin el riesgo de efectos dominó. Las fases siguientes se acumulan de forma predecible, no caótica.
+
+---
+
+COMPARATIVA BAJO PRESIÓN DE TIEMPO
+
+                              Escenario A      Escenario B      Escenario C
+  Entrega rápida posible?     Sí, inestable    No               Sí, con fases claras
+  Riesgo de fallos            Alto             Alto             Bajo
+  Predictibilidad del plazo   Baja             Baja             Alta
+  Costo de cambios futuros    Creciente        Medio            Estable
+
+---
+
+Mi recomendación es el Escenario C con entrega incremental. Es el único que puede ofrecer algo funcional y estable en el corto plazo, mientras construye el resto del sistema sobre una base sólida.
+
+Dado que el sistema aún no tiene usuarios en producción, tenemos la ventaja de poder tomar esta decisión sin interrumpir ningún servicio activo.
+
+Quedo disponible para alinear prioridades y definir exactamente qué entra en cada fase según los criterios del equipo.
+
+Saludos cordiales,
+Manuel Maldonado

@@ -5,104 +5,103 @@ Stack nuevo: NestJS + MySQL
 
 ## Estado general
 
-- [ ] Definir respuestas a preguntas abiertas (ver sección final)
-- [ ] Diseñar nuevo schema de BD
-- [ ] Generar DB.sql limpio
+- [x] Responder preguntas abiertas del análisis BD
+- [x] Diseñar nuevo schema de BD
+- [x] Generar DB.sql limpio
 - [ ] Definir arquitectura backend (NestJS)
 - [ ] Definir arquitectura frontend
 - [ ] Definir fases de desarrollo con estimaciones
 
 ---
 
-## Análisis BD actual — Problemas encontrados
+## Análisis BD — Problemas resueltos
 
-### Bugs reales
+### Bugs corregidos
 
-1. **Columnas swapeadas** en `tbl_terminos_condiciones_generales` y `tbl_terminos_condiciones_p`:
-   - `modificado_por` tiene tipo DATETIME (debería ser VARCHAR)
-   - `modificado_en` tiene tipo VARCHAR(45) (debería ser DATETIME)
+- [x] **Columnas swapeadas** en términos y condiciones — `modificado_por VARCHAR`, `modificado_en DATETIME`
+- [x] **`agregado_en` con `ON UPDATE`** — `creado_en` ahora es solo `DEFAULT CURRENT_TIMESTAMP`
+- [x] **`responsables DEFAULT 'Null'`** — eliminado, campo no existe en el nuevo schema
+- [x] **`password VARCHAR(45)`** — corregido a `VARCHAR(255)` para bcrypt/argon2
 
-2. **`agregado_en` con `ON UPDATE CURRENT_TIMESTAMP`** en:
-   - `tbl_horarios_parques`, `tbl_horarios_zonas`, `tbl_imagenes_por_zona`, `tbl_solicitantes`, `tbl_usuario`
-   - El campo de creación se sobreescribe en cada UPDATE. Se pierde la fecha original.
+### Inconsistencias resueltas
 
-3. **`responsables VARCHAR(45) DEFAULT 'Null'`** en `tbl_reservaciones`:
-   - El string `"Null"` en lugar de NULL real. Rompe validaciones `IS NULL`.
+- [x] **Dos tablas de términos casi idénticas** → unificadas en `terminos_condiciones` con campo `tipo ENUM('general','especifico')` y `id_parque` nullable
+- [x] **`id_parque` NOT NULL en usuarios** → reemplazado por tabla pivot `usuarios_parques` con `id_rol` por asignación (Escenario B)
+- [x] **`tbl_permisos_usuarios` mal diseñada** → RBAC completo: `roles` + `permisos` + `rol_permisos`
+- [x] **`dia_semana VARCHAR(45)`** → `TINYINT` (1=Lunes … 7=Domingo, ISO 8601)
+- [x] **Participantes sin segmentar** → 6 campos: `cantidad_adultos`, `cantidad_ninos`, `cantidad_ninas` + `_discapacidad` para cada uno
+- [x] **Prefijo `tbl_` en todas las tablas** → eliminado
 
-4. **`password VARCHAR(45)`** en `tbl_usuario`:
-   - Bcrypt genera hashes de 60 chars mínimo. Las contraseñas se truncan o no pueden hashearse.
+### Decisiones de diseño nuevas
 
----
-
-### Inconsistencias de diseño
-
-5. **`tbl_terminos_condiciones_generales` vs `tbl_terminos_condiciones_p`**:
-   - Ambas tienen `id_parque` y `condiciones`. Son prácticamente idénticas.
-   - ¿Cuál es la diferencia? ¿O fue un error y deberían unificarse?
-
-6. **`tbl_usuario.id_parque` NOT NULL**:
-   - Un usuario solo puede pertenecer a UN parque.
-   - ¿Los superadmins a qué parque pertenecen? Esto rompe cualquier rol global.
-
-7. **`tbl_permisos_usuarios` mal nombrada y mal diseñada**:
-   - Es una tabla de roles, no de permisos.
-   - Los permisos son un `VARCHAR(70)` con texto libre — no es RBAC, es un campo de notas.
-
-8. **`dia_semana VARCHAR(45)`** en horarios:
-   - Texto libre sin restricción. Inconsistencia garantizada ("Lunes", "lunes", "LUNES").
-
-9. **`cantidad_participantes_ninos`**:
-   - Un solo campo sin distinción de género ni discapacidad.
+- [x] **`reservaciones` → `solicitudes_reservaciones`** — semántica correcta: empieza como solicitud
+- [x] **`lista_espera` eliminada como tabla separada** — la espera es un estado dentro de `solicitudes_reservaciones` con campos nullable: `posicion_espera`, `notificado_en`, `expira_en`
+- [x] **Estados autoexplicativos:**
+  - `correo_sin_verificar` → ciudadano llenó el form, aún no verifica correo
+  - `pendiente_aprobacion` → correo verificado, admin debe revisar
+  - `en_lista_espera` → zona sin cupo, en cola
+  - `aprobada` / `rechazada` / `cancelada` / `vencida` / `realizada`
+- [x] **Dos tablas de logs con responsabilidades claras:**
+  - `logs_solicitud` → ciclo de vida de cada solicitud (con FK)
+  - `logs_auditoria` → acciones administrativas generales (parques, usuarios, roles...)
+- [x] **Logs manejados por backend (NestJS)** — no triggers, para preservar contexto del usuario autenticado (`id_usuario`)
+- [x] **`coordenadas_maps VARCHAR`** → `latitud DECIMAL(10,8)` + `longitud DECIMAL(11,8)` separados
+- [x] **`zonas.capacidad_maxima`** → `INT UNSIGNED DEFAULT 0` (0 = sin límite)
+- [x] **`tokens_verificacion`** — nueva tabla para verificación de correo y notificaciones de lista de espera
+- [x] **`usuarios.es_superadmin BOOLEAN`** — acceso total sin restricción de parque
 
 ---
 
-### Lo que falta para los nuevos features
+## Preguntas abiertas resueltas
 
-| Feature pedido                  | Tabla necesaria         | ¿Existe? |
-|---------------------------------|-------------------------|----------|
-| Lista de espera                 | `lista_espera`          | No       |
-| Logs de aprobación              | `logs_reservacion`      | No       |
-| Verificación de correo          | `tokens_verificacion`   | No       |
-| RBAC real                       | `roles`, `permisos`, `rol_permisos` | No |
-| Límite de personas por zona     | campo en `zonas`        | No       |
-| Niños / Niñas separados         | campos en `reservaciones` | No     |
-| Discapacitados                  | campos en `reservaciones` | No     |
+- [x] ¿Rol global o por parque? → **Escenario B: rol por asignación de parque** (`usuarios_parques.id_rol`)
+- [x] ¿Permisos fijos o dinámicos? → **Roles dinámicos, permisos fijos** en seed (lista cerrada)
+- [x] ¿Términos unificados o separados? → **Una tabla** con `tipo` y `id_parque` nullable
+- [x] ¿Lista de espera como tabla o estado? → **Estado dentro de `solicitudes_reservaciones`**
+- [x] ¿Logs por trigger o backend? → **Backend** (NestJS `LogsService` + interceptor con decorador)
 
 ---
 
-## Lo que SÍ se conserva del schema actual
+## Tablas del nuevo schema
 
-- Estructura general parque → zona (bien pensada)
-- Separación entre `solicitantes` (ciudadanos) y `usuarios` (admin) — correcto
-- Tabla de horarios por parque y por zona — correcto
-- Tabla de imágenes por parque y por zona — correcto
-- Tabla de teléfonos por parque — correcto
-- `tbl_tipo_documentos` y `tbl_tipos_eventos` como catálogos — correcto
-- `codigo_reservacion` en reservaciones — correcto
-- ENUM de estados en reservaciones (aunque incompleto) — base correcta
+| Tabla | Descripción |
+|---|---|
+| `tipo_documentos` | Catálogo: Cédula, Pasaporte, RNC... |
+| `tipo_eventos` | Catálogo de tipos de evento |
+| `parques` | Parques con lat/lng separados |
+| `zonas` | Zonas con `capacidad_maxima` |
+| `horarios_parque` | Horarios por parque (`dia_semana TINYINT`) |
+| `horarios_zona` | Horarios por zona (`dia_semana TINYINT`) |
+| `imagenes_parque` | Galería de imágenes por parque |
+| `imagenes_zona` | Galería de imágenes por zona |
+| `telefonos_parque` | Teléfonos por parque |
+| `terminos_condiciones` | Términos generales y específicos por parque |
+| `permisos` | Lista fija de permisos del sistema (seed) |
+| `roles` | Roles dinámicos creados por el admin |
+| `rol_permisos` | Pivot: qué permisos tiene cada rol |
+| `usuarios` | Usuarios del sistema admin |
+| `usuarios_parques` | Pivot: usuario + parque + rol (Escenario B) |
+| `solicitantes` | Ciudadanos que solicitan reservas |
+| `tokens_verificacion` | Tokens de verificación de correo y lista de espera |
+| `solicitudes_reservaciones` | Solicitudes con ciclo de vida completo |
+| `logs_solicitud` | Historial de acciones sobre cada solicitud |
+| `logs_auditoria` | Auditoría general del sistema |
 
 ---
 
-## Preguntas abiertas — Requieren respuesta antes de escribir el SQL
+## Pendiente — Requiere reunión previa
 
-### Usuarios y roles
-- [ ] ¿Un usuario admin puede gestionar múltiples parques o siempre está asignado a uno solo?
-- [ ] ¿Los roles son fijos en código (superadmin, admin, evaluador) o el admin los crea dinámicamente desde la interfaz?
-
-### Lista de espera
-- [ ] Cuando alguien cancela, ¿el siguiente en cola recibe un correo y tiene X horas para confirmar? ¿O se le asigna automáticamente sin confirmación?
-- [ ] ¿La lista de espera es por zona + fecha, o solo por zona?
-- [ ] ¿Qué pasa si llega la fecha del evento y la reserva sigue en lista de espera? ¿Se marca como vencida automáticamente?
-
-### Términos y condiciones
-- [ ] ¿Cuál era la diferencia entre `tbl_terminos_condiciones_generales` y `tbl_terminos_condiciones_p`?
-  - Opción A: Una es global del sistema y la otra es por parque específico.
-  - Opción B: Fue un error y deberían unificarse en una sola tabla.
+- [ ] **Módulo de gestión y mantenimiento de parques**
+  - El sistema no es solo reservas — también gestionará el estado operativo de los parques
+  - Pendiente definir: ¿qué tipos de mantenimiento? ¿quién los registra? ¿afectan la disponibilidad de reservas?
+  - Una vez definido: ajustar schema (nuevas tablas) y agregar a la arquitectura NestJS
+  - ⚠️ Esto puede afectar el flujo de solicitudes: un parque en mantenimiento no debería aceptar nuevas reservas
 
 ---
 
 ## Próximos pasos
 
-1. Responder preguntas abiertas
-2. Escribir nuevo `DB.sql` limpio
-3. Continuar con arquitectura NestJS
+- [ ] Definir arquitectura NestJS (módulos, capas, estructura de carpetas)
+- [ ] Definir arquitectura frontend
+- [ ] Definir fases de desarrollo con estimaciones
+- [ ] Reunión sobre módulo de mantenimiento de parques → ajustar schema
